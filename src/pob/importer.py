@@ -27,7 +27,20 @@ class PoBImporter:
         """
         try:
             # Decode and decompress
-            decoded = base64.b64decode(pob_code)
+            code = "".join((pob_code or "").split())
+            if not code:
+                raise ValueError("Empty PoB code")
+
+            padding = "=" * ((4 - len(code) % 4) % 4)
+            code = code + padding
+
+            if "-" in code or "_" in code:
+                decoded = base64.urlsafe_b64decode(code)
+            else:
+                try:
+                    decoded = base64.b64decode(code, validate=True)
+                except TypeError:
+                    decoded = base64.b64decode(code)
             decompressed = zlib.decompress(decoded)
             xml_str = decompressed.decode('utf-8')
 

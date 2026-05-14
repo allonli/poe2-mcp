@@ -200,6 +200,8 @@ Once connected, you can ask your AI assistant to use these tools:
 | `export_pob` | Export build to PoB format |
 | `get_pob_code` | Get PoB code for a character |
 
+> `import_pob` supports both standard Base64 and URL-safe Base64 (poe.ninja / pobb.in style) PoB codes, including codes with missing `=` padding.
+
 ### Trade & Items
 | Tool | Description |
 |------|-------------|
