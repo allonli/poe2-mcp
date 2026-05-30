@@ -1158,48 +1158,51 @@ class PoE2BuildOptimizerMCP:
             )
 
             if not character_data:
-                # Enhanced error message with debugging info
+                # Build the actual URLs attempted from the league + account + character.
+                # Slug derivation matches PoeNinjaAPI._get_league_slug (LEAGUE_MAPPINGS
+                # with lower+replace-spaces fallback) so the displayed URLs reflect what
+                # the fetcher actually tried.
+                league_arg = args.get("league", "Standard")
+                league_slug = league_arg.lower().replace(" ", "")
+                profile_url = f"https://poe.ninja/poe2/builds/{league_slug}/character/{account}/{character}"
+
+                # CRITICAL #4 context — see issue #61. poe.ninja migrated to a
+                # client-side rendered Astro SPA at/around Patch 0.5 (2026-05-29).
+                # Both per-character data paths can fail without it being the user's
+                # fault: (a) JSON API returns 404 for characters not in the current
+                # snapshot version, (b) HTML scrape returns a 200 SPA shell with no
+                # embedded data. Surface this UP-FRONT so users don't waste time
+                # tweaking profile-privacy and account-format settings that aren't
+                # actually the problem.
                 error_msg = f"""# Character Fetch Failed
 
 **Character:** {character}
 **Account:** {account}
+**League:** {league_arg}
 
-## URLs Attempted:
-1. https://poe.ninja/poe2/builds/character/{account}/{character}
-2. https://poe.ninja/builds/character/{account}/{character}
-3. Official PoE ladder API
-4. Direct web scraping
+## :warning: Likely cause: poe.ninja SPA migration (Patch 0.5)
 
-## Common Issues:
+As of Patch 0.5 "Return of the Ancients" (2026-05-29), poe.ninja migrated their builds and character pages to a client-side rendered SPA. The endpoints this tool relies on either return 404 (for characters not in the current snapshot version) or return an SPA shell with no embedded data. **If your character page loads fine in your browser but the MCP can't fetch it, this is almost certainly the cause** — not a problem with your account or character settings.
 
-### 1. Profile Privacy
-- Your character profile must be PUBLIC
-- Check: https://www.pathofexile.com/account/view-profile/{account}/characters
-- Go to Privacy Settings and ensure characters are visible
+Tracked at https://github.com/HivemindOverlord/poe2-mcp/issues/61.
 
-### 2. Account Name Format
-Try these variations:
-- Just the account name: `{account.split('-')[0] if '-' in account else account.split('#')[0] if '#' in account else account}`
-- With discriminator: `{account}-####` or `{account}#####`
-- Check your exact account name at https://www.pathofexile.com/account
+## How to verify it's the SPA migration vs your config
 
-### 3. Character Name
-- Ensure exact spelling (case-sensitive)
-- No extra spaces
-- Character must be in the current league
+1. Open your character's profile page in a browser: <{profile_url}>
+2. If the page loads with your character data visible → **SPA migration** (#61); nothing you can do on your end until poe.ninja's new endpoint shape is reverse-engineered
+3. If the page shows "Character not found" → your character isn't on poe.ninja's ladder/indexer; jump to the next-steps checklist below
 
-### 4. poe.ninja Indexing
-- New characters may take 1-2 hours to appear on poe.ninja
-- Very low-level characters might not be indexed
-- Try the official PoE website directly to verify the character exists
+## Next-steps checklist (only if your browser ALSO can't see the character)
 
-## Debug Steps:
-1. Visit: https://poe.ninja/poe2/builds/character/{account}/{character}
-2. If you see "Character not found", the issue is with poe.ninja indexing
-3. If you see your character there, report this as a bug with the MCP server
+- **Profile must be public** — check https://www.pathofexile.com/account/view-profile/{account}/characters
+- **Account name format** — try without discriminator (`{account.split('-')[0] if '-' in account else account.split('#')[0] if '#' in account else account}`) and with (`{account}`)
+- **Character name** — case-sensitive, no extra spaces, must be in current league
+- **poe.ninja indexing delay** — new characters take 1-2 hours to appear; very low-level characters may never index
 
-## Alternative:
-If the character is on the ladder, try `compare_to_top_players` instead.
+## Don't bother with these (also broken by #61)
+
+- `compare_to_top_players` — same SPA migration breaks ladder enumeration
+- `import_poe_ninja_url` — wraps `analyze_character`; same failure
 """
                 return [types.TextContent(
                     type="text",
@@ -1661,40 +1664,33 @@ If the character is on the ladder, try `compare_to_top_players` instead.
             )
 
             if not user_character:
-                # Enhanced error message
+                # Same SPA-migration-aware template as _handle_analyze_character.
+                # Most failures here are NOT user-config issues — they're poe.ninja's
+                # post-0.5 SPA migration (#61). Surface that up front.
+                league_slug = league.lower().replace(" ", "")
+                profile_url = f"https://poe.ninja/poe2/builds/{league_slug}/character/{account_name}/{character_name}"
                 error_msg = f"""# Character Fetch Failed
 
 **Character:** {character_name}
 **Account:** {account_name}
 **League:** {league}
 
-## Troubleshooting:
+## :warning: Likely cause: poe.ninja SPA migration (Patch 0.5)
 
-### 1. Check Profile Privacy
-Visit: https://www.pathofexile.com/account/view-profile/{account_name}/characters
-- Ensure characters are set to PUBLIC in privacy settings
-- If the page shows "Profile not found", your account name is incorrect
+poe.ninja migrated their builds/character pages to a client-side rendered SPA at/around Patch 0.5 (2026-05-29). Endpoints this tool uses either return 404 (for characters not in the snapshot) or an SPA shell with no embedded data. **If the page below loads in your browser, the problem is on poe.ninja's side**, not your account or character settings. Tracked at https://github.com/HivemindOverlord/poe2-mcp/issues/61.
 
-### 2. Verify Account Name Format
-The account name might need to be in a specific format:
-- Try without discriminator: `{account_name.split('-')[0] if '-' in account_name else account_name.split('#')[0] if '#' in account_name else account_name}`
-- Try with dash: `AccountName-1234`
-- Try with hash: `AccountName#1234`
+## Verify it's the SPA migration vs your config
 
-### 3. Check poe.ninja
-Try manually: https://poe.ninja/poe2/builds/character/{account_name}/{character_name}
-- If it works there, report this as a bug
-- If not, the character isn't indexed yet (wait 1-2 hours after playing)
+1. Open: <{profile_url}>
+2. Loads with character data → SPA migration (#61); no MCP-side fix until poe.ninja's new endpoint shape is reverse-engineered
+3. Shows "Character not found" → your character isn't on poe.ninja's ladder yet; continue with the next-steps checklist
 
-### 4. Verify League Name
-Current league: **{league}**
-- For Abyss league, try: "Rise of the Abyssal" or "Abyss"
-- For Standard, use: "Standard"
+## Next-steps checklist (only if your browser ALSO can't see the character)
 
-## Next Steps:
-1. Verify the URLs above work in your browser
-2. Check that the character is level 2+ (very low characters aren't indexed)
-3. Try the `analyze_character` tool with the same parameters for more details
+- **Profile must be public** — check https://www.pathofexile.com/account/view-profile/{account_name}/characters
+- **Account name format** — try without discriminator (`{account_name.split('-')[0] if '-' in account_name else account_name.split('#')[0] if '#' in account_name else account_name}`) and with (`{account_name}`)
+- **League name** — make sure it matches the league your character is on (current: **{league}**)
+- **poe.ninja indexing delay** — new characters take 1-2 hours; very low-level characters may never index
 """
                 return [types.TextContent(
                     type="text",
