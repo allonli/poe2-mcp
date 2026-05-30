@@ -3,9 +3,9 @@
   "patch_version": "0.5",
   "patch_name": "Return of the Ancients",
   "patch_released": "2026-05-29",
-  "data_revision": 1,
-  "released_as": "data-v0.5.0-r1",
-  "extracted_at": "2026-05-30T13:46:00Z",
+  "data_revision": 2,
+  "released_as": "data-v0.5.0-r2",
+  "extracted_at": "2026-05-30T14:18:00Z",
   "extracted_by": "HivemindMinion (Claude Code) from HivemindOverlord's licensed PoE2 install",
   "datasets": {
     "mods": {
@@ -17,22 +17,27 @@
       "path": "data/game/passive_tree/",
       "files": ["tree.json", "metadata.json"],
       "record_count": 9605
+    },
+    "support_gems": {
+      "path": "data/game/support_gems/",
+      "files": ["support_gems.json", "metadata.json"],
+      "record_count": 680
+    },
+    "ascendancies": {
+      "path": "data/game/ascendancies/",
+      "files": ["ascendancies.json", "metadata.json"],
+      "record_count": 37,
+      "note": "ids are reliable; display_name is best-effort heuristic (see metadata.json caveats)"
     }
   },
   "datasets_pending_0_5_reextract": {
-    "ascendancies": {
-      "blocker": "extract_complete_passive_tree ascendancy-detection logic returns 0 nodes against 0.5 data",
-      "current_pre_0_5_location": "data/complete_models/all_ascendancies.json (untracked)"
-    },
-    "support_gems": {
-      "blocker": "extract_support_gem_effects.py has stale spec imports; needs v2 rewrite like extract_mods_datc64_v2.py",
-      "current_pre_0_5_location": "data/poe2_support_gems_database.json (tracked, Dec 2025)"
-    },
     "stats": {
-      "blocker": "no current extractor; needs writing against current stats.datc64 layout"
+      "blocker": "no current extractor; needs writing against current stats.datc64 layout (~110KB, 26943 stat definitions loaded by support_gems extractor as side-effect)",
+      "interim_via_side_effect": "support_gems extractor loads 26943 stat IDs from stats.datc64 as a side-effect; could repurpose into a standalone stats extractor"
     },
     "skill_gems": {
-      "blocker": "extractor sources from PoB2 which hasn't shipped 0.5 yet (see CLAUDE.md Data Status)"
+      "blocker": "extractor sources from PoB2 which hasn't shipped 0.5 tree.json yet (see CLAUDE.md Data Status)",
+      "current_pre_0_5_location": "data/pob_active_skills.json (tracked, Dec 2025)"
     }
   },
   "data_policy": "All data here is extracted exclusively from the maintainer's licensed PoE2 install via the in-repo extraction pipeline. No third-party wiki / scraped data is bundled. See data/game/README.md for the full policy."
