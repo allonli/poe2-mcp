@@ -3,15 +3,17 @@
   "patch_version": "0.5",
   "patch_name": "Return of the Ancients",
   "patch_released": "2026-05-29",
-  "data_revision": 4,
-  "released_as": "data-v0.5.0-r4",
-  "extracted_at": "2026-05-30T19:00:00Z",
+  "data_revision": 5,
+  "released_as": "data-v0.5.0-r5",
+  "extracted_at": "2026-05-31T00:30:00Z",
   "extracted_by": "HivemindMinion (Claude Code) from HivemindOverlord's licensed PoE2 install",
   "datasets": {
     "mods": {
       "path": "data/game/mods/",
       "files": ["mods.json", "metadata.json"],
-      "record_count": 16788
+      "record_count": 16788,
+      "enriched_stat_entries": 24632,
+      "note": "Non-empty stat entries now include resolved stat_id strings inline (cross-referenced from data/game/stats/). Consumers no longer need a separate stats.json load to resolve stat_key refs."
     },
     "passive_tree": {
       "path": "data/game/passive_tree/",
