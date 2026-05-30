@@ -58,7 +58,40 @@ Edit your Claude Desktop config file:
 - **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
 - **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
 
-Add this server (replace the path with your actual installation path):
+The right config depends on how you installed. Pick one.
+
+#### A1. If you ran `pip install poe2-mcp` (Recommended)
+
+Use the `poe2-mcp` console script. It's on your PATH after `pip install` and works on every platform — no absolute path needed:
+
+```json
+{
+  "mcpServers": {
+    "poe2-optimizer": {
+      "command": "poe2-mcp",
+      "env": {}
+    }
+  }
+}
+```
+
+If Claude Desktop reports it can't find `poe2-mcp`, your `pip` install directory isn't on Claude Desktop's PATH. Either run `which poe2-mcp` (`where poe2-mcp` on Windows) and use the absolute path, or fall back to `python -m`:
+
+```json
+{
+  "mcpServers": {
+    "poe2-optimizer": {
+      "command": "python",
+      "args": ["-m", "src.mcp_server"],
+      "env": {}
+    }
+  }
+}
+```
+
+#### A2. If you cloned + `pip install -e .` from source
+
+Point at `launch.py` directly. It does some Windows-specific UTF-8 setup that the bare console script skips:
 
 **Windows:**
 ```json
@@ -86,7 +119,7 @@ Add this server (replace the path with your actual installation path):
 }
 ```
 
-Restart Claude Desktop. The server will appear in your MCP tools.
+Restart Claude Desktop after editing the config. The server will appear in your MCP tools.
 
 ### Option B: Download .mcpb Bundle (One-Click Install)
 
