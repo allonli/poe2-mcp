@@ -537,10 +537,22 @@ class PoE2BuildOptimizerMCP:
                         "properties": {
                             "spell_name": {
                                 "type": "string",
-                                "description": "Name of the spell gem"
+                                "description": "Name of the spell gem (e.g. 'Shred', 'Fireball')"
+                            },
+                            "name": {
+                                "type": "string",
+                                "description": "Alias for spell_name"
+                            },
+                            "gem_name": {
+                                "type": "string",
+                                "description": "Alias for spell_name"
                             }
                         },
-                        "required": ["spell_name"]
+                        "oneOf": [
+                            {"required": ["spell_name"]},
+                            {"required": ["name"]},
+                            {"required": ["gem_name"]}
+                        ]
                     }
                 ),
                 types.Tool(
@@ -729,10 +741,24 @@ class PoE2BuildOptimizerMCP:
                             "support_gems": {
                                 "type": "array",
                                 "items": {"type": "string"},
-                                "description": "Support gem names to validate"
+                                "description": "Support gem names to validate (e.g. ['Rage', 'Brutality'])"
+                            },
+                            "support_gem_names": {
+                                "type": "array",
+                                "items": {"type": "string"},
+                                "description": "Alias for support_gems"
+                            },
+                            "names": {
+                                "type": "array",
+                                "items": {"type": "string"},
+                                "description": "Alias for support_gems"
                             }
                         },
-                        "required": ["support_gems"]
+                        "oneOf": [
+                            {"required": ["support_gems"]},
+                            {"required": ["support_gem_names"]},
+                            {"required": ["names"]}
+                        ]
                     }
                 ),
                 types.Tool(
@@ -821,10 +847,17 @@ class PoE2BuildOptimizerMCP:
                         "properties": {
                             "keystone_name": {
                                 "type": "string",
-                                "description": "Name of the keystone (e.g., 'Chaos Inoculation', 'Vaal Pact')"
+                                "description": "Name of the keystone (e.g., 'Chaos Inoculation', 'Vaal Pact', 'Resolute Technique')"
+                            },
+                            "name": {
+                                "type": "string",
+                                "description": "Alias for keystone_name"
                             }
                         },
-                        "required": ["keystone_name"]
+                        "oneOf": [
+                            {"required": ["keystone_name"]},
+                            {"required": ["name"]}
+                        ]
                     }
                 ),
                 types.Tool(
@@ -3057,14 +3090,19 @@ Consider:
     # ============================================================================
 
     async def _handle_validate_support_combination(self, args: dict) -> List[types.TextContent]:
-        """Validate if support gems can work together"""
+        """Validate if support gems can work together. Accepts support_gems, support_gem_names, or names (aliases)."""
         try:
-            support_gems = args.get("support_gems", [])
+            support_gems = (
+                args.get("support_gems")
+                or args.get("support_gem_names")
+                or args.get("names")
+                or []
+            )
 
             if not support_gems:
                 return [types.TextContent(
                     type="text",
-                    text="Error: support_gems list is required"
+                    text="Error: support_gems (or alias: support_gem_names, names) list is required"
                 )]
 
             # Use gem synergy calculator's validation method
@@ -3203,14 +3241,14 @@ Consider:
             )]
 
     async def _handle_inspect_spell_gem(self, args: dict) -> List[types.TextContent]:
-        """Inspect complete details of a spell gem (uses pob_complete_skills.json with full per-level data)"""
+        """Inspect complete details of a spell gem. Accepts spell_name, name, or gem_name (aliases)."""
         try:
-            spell_name = args.get("spell_name")
+            spell_name = args.get("spell_name") or args.get("name") or args.get("gem_name")
 
             if not spell_name:
                 return [types.TextContent(
                     type="text",
-                    text="Error: spell_name is required"
+                    text="Error: spell_name (or alias: name, gem_name) is required"
                 )]
 
             # Load from pob_complete_skills.json (has full per-level stats, statSets, constantStats)
@@ -4123,7 +4161,7 @@ Could not extract account and character from URL.
         return result
 
     async def _handle_inspect_keystone(self, args: dict) -> List[types.TextContent]:
-        """Get complete details for a specific keystone"""
+        """Get complete details for a specific keystone. Accepts keystone_name or name (alias)."""
         try:
             if not self.passive_tree_resolver:
                 return [types.TextContent(
@@ -4131,12 +4169,12 @@ Could not extract account and character from URL.
                     text="Error: Passive tree resolver not initialized. PSG database may be missing."
                 )]
 
-            keystone_name = args.get("keystone_name", "").strip()
+            keystone_name = (args.get("keystone_name") or args.get("name") or "").strip()
 
             if not keystone_name:
                 return [types.TextContent(
                     type="text",
-                    text="Error: keystone_name is required"
+                    text="Error: keystone_name (or alias: name) is required"
                 )]
 
             # Search for keystone by name (case-insensitive)
@@ -4584,53 +4622,115 @@ Could not extract account and character from URL.
         return result
 
     async def _handle_search_mods_by_stat(self, args: dict) -> List[types.TextContent]:
-        """Search for mods by stat keyword"""
+        """Search for mods by stat keyword.
+
+        Searches across THREE surfaces (any match qualifies):
+        1. mod_id (engine identifier, e.g. 'LifeRegeneration1')
+        2. display_name (in-game suffix/prefix, e.g. 'of Recovery')
+        3. resolved stat_id strings via cross-reference (e.g. 'base_life_regeneration_rate_per_second')
+
+        The query is also tokenized — multi-word inputs like 'life regeneration'
+        match across word boundaries AND against snake_case stat IDs.
+
+        Reads from data/game/mods/ + data/game/stats/ canonical layout (PR #69/#70).
+        Falls back to legacy data/poe2_mods_extracted.json if data/game/ isn't
+        populated yet (eg fresh checkout before first git pull of game data).
+        """
         try:
-            stat_keyword = args.get("stat_keyword", "").strip().lower()
+            stat_keyword = args.get("stat_keyword") or args.get("query") or args.get("keyword") or ""
+            stat_keyword = stat_keyword.strip().lower()
             generation_type = args.get("generation_type")
             limit = args.get("limit", 50)
 
             if not stat_keyword:
                 return [types.TextContent(
                     type="text",
-                    text="Error: stat_keyword is required"
+                    text="Error: stat_keyword (or alias: query, keyword) is required"
                 )]
 
-            # Load mods from JSON file
-            mods_file = DATA_DIR / "poe2_mods_extracted.json"
-            if not mods_file.exists():
+            # Tokenize the query — split on whitespace/underscore so 'life regeneration'
+            # matches snake_case stat IDs like 'base_life_regeneration_rate_per_second'.
+            tokens = [t for t in stat_keyword.replace("_", " ").split() if t]
+
+            # Canonical data path first, legacy fallback
+            game_mods_file = DATA_DIR / "game" / "mods" / "mods.json"
+            legacy_mods_file = DATA_DIR / "poe2_mods_extracted.json"
+            if game_mods_file.exists():
+                mods_source = game_mods_file
+            elif legacy_mods_file.exists():
+                mods_source = legacy_mods_file
+            else:
                 return [types.TextContent(
                     type="text",
-                    text="Error: Mod database not found. File poe2_mods_extracted.json is missing."
+                    text="Error: Mod database not found. Run `git pull` to fetch data/game/mods/, or run scripts/extract_mods_datc64_v2.py locally."
                 )]
 
-            with open(mods_file, 'r', encoding='utf-8') as f:
+            with open(mods_source, 'r', encoding='utf-8') as f:
                 mods_data = json.load(f)
 
-            # Search for mods matching the stat keyword
+            # Build stat_key -> stat_id lookup from data/game/stats/ when available.
+            # This is what lets us search by stat description rather than just mod_id.
+            stats_file = DATA_DIR / "game" / "stats" / "stats.json"
+            stat_lookup: Dict[int, str] = {}
+            if stats_file.exists():
+                try:
+                    with open(stats_file, 'r', encoding='utf-8') as f:
+                        stats_data = json.load(f)
+                    for entry in stats_data.get("stats", []):
+                        stat_lookup[entry["row_index"]] = entry["stat_id"]
+                except Exception as e:
+                    logger.warning(f"search_mods: failed to load stats lookup: {e}")
+
+            def matches(text: str) -> bool:
+                """True if every query token appears in the lowercased text."""
+                if not text:
+                    return False
+                lc = text.lower()
+                return all(t in lc for t in tokens)
+
             matching_mods = []
             for mod in mods_data.get('mods', []):
-                mod_id = mod.get('mod_id', '').lower()
-
-                # Check if stat keyword is in mod_id
-                if stat_keyword not in mod_id:
-                    continue
-
-                # Apply generation type filter
+                # Apply generation type filter first (cheap)
                 if generation_type and mod.get('generation_type_name') != generation_type:
                     continue
 
-                matching_mods.append(mod)
+                mod_id = mod.get('mod_id', '')
+                display_name = mod.get('display_name', '')
+
+                # Surface 1: mod_id
+                if matches(mod_id):
+                    matching_mods.append(mod)
+                    continue
+                # Surface 2: display_name
+                if display_name and matches(display_name):
+                    matching_mods.append(mod)
+                    continue
+                # Surface 3: resolved stat_ids via stat_lookup
+                if stat_lookup:
+                    stat_ids_text = " ".join(
+                        stat_lookup.get(s.get('stat_key', 0), "")
+                        for s in mod.get('stats', [])
+                        if not s.get('is_empty', False) and s.get('stat_key', 0) in stat_lookup
+                    )
+                    if stat_ids_text and matches(stat_ids_text):
+                        matching_mods.append(mod)
+                        continue
 
             # Sort by level requirement
             matching_mods.sort(key=lambda m: m.get('level_requirement', 0))
 
-            # Apply limit
+            total_found = len(matching_mods)
             matching_mods = matching_mods[:limit]
 
-            # Format response
             response = f"# Mods Search: '{stat_keyword}'\n\n"
-            response += f"**Found:** {len(matching_mods)} mods\n"
+            response += f"**Found:** {total_found} mods"
+            if total_found > limit:
+                response += f" (showing first {limit})"
+            response += "\n"
+            response += f"**Source:** `{mods_source.relative_to(DATA_DIR.parent)}`"
+            if stat_lookup:
+                response += f" + stat cross-reference ({len(stat_lookup):,} stat IDs)"
+            response += "\n"
 
             if generation_type:
                 response += f"**Filter:** {generation_type}\n"
@@ -4638,24 +4738,29 @@ Could not extract account and character from URL.
             response += f"\n## Results\n\n"
 
             if not matching_mods:
-                response += "*No mods found matching your search.*\n"
-                response += "\nTry different keywords like:\n"
-                response += "- 'life' for life mods\n"
-                response += "- 'fire' for fire-related mods\n"
-                response += "- 'resist' for resistance mods\n"
-                response += "- 'damage' for damage mods\n"
+                response += "*No mods found matching your search.*\n\n"
+                response += "Tips:\n"
+                response += "- Multi-word queries are tokenized — 'life regeneration' matches mods where both words appear\n"
+                response += "- Searches mod_id, display_name, AND resolved stat IDs (when stats data is available)\n"
+                response += "- Try shorter keywords: 'life', 'fire', 'resist', 'damage'\n"
             else:
                 for mod in matching_mods:
-                    response += f"### {mod['mod_id']}\n"
+                    response += f"### {mod['mod_id']}"
+                    if mod.get('display_name'):
+                        response += f" — *{mod['display_name']}*"
+                    response += "\n"
                     response += f"- Type: {mod.get('generation_type_name', 'Unknown')}\n"
                     response += f"- Level: {mod.get('level_requirement', 0)}\n"
-                    response += f"- Value: {mod.get('min_value', 0)}"
-                    if mod.get('max_value', 0) > 0:
-                        response += f" - {mod.get('max_value', 0)}"
-                    response += "\n\n"
-
-            if len(matching_mods) >= limit:
-                response += f"\n*Showing first {limit} results. Use limit parameter to see more.*\n"
+                    # Surface stat IDs when known (cross-reference)
+                    if stat_lookup:
+                        sids = [
+                            stat_lookup[s['stat_key']]
+                            for s in mod.get('stats', [])
+                            if not s.get('is_empty', False) and s.get('stat_key', 0) in stat_lookup
+                        ]
+                        if sids:
+                            response += f"- Stats: {', '.join(sids)}\n"
+                    response += "\n"
 
             return [types.TextContent(type="text", text=response)]
 
