@@ -1,0 +1,154 @@
+{
+  "schema_version": 1,
+  "files": {
+    "atlas_stat_descriptions.csd": {
+      "json_file": "atlas_stat_descriptions.json",
+      "description_count": 1354,
+      "no_description_count": 0,
+      "source_bytes": 4098168,
+      "out_bytes": 794664,
+      "sha256": "b3aee2659c84729b26334fe1d1a53349ea0773551e81e40b548e5f2743f0ac51"
+    },
+    "atlas_variant_stat_descriptions.csd": {
+      "json_file": "atlas_variant_stat_descriptions.json",
+      "description_count": 63,
+      "no_description_count": 0,
+      "source_bytes": 78434,
+      "out_bytes": 25633,
+      "sha256": "6002e6bbc7711ab5b612ecf0e56950071ac92f28bc64fd27483dd64bacde6cd5"
+    },
+    "character_panel_gamepad_stat_descriptions.csd": {
+      "json_file": "character_panel_gamepad_stat_descriptions.json",
+      "description_count": 4,
+      "no_description_count": 0,
+      "source_bytes": 14122,
+      "out_bytes": 1706,
+      "sha256": "6c09125456ed6b86c922206b84dd6d7dd4f9f0911122a255f7219c0711ce3ef2"
+    },
+    "character_panel_stat_descriptions.csd": {
+      "json_file": "character_panel_stat_descriptions.json",
+      "description_count": 27,
+      "no_description_count": 0,
+      "source_bytes": 55824,
+      "out_bytes": 8995,
+      "sha256": "07570f953aabbc8bf84fc1a8701128024bd858fd8c3a02878a03242fadb7d703"
+    },
+    "chest_stat_descriptions.csd": {
+      "json_file": "chest_stat_descriptions.json",
+      "description_count": 138,
+      "no_description_count": 2,
+      "source_bytes": 293384,
+      "out_bytes": 68130,
+      "sha256": "22f17cf9885c9e57df1b8bfc5169c7de322c37585165fd9ebfaf6039ca0e2cce"
+    },
+    "expedition_relic_stat_descriptions.csd": {
+      "json_file": "expedition_relic_stat_descriptions.json",
+      "description_count": 159,
+      "no_description_count": 0,
+      "source_bytes": 506148,
+      "out_bytes": 88691,
+      "sha256": "24c779f411e0c9be6313273d08d0e451f2f5f93550fb35ed763008594af866c0"
+    },
+    "gem_stat_descriptions.csd": {
+      "json_file": "gem_stat_descriptions.json",
+      "description_count": 1334,
+      "no_description_count": 0,
+      "source_bytes": 5063036,
+      "out_bytes": 788526,
+      "sha256": "31901d624ef0b4ec3b45bf46b49224499849d164cf809a44002a2b13ce75c8b5"
+    },
+    "heist_equipment_stat_descriptions.csd": {
+      "json_file": "heist_equipment_stat_descriptions.json",
+      "description_count": 123,
+      "no_description_count": 0,
+      "source_bytes": 331840,
+      "out_bytes": 65209,
+      "sha256": "aed68dd354e6e5e3737c77019d6c4d0d94a6fff32fe6aaf00e8bc19c652f213b"
+    },
+    "leaguestone_stat_descriptions.csd": {
+      "json_file": "leaguestone_stat_descriptions.json",
+      "description_count": 172,
+      "no_description_count": 0,
+      "source_bytes": 494620,
+      "out_bytes": 97251,
+      "sha256": "017f759a1e2beb373da931686658f97d1bccd51df3f964ac605e38871a1959c9"
+    },
+    "map_stat_descriptions.csd": {
+      "json_file": "map_stat_descriptions.json",
+      "description_count": 48,
+      "no_description_count": 50,
+      "source_bytes": 131202,
+      "out_bytes": 28657,
+      "sha256": "c9756eaf3118595c9b406dca338012a2157fba024add88b3b49cd05bfbf42087"
+    },
+    "monster_stat_descriptions.csd": {
+      "json_file": "monster_stat_descriptions.json",
+      "description_count": 32,
+      "no_description_count": 0,
+      "source_bytes": 49272,
+      "out_bytes": 13915,
+      "sha256": "f3268380d6804a229f458f055fecd41a483826331b2ed020d467d7a75ae2a161"
+    },
+    "passive_skill_aura_stat_descriptions.csd": {
+      "json_file": "passive_skill_aura_stat_descriptions.json",
+      "description_count": 23,
+      "no_description_count": 1,
+      "source_bytes": 66156,
+      "out_bytes": 12079,
+      "sha256": "adae4a25205df3cda9d6c8be32b5239d3bb4962dda568ff064f08f7cf7b99682"
+    },
+    "passive_skill_stat_descriptions.csd": {
+      "json_file": "passive_skill_stat_descriptions.json",
+      "description_count": 208,
+      "no_description_count": 1,
+      "source_bytes": 654796,
+      "out_bytes": 116011,
+      "sha256": "db47d396ccdc70cfdc84e55c73f3470b53fb41bc59978f7acd6f6e5ebb4367b6"
+    },
+    "sentinel_stat_descriptions.csd": {
+      "json_file": "sentinel_stat_descriptions.json",
+      "description_count": 118,
+      "no_description_count": 0,
+      "source_bytes": 310350,
+      "out_bytes": 62748,
+      "sha256": "214e7deb0c9b166d32b3642a2c7f13c83c52ac1e2cdc252da7116e890b21b09a"
+    },
+    "skill_stat_descriptions.csd": {
+      "json_file": "skill_stat_descriptions.json",
+      "description_count": 1899,
+      "no_description_count": 11,
+      "source_bytes": 5691960,
+      "out_bytes": 946713,
+      "sha256": "3178910bce2ad87fc43673c7684001105f7335cef8779b9adf1b44e6258fd3b0"
+    },
+    "stat_descriptions.csd": {
+      "json_file": "stat_descriptions.json",
+      "description_count": 10716,
+      "no_description_count": 24,
+      "source_bytes": 29848592,
+      "out_bytes": 5832689,
+      "sha256": "c08406053cb9dec7f2324695b3fb8fe16585e12f8b8ac4928a3d1150093f8015"
+    },
+    "tablet_stat_descriptions.csd": {
+      "json_file": "tablet_stat_descriptions.json",
+      "description_count": 107,
+      "no_description_count": 0,
+      "source_bytes": 331564,
+      "out_bytes": 61204,
+      "sha256": "9c9b9798e027c634c415d32383e41966412d5eef329c6f7038612c3e80d7a8eb"
+    },
+    "utility_flask_buff_stat_descriptions.csd": {
+      "json_file": "utility_flask_buff_stat_descriptions.json",
+      "description_count": 8,
+      "no_description_count": 0,
+      "source_bytes": 13020,
+      "out_bytes": 3481,
+      "sha256": "887ece67d9b00a9b37970aaec69fbd5d687a5d7869585d0f30aba4b7ab7bbbf3"
+    }
+  },
+  "totals": {
+    "files": 18,
+    "descriptions": 16533,
+    "no_descriptions": 89
+  }
+}

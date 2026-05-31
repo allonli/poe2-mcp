@@ -3,9 +3,9 @@
   "patch_version": "0.5",
   "patch_name": "Return of the Ancients",
   "patch_released": "2026-05-29",
-  "data_revision": 7,
-  "released_as": "data-v0.5.0-r7",
-  "extracted_at": "2026-05-31T15:00:00Z",
+  "data_revision": 8,
+  "released_as": "data-v0.5.0-r8",
+  "extracted_at": "2026-05-31T20:30:00Z",
   "extracted_by": "HivemindMinion (Claude Code) from HivemindOverlord's licensed PoE2 install + PoB2 community repo",
   "datasets": {
     "mods": {
@@ -45,6 +45,14 @@
       "matched_effect_count": 872,
       "source": "PoB2 origin/dev @ 9c2bf0316 (2026-05-30) — Gems.lua + Skills/*.lua joined view",
       "note": "Joined gem-metadata + granted-effect records. Schema v1: levels/stat_sets surface a useful subset; full statMap / baseFlags / constantStats / stats lists are NOT yet extracted (require structural Lua parser — deferred to v2). Per-gem record count (872) is intentionally smaller than support_gems.record_count (680) because the two datasets cover different surface areas: this is the PoB2 gem-and-effect joined view; support_gems is the extracted .datc64 support-modifier table."
+    },
+    "stat_descriptions": {
+      "path": "data/game/stat_descriptions/",
+      "files": ["index.json", "metadata.json", "<name>_stat_descriptions.json (x18)"],
+      "record_count": 16533,
+      "no_description_count": 89,
+      "source": "data/extracted/Data/statdescriptions/*.csd (UTF-16-LE, PoB-compatible Compiled Stat Description grammar)",
+      "note": "The canonical in-game stat description text. Pairs stat_id -> player-facing template. Replaces the hand-authored interpretation in src/knowledge/poe2_mechanics.py as the authoritative source for explain_mechanic going forward. v1 ships English-only templates across 18 root-level .csd files; per-skill descriptions under specific_skill_stat_descriptions/ deferred to v2. Headline category counts: stat_descriptions.csd 10,716 / skill_stat_descriptions.csd 1,899 / atlas 1,354 / gem 1,334 / passive_skill 208 / others <200 each."
     }
   },
   "datasets_pending_0_5_reextract": {},
