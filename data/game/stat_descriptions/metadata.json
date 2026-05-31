@@ -1,0 +1,25 @@
+{
+  "dataset": "stat_descriptions",
+  "filename": "index.json",
+  "patch_version": "0.5",
+  "patch_name": "Return of the Ancients",
+  "patch_released": "2026-05-29",
+  "extracted_at": "2026-05-31T20:00:06Z",
+  "extracted_by": "HivemindMinion (Claude Code) from HivemindOverlord's licensed PoE2 install",
+  "source_dir": "data/extracted/Data/statdescriptions",
+  "source_format": "UTF-16-LE .csd (Compiled Stat Description, PoB-compatible grammar)",
+  "extractor": "scripts/extract_stat_descriptions.py",
+  "file_count": 18,
+  "description_count": 16533,
+  "no_description_count": 89,
+  "schema_notes": [
+    "schema_version=1. English-only templates. Other 8 languages deferred to v2 (size).",
+    "Each description record: stat_ids (list \u2014 multi-stat blocks share one description), primary_stat_id (first of list), variants (list of {range, template, handlers}), primary_template (first English variant template, or null), source_line.",
+    "Variant range tokens: '#' = default/any, '1' = exact value 1, '10' = exact 10, '1|#' = [1, inf], '#|0' = [-inf, 0], '1|99' = [1, 99].",
+    "Template syntax preserves PoB conventions: '{0}' placeholders, '\\n' newlines, '[InternalName|DisplayText]' for hyperlinks.",
+    "Handlers (e.g. divide_by_ten_1dp_if_required, negate, '60%_of_value') are preserved verbatim \u2014 consumers should apply them if interpreting numeric values.",
+    "v1 scope: root-level .csd files only. The per-skill descriptions under specific_skill_stat_descriptions/ are NOT extracted in v1 (separate large subtree).",
+    "no_descriptions captures stat IDs the game ships explicitly without display text \u2014 useful for completeness checking but not for explain_mechanic lookups."
+  ],
+  "data_policy": "Extracted exclusively from the maintainer's licensed PoE2 install via the in-repo extraction pipeline. No third-party wiki / scraped data."
+}
