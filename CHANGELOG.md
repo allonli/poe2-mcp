@@ -7,6 +7,36 @@ Format based on Path of Building changelog style, adapted for MCP tooling.
 
 ---
 
+## Version 1.0.2 (2026-05-31) - Patch 0.5 game data + MCP usability sweep
+
+Follow-up to 1.0.1. Where 1.0.1 was non-extraction code compat for the 0.5 patch, 1.0.2 ships the actual extracted 0.5 game data + MCP-handler improvements + accuracy work surfaced during a fresh end-to-end MCP evaluation.
+
+--- Game Data (canonical layout) ---
+* Establish `data/game/{dataset}/` repo-as-source-of-truth layout (#69). 5 datasets shipped: mods (16,788 records), passive_tree (9,605 nodes, 82 keystones, 2,151 notables), support_gems (680), ascendancies (37 — including NEW 0.5 Spirit Walker + Martial Artist), stats (26,943 stat IDs). Closes #53 (pip install empty database).
+* Inline-resolve `stat_id` strings on every non-empty mod stat entry (#75). 24,632 entries enriched. Consumers no longer need to load `stats.json` separately to resolve `stat_key` references.
+* Fix ascendancy `display_name` field — use canonical offset 44 instead of longest-string heuristic (#71). 23 active ascendancies all correctly named.
+
+--- MCP Tools ---
+* Add `check_tree_freshness` self-diagnostic tool (#76). Compares local `data/game/version.json` patch_version against poe.ninja's current `PassiveTree` tag from index-state. Reports current / behind / ahead / unable. Pure change-detection per data policy. Tool count: 39 → 40.
+* Rewrite `search_mods_by_stat` (#73). Was returning 0 results for "life regeneration" despite 16,788 mods in DB. Now tokenizes the query and searches mod_id + display_name + resolved stat_id strings. Verified: "life regeneration" goes from 0 hits to 173 hits (117 mod_id + 56 stat cross-reference).
+* Accept alias parameter names on `inspect_keystone` (`name`), `inspect_spell_gem` (`name`, `gem_name`), `validate_support_combination` (`support_gem_names`, `names`) via `oneOf` in inputSchema (#73). AI-friendliness fix from the May eval.
+* SPA-aware character-fetch error templates on `analyze_character` and `compare_to_top_players` (#74). Surfaces the CRITICAL #4 (#61) poe.ninja SPA migration cause up front instead of sending users on a wild-goose chase through profile-privacy and account-format settings. Closes #55 (@dsakura).
+
+--- API ---
+* Auto-discover league slug from index-state when `LEAGUE_MAPPINGS` is stale (#62, in 1.0.1 retro). Future leagues work as soon as poe.ninja indexes them, without needing a static map update.
+
+--- Knowledge ---
+* Add `Runic Ward` `explain_mechanic` entry (#64, in 1.0.1 retro). PRELIMINARY — numeric mechanics not bundled (waiting on .datc64 mechanics extraction). Documents what we know, what's pending.
+
+--- Documentation ---
+* Split Claude Desktop config in README into pip-install (`"command": "poe2-mcp"`) vs source-install (`launch.py`) sub-options (#72). Closes #52.
+
+--- Known Issues (carried over from 1.0.1) ---
+* CRITICAL #4: poe.ninja builds-list / ladder SPA migration broke `compare_to_top_players` and HTML-scrape fallback (#61). Per-character JSON API still works for characters in the snapshot; #74 + #65 surface the cause to users instead of silent fail. Underlying fix needs the new poe.ninja endpoint reverse-engineered.
+* `skill_gems` dataset not yet in `data/game/` — blocked on PoB2 community shipping 0.5 `tree.json` upstream (verified daily; still not landed as of 2026-05-31). Current pre-0.5 skill data in `data/pob_active_skills.json`.
+
+---
+
 ## Version 1.0.1 (2026-05-30) - Patch 0.5 "Return of the Ancients" Compatibility
 
 Compatibility updates for PoE2 Patch 0.5 (released 2026-05-29). Code-level fixes that work without re-extracted game data. Local passive tree and item mod data remain stale pending `.datc64` re-extraction; see Known Issues below.
