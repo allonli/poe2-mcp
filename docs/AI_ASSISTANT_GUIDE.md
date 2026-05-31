@@ -14,7 +14,7 @@ You get **40 tools** (as of 2026-05-31) split into a handful of surfaces:
 |---|---|---|
 | Character analysis | `analyze_character`, `import_poe_ninja_url`, `compare_to_top_players`, `analyze_passive_tree` | poe.ninja JSON API (live) + local resolvers |
 | Passive tree data | `inspect_passive_node`, `inspect_keystone`, `list_all_keystones`, `list_all_notables` | `data/game/passive_tree/` (extracted .datc64) |
-| Gem inspection | `inspect_spell_gem`, `inspect_support_gem`, `list_all_spells`, `list_all_supports`, `validate_support_combination` | Mixed: PoB-sourced for skills, extracted .datc64 for supports |
+| Gem inspection | `inspect_spell_gem`, `inspect_support_gem`, `list_all_spells`, `list_all_supports`, `validate_support_combination` | `data/game/skill_gems/` (PoB2 0.5, since PR #91) + `data/game/support_gems/` (extracted .datc64). Legacy `data/pob_complete_skills.json` used as Tier-2 fallback when a spell isn't yet in the new dataset. |
 | Item mods | `inspect_mod`, `list_all_mods`, `search_mods_by_stat`, `get_mod_tiers`, `validate_item_mods`, `get_available_mods`, `list_all_base_items`, `inspect_base_item` | `data/game/mods/` + `data/game/stats/` (extracted) |
 | Ascendancy | `get_ascendancy_info` | `data/game/ascendancies/` |
 | Knowledge | `explain_mechanic`, `get_formula` | Hardcoded `src/knowledge/poe2_mechanics.py` |
@@ -64,9 +64,18 @@ If `analyze_character` returns the SPA-migration warning template, **don't troub
 
 Tracking: [issue #61](https://github.com/HivemindOverlord/poe2-mcp/issues/61).
 
-### `skill_gems` data is pre-0.5
+### `skill_gems` v1 schema gaps (since PR #91)
 
-`data/game/skill_gems/` isn't shipped yet — blocked on the Path of Building (PoE2) community publishing their 0.5 `tree.json`. Current skill data in `data/pob_active_skills.json` is from Dec 2025. The `inspect_spell_gem` tool surfaces this via a `Data Source` line in its output — trust that line over assuming freshness.
+`data/game/skill_gems/` is now shipped (872 gems, 0.5-fresh from PoB2 dev). The handlers prefer it over the legacy `data/pob_complete_skills.json` (PR #94). However the v1 extractor deliberately doesn't yet pull:
+
+- `baseMultiplier` (per-level damage scaling)
+- `constantStats` / `statMap` (built-in modifiers from PoB2's Skills/*.lua)
+- `qualityStats`
+- `description` text
+
+These need a structural Lua parser; tracked for v2 in `docs/SKILL_GEMS_PORT_AUDIT.md`. For now, if `inspect_spell_gem` returns a gem from the new dataset, expect the Gem Metadata block + per-level cost/crit/level-requirement to be present and the deeper modifier list to be absent. If a queried spell isn't in the new dataset at all, the handler falls back to the legacy file and notes "pre-0.5; not yet in data/game/skill_gems/" in its Data Source line — that's a signal, not a bug.
+
+`list_all_spells` now uses PoB2's authoritative `gem_type=='Spell'` classification → **83 active spells**. That's narrower than the old "any gem with cast_time" heuristic; if you remember a wider list pre-PR #94, that's why.
 
 ### `search_trade_items` is intentionally unimplemented
 
