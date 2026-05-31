@@ -297,10 +297,64 @@ Re-ran the mechanic call to verify the Rage fix from batch 1 hasn't regressed. O
 
 ---
 
-## Continuation queue (22 questions remaining)
+---
 
-Batch 3 candidates (disjoint files / quick wins):
-- Q06 `list_all_keystones` + Q08 `list_all_notables` (tests bulk-list tools — will hit Gap G for keystones)
-- Q12 `list_all_supports` + Q13 `inspect_support_gem` (tests support data with PR #75's enriched mods)
-- Q22 `validate_item_mods` + Q23 `get_available_mods` (tests mod-system validation with fresh 0.5 mods)
+## Batch 3 (2026-05-31, fire 23 @ 15-min cadence)
+
+### Q06: `list_all_keystones` — "What keystones benefit a physical attack Shaman with minions?"
+
+Called `list_all_keystones(limit=10)`. Got:
+
+```
+Error: Passive tree resolver not initialized. PSG database may be missing.
+```
+
+This is a DIFFERENT error from Gap G's int+str TypeError. The handler is failing earlier, at resolver-initialization stage. Returns no data whatsoever — tool is completely dead, not even returning a TypeError from formatter code.
+
+### Q08: `list_all_notables` — "Show me notables that grant increased physical damage or life"
+
+Same call pattern, same error:
+
+```
+Error: Passive tree resolver not initialized. PSG database may be missing.
+```
+
+`grep -n "Passive tree resolver not initialized" src/mcp_server.py` shows the string at **5 locations** (lines 4051, 4233, 4314, 4372, 4427), suggesting at least 5 passive-tree-adjacent handlers share this dependency. So this single bug likely breaks: `list_all_keystones`, `list_all_notables`, `inspect_keystone`, `inspect_passive_node`, plus one more.
+
+Gap G (int+str TypeError) was never actually validated — the resolver fails earlier, so the int+str code path was never reached in batch 2. **Gap G may not exist** — or may exist but is masked by Gap H. Reclassify Gap G as "Gap G/H combined: passive-tree handlers fail at resolver init."
+
+### NEW BUG FOUND: Passive-tree resolver init failure
+
+**Gap H** (NEW, supersedes / contains Gap G): Multiple passive-tree handlers (`list_all_keystones`, `list_all_notables`, and ≥3 others) fail with "Passive tree resolver not initialized. PSG database may be missing."
+
+- **Severity:** CRITICAL — entire passive-tree query surface unusable
+- **Surface:** handler/resolver init in `src/mcp_server.py` + likely `src/parsers/passive_tree_resolver.py`
+- **Root cause hypothesis:** the resolver expects `data/extracted/metadata/passiveskillgraph.psg` (raw .psg blob, gitignored per data-extraction policy) but we now ship the structured `data/game/passive_tree/tree.json` instead. The resolver hasn't been rewired to the new data path. Same pattern as the `inspect_spell_gem` / `list_all_spells` rewiring PR #94 did for skill_gems — needs the equivalent for passive tree.
+- **Fix path:** rewire the resolver init to load from `data/game/passive_tree/tree.json` (already on main since PR #69). Likely 1-handler-helper-file change. Touches `src/mcp_server.py` so currently blocked by Rule 12 conflict with PR #94 (handlers branch). Ship after #94 lands.
+- **User impact:** any AI client trying to answer "show me keystones for X build" or "what notables grant Y" gets back a meaningless error.
+
+---
+
+## Gap inventory (batch 1 + batch 2 + batch 3)
+
+| # | Gap | Severity | Surface | Status |
+|---|-----|----------|---------|--------|
+| A | `inspect_keystone` requires `keystone_name` not `name` | LOW | Schema | ✅ FIXED in PR #73 |
+| B | `inspect_spell_gem` requires `spell_name` not `gem_name` | LOW | Schema | ✅ FIXED in PR #73 |
+| C | `validate_support_combination` requires `support_gems` not `support_gem_names` | LOW | Schema | ✅ FIXED in PR #73 |
+| D | `validate_support_combination` doesn't surface damage-type conflicts | MED | Handler | OPEN (backlog item 6) |
+| E | `inspect_spell_gem` data source pre-0.5 stale | MED | Data | ✅ FIXED (PR #91 ships skill_gems v1, PR #94 wires handlers) |
+| F | `search_mods_by_stat` returns 0 for "life regeneration" | HIGH | Handler | ✅ FIXED in PR #73 |
+| G | `list_all_keystones` runtime error (int + str) | HIGH | Handler | RECLASSIFIED — masked by Gap H, may not exist |
+| **H** | **Passive-tree resolver init failure breaks ≥5 handlers** | **CRITICAL** | **Resolver init** | **NEW — deferred until PR #94 lands, then rewire to data/game/passive_tree/tree.json** |
+
+---
+
+## Continuation queue (20 questions remaining)
+
+Batch 4 candidates (disjoint files / quick wins given the new gap landscape):
+- Q12 `list_all_supports` + Q13 `inspect_support_gem` — tests support data (different data source than passive tree, so Gap H doesn't affect these)
+- Q22 `validate_item_mods` + Q23 `get_available_mods` — tests mod-system validation with fresh 0.5 mods
+- Q24 `validate_build_constraints` + Q27 `get_formula` — pure-computation tools, no data-source risk
+- Q10 `list_all_spells` — now Tier-1 via skill_gems per PR #94, would verify the 83-spell count holds end-to-end
 - Q24 `validate_build_constraints` + Q25 `get_formula` (tests calculator stack — was Gap 7 in Jan eval)
