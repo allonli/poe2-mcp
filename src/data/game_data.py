@@ -43,8 +43,13 @@ STATS_DIR = GAME_DATA_DIR / "stats"
 STATS_JSON = STATS_DIR / "stats.json"
 STATS_META = STATS_DIR / "metadata.json"
 
-# Datasets pending 0.5 re-extract (paths reserved; folders may not yet exist).
 SKILL_GEMS_DIR = GAME_DATA_DIR / "skill_gems"
+SKILL_GEMS_JSON = SKILL_GEMS_DIR / "skill_gems.json"
+SKILL_GEMS_META = SKILL_GEMS_DIR / "metadata.json"
+
+STAT_DESCRIPTIONS_DIR = GAME_DATA_DIR / "stat_descriptions"
+STAT_DESCRIPTIONS_INDEX = STAT_DESCRIPTIONS_DIR / "index.json"
+STAT_DESCRIPTIONS_META = STAT_DESCRIPTIONS_DIR / "metadata.json"
 
 
 def get_version() -> Optional[Dict[str, Any]]:
@@ -228,6 +233,142 @@ def find_keystone_by_name(name: str) -> Optional[Dict[str, Any]]:
         if (k.get("name") or "").lower().strip() == target:
             return k
     return None
+
+
+# ---------------------------------------------------------------------------
+# stat_descriptions helpers (PR #98 dataset — 16,533 game-shipped stat texts)
+# ---------------------------------------------------------------------------
+
+# Cached single-load of the index + each per-file dataset on first lookup,
+# because callers will often hit several stat_ids in one request and re-reading
+# the 9 MB tree each time is wasteful. Cleared automatically when the underlying
+# files change is NOT supported — assume process restart between data revisions.
+_STAT_DESCRIPTIONS_CACHE: Dict[str, Any] = {}
+
+
+def load_stat_descriptions_index() -> Optional[Dict[str, Any]]:
+    """Load data/game/stat_descriptions/index.json.
+
+    Returns the index dict with `files` (per-source-file metadata) and `totals`
+    keys, or None if the dataset isn't installed yet. Lightweight (~5 KB) so
+    safe to call repeatedly.
+    """
+    if not STAT_DESCRIPTIONS_INDEX.exists():
+        return None
+    if "_index" not in _STAT_DESCRIPTIONS_CACHE:
+        _STAT_DESCRIPTIONS_CACHE["_index"] = json.loads(
+            STAT_DESCRIPTIONS_INDEX.read_text(encoding="utf-8")
+        )
+    return _STAT_DESCRIPTIONS_CACHE["_index"]
+
+
+def load_stat_descriptions_file(json_filename: str) -> Optional[Dict[str, Any]]:
+    """Load one per-source stat_descriptions file by its JSON filename.
+
+    `json_filename` is the value from the index's `files[<csd_name>].json_file`
+    field (e.g. 'gem_stat_descriptions.json'). Cached per filename.
+    """
+    if not STAT_DESCRIPTIONS_DIR.exists():
+        return None
+    path = STAT_DESCRIPTIONS_DIR / json_filename
+    if not path.exists():
+        return None
+    cache_key = f"file:{json_filename}"
+    if cache_key not in _STAT_DESCRIPTIONS_CACHE:
+        _STAT_DESCRIPTIONS_CACHE[cache_key] = json.loads(path.read_text(encoding="utf-8"))
+    return _STAT_DESCRIPTIONS_CACHE[cache_key]
+
+
+def find_stat_description(stat_id: str) -> Optional[Dict[str, Any]]:
+    """Look up the canonical game-shipped description for a stat_id.
+
+    Searches across all stat_descriptions files. Returns the matching description
+    record (with stat_ids, primary_template, variants, source_line) plus a
+    `source_file` field naming which .csd the entry came from. Useful for
+    provenance display.
+
+    Example:
+        >>> r = find_stat_description("support_ignite_proliferation_radius")
+        >>> r["primary_template"]
+        'Ignites inflicted by Supported Skills Spread to other enemies...'
+        >>> r["source_file"]
+        'gem_stat_descriptions.json'
+
+    Returns None if the dataset isn't installed OR the stat_id isn't documented
+    (note: missing-in-dataset != missing-in-game — see `no_descriptions` on each
+    file payload for stats GGG explicitly ships without display text).
+    """
+    target = stat_id.strip()
+    if not target:
+        return None
+    index = load_stat_descriptions_index()
+    if not index:
+        return None
+    for csd_name, info in (index.get("files") or {}).items():
+        payload = load_stat_descriptions_file(info["json_file"])
+        if not payload:
+            continue
+        for record in payload.get("descriptions") or []:
+            if target in (record.get("stat_ids") or []):
+                # Shallow-copy + tag with source so caller can display provenance
+                out = dict(record)
+                out["source_file"] = info["json_file"]
+                out["source_csd"] = csd_name
+                return out
+    return None
+
+
+def search_stat_descriptions(
+    query: str,
+    limit: int = 20,
+    fields: tuple = ("stat_id", "template"),
+) -> list:
+    """Substring search across stat IDs and/or templates (case-insensitive).
+
+    Returns a list of matching description records, each tagged with `source_file`
+    and `match_field` indicating where the substring hit. Useful as the lookup
+    layer for explain_mechanic("proliferation") — the user query doesn't have
+    to be an exact stat_id.
+
+    Args:
+        query: substring to match against
+        limit: cap on returned hits (default 20)
+        fields: which sub-fields to search. Default both stat_id and template;
+                pass ("stat_id",) for stat-id-only, ("template",) for prose-only.
+
+    Returns empty list if dataset missing or no matches.
+    """
+    target = query.lower().strip()
+    if not target:
+        return []
+    index = load_stat_descriptions_index()
+    if not index:
+        return []
+    results: list = []
+    for csd_name, info in (index.get("files") or {}).items():
+        payload = load_stat_descriptions_file(info["json_file"])
+        if not payload:
+            continue
+        for record in payload.get("descriptions") or []:
+            match_field = None
+            if "stat_id" in fields:
+                for sid in record.get("stat_ids") or []:
+                    if target in sid.lower():
+                        match_field = "stat_id"
+                        break
+            if not match_field and "template" in fields:
+                primary = record.get("primary_template") or ""
+                if target in primary.lower():
+                    match_field = "template"
+            if match_field:
+                out = dict(record)
+                out["source_file"] = info["json_file"]
+                out["source_csd"] = csd_name
+                out["match_field"] = match_field
+                results.append(out)
+                if len(results) >= limit:
+                    return results
+    return results
 
 
 def load_metadata(dataset_dir: Path) -> Optional[Dict[str, Any]]:
