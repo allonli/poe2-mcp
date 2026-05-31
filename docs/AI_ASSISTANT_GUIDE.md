@@ -17,7 +17,8 @@ You get **40 tools** (as of 2026-05-31) split into a handful of surfaces:
 | Gem inspection | `inspect_spell_gem`, `inspect_support_gem`, `list_all_spells`, `list_all_supports`, `validate_support_combination` | `data/game/skill_gems/` (PoB2 0.5, since PR #91) + `data/game/support_gems/` (extracted .datc64). Legacy `data/pob_complete_skills.json` used as Tier-2 fallback when a spell isn't yet in the new dataset. |
 | Item mods | `inspect_mod`, `list_all_mods`, `search_mods_by_stat`, `get_mod_tiers`, `validate_item_mods`, `get_available_mods`, `list_all_base_items`, `inspect_base_item` | `data/game/mods/` + `data/game/stats/` (extracted) |
 | Ascendancy | `get_ascendancy_info` | `data/game/ascendancies/` |
-| Knowledge | `explain_mechanic`, `get_formula` | Hardcoded `src/knowledge/poe2_mechanics.py` |
+| Knowledge | `explain_mechanic` | **Tier 1**: `data/game/stat_descriptions/` (16,533 canonical game-shipped .csd entries, since PR #98/#99/#101). **Tier 2**: `src/knowledge/poe2_mechanics.py` (hand-authored summaries — clearly labeled in response as community interpretation). |
+| Knowledge | `get_formula` | Hardcoded `src/knowledge/formulas.py` (calculation reference; intentionally hands math back to the caller per the project's "MCP = data layer, Claude = intelligence layer" design) |
 | Path of Building | `import_pob`, `export_pob`, `get_pob_code` (file-based) + 8 `pob_*` tools (live bridge) | PoB XML format / local TCP socket on :49085 |
 | Self-diagnostic | `health_check`, `check_tree_freshness`, `clear_cache` | Mixed |
 
@@ -126,7 +127,7 @@ Requires GGG OAuth which they've gated against AI tooling. Won't be enabled unti
 ### "Which ascendancies are available for class X?"
 
 ```
-Programmatic (when src/data/game_data.py PR #80 lands):
+Programmatic:
   from src.data.game_data import find_ascendancies_by_base_class
   find_ascendancies_by_base_class("Witch")
   → [Infernalist, Blood Mage, Lich, Abyssal Lich]
@@ -134,6 +135,42 @@ Programmatic (when src/data/game_data.py PR #80 lands):
 Via MCP tool:
   get_ascendancy_info(ascendancy_name="Witch")
 ```
+
+### "What does mechanic X do?" / "Look up stat_id Y" (PR #101)
+
+`explain_mechanic` is two-tier as of PR #101. It accepts THREE query shapes:
+
+```
+1. Exact stat_id (preferred — returns Tier 1 canonical game text):
+   explain_mechanic(mechanic_name="support_ignite_proliferation_radius")
+   → "[Ignite|Ignites] inflicted by Supported Skills [AilmentSpread|Spread]
+      to other enemies that stay within {0} metre for 1 second"
+   + full variant table (range conditions + handlers)
+   + Data source: data/game/stat_descriptions/gem_stat_descriptions.json
+     line 2221 (provenance, no interpretation)
+
+2. Mechanic name (Tier 2 hand-authored summary):
+   explain_mechanic(mechanic_name="ignite")
+   → Hand-authored explanation with formulas + common questions
+   + EXPLICIT disclaimer: "community interpretation of wiki sources, not
+     extracted game text. Cross-reference against the in-game tooltip
+     for balance-sensitive numbers."
+   + Cross-refs to related Tier 1 stat_ids if any exist
+
+3. Substring search (recovery when neither exact-match works):
+   explain_mechanic(mechanic_name="proliferation")
+   → 10 stat_id suggestions, each tagged with source_csd + template excerpt.
+     Pick one and re-query for its full canonical entry.
+
+4. Empty query (overview):
+   explain_mechanic()  ← mechanic_name is OPTIONAL since PR #101
+   → Tier overview with sample shapes for each query type.
+```
+
+**When to trust which tier**:
+- Tier 1 game text is the literal in-game string. Use as canonical source for "what does {0} mean" / "what's the exact wording" / cross-checking tooltips.
+- Tier 2 hand-authored explanations are useful for "how does X interact with Y" / "what are the common-question answers" — they synthesize across multiple stats. But the explicit disclaimer means you should cross-reference numbers against the tooltip before quoting them as authoritative.
+- If Tier 2 contradicts the in-game tooltip, **trust the tooltip** and file a bug in the eval doc.
 
 ## 7. When something looks wrong
 
