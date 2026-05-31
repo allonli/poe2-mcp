@@ -7,6 +7,33 @@ Format based on Path of Building changelog style, adapted for MCP tooling.
 
 ---
 
+## Version 1.0.3 (2026-05-31) - skill_gems shipped + zero-coverage gap sweep
+
+Follow-up to 1.0.2 the same day. Closes the last 0.5-pending dataset (`skill_gems`), adds the operator/AI-facing docs that were missing across the repo, and lands ~200 new tests filling zero-coverage gaps on load-bearing pure-function modules.
+
+--- Game Data ---
+* Ship `data/game/skill_gems/skill_gems.json` (#91). 872 gems extracted from PathOfBuilding-PoE2 `origin/dev @ 9c2bf0316` (patch-day 2026-05-30 commit). 100% gem→effect join rate via `grantedEffectId`. Schema v1: gem metadata (tier, tags, requirements, naturalMaxLevel) + granted_effect (levels with cost/crit_chance/level_requirement, stat_sets with base_effectiveness). 1.6 MB output. `version.json` bumped to `data-v0.5.0-r7`; `datasets_pending_0_5_reextract` is now empty. v1 deliberately defers full Lua `statMap` / `baseFlags` / `constantStats` / `stats` extraction (needs structural Lua parser; tracked for v2)
+* Refresh `data/game/README.md` for the 0.5-r5 dataset state (#82). Removed stale "pending re-extract" markers on ascendancies/support_gems/stats; per-dataset table replaces the prose status block
+
+--- Documentation ---
+* Add `docs/AI_ASSISTANT_GUIDE.md` (#81). Onboarding doc for AI clients (Claude/ChatGPT/Cursor/Windsurf etc.) — tool surface, parameter alias quirks, game-data sources, known failure modes (incl. CRITICAL #4), common LLM mistakes, workflow patterns
+* Add `docs/EXTRACTION_PIPELINE.md` (#84). End-to-end data/game/ regeneration walkthrough — LibBundle3 + pythonnet setup, the 0.5-era gotchas (CoreCLR runtime, parsePaths=False workaround, balance/ subdir, mods row size growth 661→677, ascendancy offset 44), lifecycle checklist for new patches
+* Add `docs/SKILL_GEMS_PORT_AUDIT.md` (#85). Scout for the (then-)pending extractor port — PoB2 source shape, existing extractor gaps, recommended schema, open questions. Set up the work that #91 then delivered
+* Add `web/README.md` (#86). First README for the standalone Svelte 5 + Vite Timeless Jewel Seed Calculator subproject — tech stack, dev/build/deploy commands, GitHub Pages auto-deploy workflow walkthrough
+
+--- Testing ---
+* Add `tests/test_game_data.py` (#83). 19 tests covering the `src/data/game_data.py` base API (path constants, get_version, load_*() helpers, load_metadata, describe). Notable: `test_load_stats_record_count_matches_version_manifest` catches drift between `stats.json` and `version.json` on re-extract
+* Add `tests/test_mods_spec.py` (#87). 48 tests for `src/parsers/specifications/mods_spec.py` (central binary parser used by every mod tool). Locks in PR #68's 0.5 row-size relaxation as an explicit regression guard
+* Add `tests/test_characters_spec.py` (#88). 27 tests for `src/parsers/specifications/characters_spec.py` (poe.ninja class → PSG starting-node resolution). Cross-consistency tests catch silent drift between `POE_NINJA_CLASS_TO_STARTING_NODE` and `PSG_STARTING_NODES`. Locks in the "poe.ninja calls Druid 'Sorceress'" quirk
+* Add `tests/test_defense_calculator.py` (#89). 37 tests for `src/calculator/defense_calculator.py`. Regression guards on the PoE2-vs-PoE1 constants (block cap 50% not 75%, ES recharge 12.5%/s not 20%, ES delay 4s not 2s)
+* Add `tests/test_game_data_helpers.py` (#90). 26 tests for the convenience helpers added by PR #80 (find_ascendancies_by_base_class, find_mods_by_stat_id, get_keystones, etc.). Direct continuation of scope deferred from #83
+* Add `tests/test_spell_dps_calculator.py` (#92). 41 tests for `src/calculator/spell_dps_calculator.py` (last unmonitored calculator). Anchored to docstring examples; locks in `more` multipliers stacking multiplicatively (not additively — common subtle-correctness trap)
+
+--- Known Issues (carried over from 1.0.2) ---
+* CRITICAL #4: poe.ninja builds-list / ladder SPA migration broke `compare_to_top_players` and HTML-scrape fallback (#61). Underlying fix needs the new poe.ninja endpoint reverse-engineered
+
+---
+
 ## Version 1.0.2 (2026-05-31) - Patch 0.5 game data + MCP usability sweep
 
 Follow-up to 1.0.1. Where 1.0.1 was non-extraction code compat for the 0.5 patch, 1.0.2 ships the actual extracted 0.5 game data + MCP-handler improvements + accuracy work surfaced during a fresh end-to-end MCP evaluation.
