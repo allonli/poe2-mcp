@@ -3,9 +3,9 @@
   "patch_version": "0.5",
   "patch_name": "Return of the Ancients",
   "patch_released": "2026-05-29",
-  "data_revision": 8,
-  "released_as": "data-v0.5.0-r8",
-  "extracted_at": "2026-05-31T20:30:00Z",
+  "data_revision": 9,
+  "released_as": "data-v0.5.0-r9",
+  "extracted_at": "2026-06-01T14:30:00Z",
   "extracted_by": "HivemindMinion (Claude Code) from HivemindOverlord's licensed PoE2 install + PoB2 community repo",
   "datasets": {
     "mods": {
@@ -45,6 +45,18 @@
       "matched_effect_count": 872,
       "source": "PoB2 origin/dev @ 9c2bf0316 (2026-05-30) — Gems.lua + Skills/*.lua joined view",
       "note": "Joined gem-metadata + granted-effect records. Schema v1: levels/stat_sets surface a useful subset; full statMap / baseFlags / constantStats / stats lists are NOT yet extracted (require structural Lua parser — deferred to v2). Per-gem record count (872) is intentionally smaller than support_gems.record_count (680) because the two datasets cover different surface areas: this is the PoB2 gem-and-effect joined view; support_gems is the extracted .datc64 support-modifier table."
+    },
+    "skill_gems_v2": {
+      "path": "data/game/skill_gems/",
+      "files": ["skill_gems_v2.json", "metadata_v2.json"],
+      "record_count": 1249,
+      "coverage": {
+        "with_qualityStats": 338,
+        "with_levels": 1249,
+        "with_statSets": 1249
+      },
+      "source": "PoB2 src/Data/Skills/*.lua via structural Lua parser (src/parsers/lua_skill_data.py)",
+      "note": "Rich per-skill numeric data — castTime, skillTypes, qualityStats, per-level {cost, critChance, levelRequirement}, and statSets with baseEffectiveness/constantStats/per-level damage arrays. Closes Issue #119. Distinct from skill_gems.json (the v1 joined view from Gems.lua); v2 covers a larger surface (1,249 records across 9 Skills/*.lua files) including Player/NPC/spectre/minion variants. Use v2 when you need numeric scaling, v1 when you need gem-shop metadata (tags, requirements, tier)."
     },
     "stat_descriptions": {
       "path": "data/game/stat_descriptions/",

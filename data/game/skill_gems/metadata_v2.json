@@ -1,0 +1,36 @@
+{
+  "dataset": "skill_gems_v2",
+  "filename": "skill_gems_v2.json",
+  "schema_version": 2,
+  "patch_version": "0.5",
+  "patch_name": "Return of the Ancients",
+  "extracted_at": "2026-06-01T17:36:58Z",
+  "source_repo": "PathOfBuilding-PoE2",
+  "source_commit": "ee4128437629f0addacd6a00edefe7508a6e7ed9",
+  "source_files": [
+    "src/Data/Skills/act_dex.lua",
+    "src/Data/Skills/act_int.lua",
+    "src/Data/Skills/act_str.lua",
+    "src/Data/Skills/minion.lua",
+    "src/Data/Skills/other.lua",
+    "src/Data/Skills/spectre.lua",
+    "src/Data/Skills/sup_dex.lua",
+    "src/Data/Skills/sup_int.lua",
+    "src/Data/Skills/sup_str.lua"
+  ],
+  "extractor": "scripts/extract_skill_gems_rich.py",
+  "record_count": 1249,
+  "coverage": {
+    "with_qualityStats": 338,
+    "with_levels": 1249,
+    "with_statSets": 1249
+  },
+  "sha256": "bd491dd6ac9432755edc96a648341688802068d5bbee3b498556aad4692401e7",
+  "bytes": 7939315,
+  "schema_notes": [
+    "Captures qualityStats, per-level cost/critChance/levelRequirement, and statSets with baseEffectiveness/constantStats/per-level damage arrays.",
+    "PoB's mod()/flag()/skill() inline helpers are stubbed to tagged dicts (see src/parsers/lua_skill_data.py). Other PoB globals are stubbed via a catch-all metatable; unknown identifiers resolve to placeholder dicts.",
+    "Lua 1-indexed arrays become Python 0-indexed lists in this JSON: levels[0] is game level 1, levels[19] is game level 20."
+  ],
+  "data_policy": "Sourced from the community PathOfBuilding-PoE2 repo (Lua data files co-maintained by PoB devs from publicly known game numbers). Not from the maintainer's licensed PoE2 install — this dataset complements the .datc64-extracted base data."
+}
