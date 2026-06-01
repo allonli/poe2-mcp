@@ -18,6 +18,8 @@ BASE_DIR = Path(__file__).parent.parent.parent
 EXTRACTED_DATA_PATH = BASE_DIR / 'data' / 'extracted' / 'data'
 CACHE_PATH = BASE_DIR / 'data' / 'fresh_gamedata'
 COMPLETE_MODELS_PATH = BASE_DIR / 'data' / 'complete_models'
+GAME_DATA_PATH = BASE_DIR / 'data' / 'game'
+SUPPORT_GEMS_CANONICAL = GAME_DATA_PATH / 'support_gems' / 'support_gems.json'
 
 
 class Datc64Parser:
@@ -157,11 +159,17 @@ class FreshDataProvider:
                     # Also add to granted_effects for compatibility
                     self._granted_effects[skill_id] = skill_data
 
-            # Load support gems (with inferred effects)
-            with open(COMPLETE_MODELS_PATH / 'support_gems.json', 'r', encoding='utf-8') as f:
-                data = json.load(f)
-                for gem_id, gem_data in data.get('support_gems', {}).items():
-                    self._support_gems[gem_id] = gem_data
+            # Load support gems: prefer canonical data/game/support_gems/ when
+            # present (post-Patch-0.5 .datc64 extraction, 680 entries including
+            # Wildfire), otherwise fall back to complete_models/ (pre-0.5,
+            # 551 entries). The canonical file uses 'name' where complete_models
+            # uses 'display_name'; the helper mirrors one to the other on load
+            # so existing lookups work either way.
+            if not self._load_support_gems_canonical():
+                with open(COMPLETE_MODELS_PATH / 'support_gems.json', 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                    for gem_id, gem_data in data.get('support_gems', {}).items():
+                        self._support_gems[gem_id] = gem_data
 
             # Load passive tree
             with open(COMPLETE_MODELS_PATH / 'passive_tree.json', 'r', encoding='utf-8') as f:
@@ -190,6 +198,38 @@ class FreshDataProvider:
 
         except Exception as e:
             logger.warning(f"Failed to load from complete_models: {e}")
+            return False
+
+    def _load_support_gems_canonical(self) -> bool:
+        """Load support gems from data/game/support_gems/ (.datc64-extracted SSoT).
+
+        Returns True if the canonical file was loaded (populating
+        self._support_gems), False if it's missing — caller should fall back
+        to data/complete_models/support_gems.json in that case.
+
+        Schema: canonical records carry 'name'; complete_models records carry
+        'display_name'. We mirror 'name' → 'display_name' on load so existing
+        get_support_gem_by_name / search_support_gems (which prefer
+        display_name) keep working.
+        """
+        if not SUPPORT_GEMS_CANONICAL.exists():
+            return False
+        try:
+            with open(SUPPORT_GEMS_CANONICAL, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            loaded = 0
+            for gem_id, gem_data in data.get('support_gems', {}).items():
+                record = dict(gem_data)
+                if 'display_name' not in record and 'name' in record:
+                    record['display_name'] = record['name']
+                self._support_gems[gem_id] = record
+                loaded += 1
+            logger.info(
+                f"Loaded {loaded} support gems from canonical data/game/support_gems/"
+            )
+            return True
+        except Exception as e:
+            logger.warning(f"Failed to load canonical support_gems: {e}")
             return False
 
     def _load_from_cache(self) -> bool:
