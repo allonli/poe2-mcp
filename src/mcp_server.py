@@ -114,6 +114,13 @@ try:
 except ImportError:
     from src.text_search import did_you_mean
 
+# Provenance banner helper (P3 / #116). Lightweight module — safe to import
+# at module top.
+try:
+    from .provenance import format_banner as format_provenance, CANONICAL, COMPUTED, INTERPRETED, EXTERNAL
+except ImportError:
+    from src.provenance import format_banner as format_provenance, CANONICAL, COMPUTED, INTERPRETED, EXTERNAL
+
 
 debug_log("=== PoE2 Build Optimizer MCP Server ===")
 debug_log(f"Python version: {sys.version}")
@@ -3909,6 +3916,12 @@ Consider:
             if tier2_source_note:
                 response += f"\n{tier2_source_note}"
 
+            source = (
+                "data/game/skill_gems/skill_gems.json (Tier-2 fallback)"
+                if tier2_source_note
+                else "data/game/support_gems/support_gems.json"
+            )
+            response += "\n" + format_provenance(CANONICAL, source=source)
             return [types.TextContent(type="text", text=response)]
 
         except Exception as e:
@@ -4230,6 +4243,11 @@ Consider:
 
             response += data_source_note
 
+            # Provenance banner: source already in data_source_note above,
+            # but make the tier explicit + add the data-version stamp.
+            response += "\n" + format_provenance(
+                CANONICAL, source="data/game/skill_gems/skill_gems.json"
+            )
             return [types.TextContent(type="text", text=response)]
 
         except Exception as e:
@@ -5135,6 +5153,9 @@ Could not extract account and character from URL.
             if found.connections:
                 response += f"\n**Connected to {len(found.connections)} nodes**\n"
 
+            response += "\n" + format_provenance(
+                CANONICAL, source="data/game/passive_tree/tree.json"
+            )
             return [types.TextContent(type="text", text=response)]
 
         except Exception as e:
@@ -5269,6 +5290,9 @@ Could not extract account and character from URL.
                 response += f"\n## Connections\n"
                 response += f"Connected to {len(found.connections)} adjacent nodes.\n"
 
+            response += "\n" + format_provenance(
+                CANONICAL, source="data/game/passive_tree/tree.json"
+            )
             return [types.TextContent(type="text", text=response)]
 
         except Exception as e:
@@ -5389,6 +5413,9 @@ Could not extract account and character from URL.
                 if key not in ('name', 'id', 'row_index'):
                     response += f"**{key.replace('_', ' ').title()}:** {value}\n"
 
+            response += "\n" + format_provenance(
+                CANONICAL, source="data/game/base_items/ (via FreshDataProvider)"
+            )
             return [types.TextContent(type="text", text=response)]
 
         except Exception as e:
@@ -5464,6 +5491,9 @@ Could not extract account and character from URL.
                 for key, value in found['strings'].items():
                     response += f"- {key}: {value}\n"
 
+            response += "\n" + format_provenance(
+                CANONICAL, source="data/game/mods/mods.json"
+            )
             return [types.TextContent(type="text", text=response)]
 
         except Exception as e:
@@ -5760,6 +5790,9 @@ Could not extract account and character from URL.
                 response += "\n"
                 response += f"- Type: {mod.get('generation_type_name', 'Unknown')}\n\n"
 
+            response += "\n" + format_provenance(
+                CANONICAL, source="data/poe2_mods_extracted.json (.datc64 extract)"
+            )
             return [types.TextContent(type="text", text=response)]
 
         except Exception as e:
