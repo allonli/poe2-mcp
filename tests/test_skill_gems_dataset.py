@@ -248,3 +248,44 @@ def test_ice_nova_present_and_canonical(gems):
     assert ge is not None
     assert ge["effect_id"] == "IceNovaPlayer"
     assert ge["cast_time"] is not None
+
+
+# ---------------------------------------------------------------------------
+# Spot-check: Wildfire (the documented Tier-2 fallback case)
+# ---------------------------------------------------------------------------
+
+def test_wildfire_present_as_support_gem(gems):
+    """Wildfire is the canonical Tier-2 fallback example for
+    inspect_support_gem (PR #107). It exists in skill_gems.json as
+    gem_type='Support' but NOT in the .datc64-extracted support_gems table —
+    if it ever drops from this dataset, the fallback wiring goes dark for
+    every user query that previously hit it.
+
+    Closes the Wildfire content gap from HivemindOverlord's 2026-05-31
+    Claude Desktop session.
+    """
+    wildfire = next((g for g in gems if g.get("name") == "Wildfire"), None)
+    assert wildfire is not None, (
+        "Wildfire missing from skill_gems.json — PR #107's Tier-2 fallback "
+        "for inspect_support_gem now returns not-found for this query"
+    )
+
+    # gem_type='Support' is the discriminator PR #107's handler checks
+    assert wildfire["gem_type"] == "Support", (
+        f"Wildfire gem_type changed from 'Support' to {wildfire['gem_type']!r} "
+        "— PR #107 filter `if gem.get('gem_type') != 'Support': continue` "
+        "would now skip this entry"
+    )
+
+    # Locked-in metadata fields the handler surfaces
+    assert wildfire["gem_id"] == "Metadata/Items/Gems/SkillGemWildfireSupport"
+    assert wildfire["tier"] == 2
+    assert wildfire["requirements"] == {"str": 0, "dex": 0, "int": 100}
+
+    # Tags the handler renders — these were verified in PR #107's smoke test:
+    # "Tags: support, area, fire | Tier: 2 | Requirements: Int 100"
+    for required_tag in ("support", "area", "fire"):
+        assert required_tag in wildfire["tags"], (
+            f"Wildfire missing required tag {required_tag!r}: "
+            f"tags={wildfire['tags']}"
+        )
