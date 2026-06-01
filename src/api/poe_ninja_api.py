@@ -615,8 +615,35 @@ class PoeNinjaAPI:
             character: Character name
 
         Returns:
-            Parsed character data
+            Parsed character data, or None when the response is recognizably
+            a post-0.5 Astro SPA shell with no embedded build data
+            (Issue #61). In that case we log a clear SPA-detection warning
+            so the multi-tier scraper fallback can distinguish "real
+            character-not-found" from "poe.ninja's data path is dead."
         """
+        # Early detection of the SPA-migration failure mode (#61). Returning
+        # None here is the same as the previous behavior, but the explicit
+        # log line makes the failure surface obvious to anyone reading the
+        # logs instead of "parse failed for unknown reasons."
+        try:
+            try:
+                from .poe_ninja_spa_detect import is_astro_spa_shell
+            except ImportError:
+                from src.api.poe_ninja_spa_detect import is_astro_spa_shell
+            if is_astro_spa_shell(html):
+                logger.warning(
+                    "poe.ninja returned an Astro SPA shell with no embedded "
+                    "build data for %s/%s. This is the Issue #61 failure "
+                    "mode (Patch 0.5 SPA migration). Per-character JSON API "
+                    "may still work for characters in the current snapshot.",
+                    account, character,
+                )
+                return None
+        except Exception:
+            # Detection must never block parsing - fall through to the
+            # legacy parser on any helper error.
+            pass
+
         try:
             logger.debug(f"📄 Parsing HTML (length: {len(html)} chars)")
             soup = BeautifulSoup(html, 'html.parser')
