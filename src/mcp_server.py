@@ -815,8 +815,20 @@ class PoE2BuildOptimizerMCP:
                             "spell_name": {
                                 "type": "string",
                                 "description": (
-                                    "Spell name (e.g. 'Fireball', 'Arc', 'Spark'). "
-                                    "If not in the built-in database, supply spell_stats."
+                                    "Spell name (e.g. 'Ice Nova', 'Fireball', 'Spark'). "
+                                    "Looked up first in the built-in SPELL_DATABASE "
+                                    "(arc/spark/fireball), then in data/game/skill_gems/"
+                                    "skill_gems_v2.json (~1,249 spells, post-#119). "
+                                    "If neither resolves, supply spell_stats."
+                                )
+                            },
+                            "gem_level": {
+                                "type": "integer",
+                                "description": (
+                                    "Gem level for the v2 lookup (1..40, clamped). "
+                                    "Defaults to 20, PoB's natural-max for most "
+                                    "player skills. Ignored when using SPELL_DATABASE "
+                                    "or spell_stats."
                                 )
                             },
                             "spell_stats": {
@@ -3232,11 +3244,13 @@ Consider:
                 from .calculator.spell_dps_calculator import (
                     SpellDPSCalculator, SpellStats, CharacterModifiers, EnemyStats,
                 )
+                from .calculator.v2_spell_db import resolve_spell_from_v2
                 from .data.game_data import get_version
             except ImportError:
                 from src.calculator.spell_dps_calculator import (
                     SpellDPSCalculator, SpellStats, CharacterModifiers, EnemyStats,
                 )
+                from src.calculator.v2_spell_db import resolve_spell_from_v2
                 from src.data.game_data import get_version
 
             calc = SpellDPSCalculator()
@@ -3244,6 +3258,7 @@ Consider:
             # ---- Resolve spell ----
             spell_name = (args.get("spell_name") or "").strip()
             spell_stats_override = args.get("spell_stats") or {}
+            gem_level = int(args.get("gem_level") or 20)
 
             if spell_stats_override:
                 spell = SpellStats(
@@ -3258,26 +3273,50 @@ Consider:
                 spell_source = "caller-supplied spell_stats"
             elif spell_name:
                 key = spell_name.lower()
-                if key not in calc.SPELL_DATABASE:
-                    available = ", ".join(sorted(calc.SPELL_DATABASE.keys()))
-                    return [types.TextContent(
-                        type="text",
-                        text=(
-                            f"Spell '{spell_name}' not in the built-in database. "
-                            f"Available: {available}. "
-                            "For other spells, pass `spell_stats` with "
-                            "base_damage_min/max, damage_effectiveness, "
-                            "base_crit_chance, base_cast_time, damage_types."
-                        )
-                    )]
-                spell = calc.SPELL_DATABASE[key]
-                spell_source = f"built-in SPELL_DATABASE[{key!r}]"
+                if key in calc.SPELL_DATABASE:
+                    spell = calc.SPELL_DATABASE[key]
+                    spell_source = f"built-in SPELL_DATABASE[{key!r}]"
+                else:
+                    # Fall back to skill_gems_v2 lookup (#119, ~1,249 spells).
+                    v2 = resolve_spell_from_v2(spell_name, gem_level=gem_level)
+                    if v2 is None:
+                        available = ", ".join(sorted(calc.SPELL_DATABASE.keys()))
+                        return [types.TextContent(
+                            type="text",
+                            text=(
+                                f"Spell '{spell_name}' not in the built-in "
+                                f"database ({available}) and not resolvable "
+                                f"from data/game/skill_gems/skill_gems_v2.json "
+                                f"either (or the v2 file isn't shipped in "
+                                f"this checkout). For exotic spells or "
+                                f"unsupported scaling layouts, pass "
+                                f"`spell_stats` with base_damage_min/max, "
+                                f"base_crit_chance, base_cast_time, "
+                                f"damage_types."
+                            )
+                        )]
+                    v2_meta = v2.pop("_v2_meta", {})
+                    spell = SpellStats(
+                        name=v2["name"],
+                        base_damage_min=v2["base_damage_min"],
+                        base_damage_max=v2["base_damage_max"],
+                        damage_effectiveness=v2["damage_effectiveness"],
+                        base_crit_chance=v2["base_crit_chance"],
+                        base_cast_time=v2["base_cast_time"],
+                        damage_types=v2["damage_types"],
+                    )
+                    spell_source = (
+                        f"data/game/skill_gems/skill_gems_v2.json -> "
+                        f"{v2_meta.get('skill_id')} statset "
+                        f"'{v2_meta.get('statset_label')}' @ gem_level={gem_level}"
+                    )
             else:
                 return [types.TextContent(
                     type="text",
                     text=(
                         "Error: provide spell_name (lookup) or spell_stats (custom). "
                         "Built-in spells: " + ", ".join(sorted(calc.SPELL_DATABASE.keys()))
+                        + ". Or any of ~1,249 spells from data/game/skill_gems/skill_gems_v2.json."
                     )
                 )]
 
