@@ -4204,6 +4204,52 @@ Consider:
                     f"— pre-0.5; not yet in data/game/skill_gems/)\n"
                 )
 
+            # --- Tier 1c: v2 enrichment ---
+            # When skill_gems_v2.json carries a record for this spell, merge in
+            # the rich numeric data the v1 join view doesn't have: per-statSet
+            # constantStats, per-level damage arrays, and qualityStats. This is
+            # purely additive — if v2 lookup misses we keep the v1 view.
+            v2_skill: Optional[Dict[str, Any]] = None
+            try:
+                try:
+                    from .calculator.v2_spell_db import get_v2_skill_record
+                except ImportError:
+                    from src.calculator.v2_spell_db import get_v2_skill_record
+                v2_skill = get_v2_skill_record(spell_name)
+            except Exception:
+                v2_skill = None
+
+            if v2_skill:
+                # qualityStats: the v1 join view leaves these empty; v2 carries
+                # them as a list of [stat_id, per_quality_value] pairs.
+                if v2_skill.get("qualityStats"):
+                    spell_data["qualityStats"] = v2_skill["qualityStats"]
+
+                # statSets enrichment: v1 ships {label, baseEffectiveness,
+                # incrementalEffectiveness}. v2 adds {constantStats, stats,
+                # levels (per-level damage arrays)}. Align by index — both
+                # extractions order statSets the same way (PoB source order).
+                v2_statsets = v2_skill.get("statSets") or []
+                v1_statsets = spell_data.get("statSets") or []
+                for i, ss in enumerate(v1_statsets):
+                    if i < len(v2_statsets):
+                        v2_ss = v2_statsets[i]
+                        if isinstance(v2_ss, dict):
+                            for k in ("constantStats", "stats", "levels",
+                                      "damageIncrementalEffectiveness"):
+                                if v2_ss.get(k) is not None and ss.get(k) is None:
+                                    ss[k] = v2_ss[k]
+                # If v1 had no statSets at all, fall back to v2's directly
+                if not v1_statsets and v2_statsets:
+                    spell_data["statSets"] = v2_statsets
+
+                # Stamp the enrichment source so the response note reflects it.
+                if data_source_note:
+                    data_source_note = data_source_note.rstrip() + (
+                        " + data/game/skill_gems/skill_gems_v2.json "
+                        "(constantStats / per-level damage / qualityStats enrichment)\n"
+                    )
+
             # Format response
             response = f"# {spell_data.get('name', spell_name)}\n\n"
             response += f"**ID**: {spell_id}\n"
@@ -4315,7 +4361,8 @@ Consider:
                                 incr_eff_disp = incr_eff
                             response += f"  - Incremental Effectiveness: {incr_eff_disp} per level\n"
 
-                    # Constant stats (built-in modifiers) — legacy only
+                    # Constant stats (built-in modifiers) — from v2 enrichment
+                    # or legacy pob_complete_skills.json.
                     const_stats = stat_set.get('constantStats', [])
                     if const_stats:
                         response += f"  - Built-in Modifiers:\n"
@@ -4325,6 +4372,36 @@ Consider:
                                 response += f"    - {stat_id}: {value}\n"
                         if len(const_stats) > 10:
                             response += f"    - ... and {len(const_stats) - 10} more\n"
+
+                    # Per-level scaling stats — list of names from the v2 stats
+                    # field, paired with sampled damage values at L1 / L10 / L20
+                    # from the v2 levels[] array. Skipped silently when v2
+                    # enrichment didn't fire.
+                    v2_stats_list = stat_set.get('stats') or []
+                    v2_levels = stat_set.get('levels') or []
+                    if v2_stats_list and v2_levels:
+                        response += f"  - Per-Level Scaling Stats:\n"
+                        # Sample levels 1 / 10 / 20 (lua 1-indexed -> py 0/9/19)
+                        sample_indices = [(1, 0), (10, 9), (20, 19)]
+                        for stat_idx, stat_name in enumerate(v2_stats_list[:6]):
+                            samples: List[str] = []
+                            # Each level entry is a dict {"1": val, "2": val, ...}
+                            # where the string-keyed positional index maps to the
+                            # stats[] list position (1-indexed).
+                            stat_key = str(stat_idx + 1)
+                            for game_level, idx in sample_indices:
+                                if idx < len(v2_levels):
+                                    entry = v2_levels[idx]
+                                    if isinstance(entry, dict) and stat_key in entry:
+                                        samples.append(f"L{game_level}={entry[stat_key]}")
+                            if samples:
+                                response += (
+                                    f"    - {stat_name}: " + ", ".join(samples) + "\n"
+                                )
+                            else:
+                                response += f"    - {stat_name}\n"
+                        if len(v2_stats_list) > 6:
+                            response += f"    - ... and {len(v2_stats_list) - 6} more\n"
 
                 response += "\n"
 

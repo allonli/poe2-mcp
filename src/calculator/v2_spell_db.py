@@ -149,6 +149,33 @@ def _derive_damage_range(statset: Dict[str, Any], level_index: int) -> Optional[
     return dmin, dmax
 
 
+def get_v2_skill_record(spell_name: str) -> Optional[Dict[str, Any]]:
+    """Return the FULL v2 record for a spell, or None when unresolved.
+
+    Where resolve_spell_from_v2 derives a flat SpellStats-kwargs dict
+    for the DPS calculator, this returns the raw record: castTime,
+    skillTypes, qualityStats, the full levels[] array, and statSets[]
+    with their constantStats + per-level damage arrays.
+
+    Used by inspect_spell_gem to surface the rich v2 data when a spell
+    is present in the canonical extraction. Returns None when the v2
+    file is absent or the spell can't be resolved by name/skill_id/
+    substring (matching the lookup semantics of resolve_spell_from_v2).
+    """
+    skills = _load_v2_skills()
+    if not skills:
+        return None
+    found = _find_skill(spell_name, skills)
+    if not found:
+        return None
+    skill_id, record = found
+    # Return a copy with the resolved skill_id stamped on so callers
+    # don't lose the key context after the lookup.
+    out = dict(record)
+    out["_v2_skill_id"] = skill_id
+    return out
+
+
 def resolve_spell_from_v2(spell_name: str, gem_level: int = 20) -> Optional[Dict[str, Any]]:
     """Look up a spell in skill_gems_v2.json and derive SpellStats-shaped dict.
 
