@@ -3027,7 +3027,12 @@ Consider:
         """
         # Local import to avoid circulars during module load + to keep the
         # handler's dependency on data helpers explicit
-        from src.data.game_data import find_stat_description, search_stat_descriptions
+        from src.data.game_data import (
+            find_stat_description,
+            search_stat_descriptions,
+            find_per_skill_stat_description,
+            search_per_skill_stat_descriptions,
+        )
 
         try:
             raw_query = (args.get("mechanic_name") or "").strip()
@@ -3045,8 +3050,9 @@ Consider:
                 )
                 response += "## Tier 1 — canonical game text\n"
                 response += (
-                    "16,533 stat descriptions extracted from .csd files. "
-                    "Lookup is exact-match on stat_id, with substring fuzzy match "
+                    "16,533 root-level + 1,240 per-skill stat descriptions "
+                    "extracted from .csd files. Lookup is exact-match on stat_id "
+                    "(consulted across both sources), with substring fuzzy match "
                     "as fallback (returns 'did you mean' suggestions).\n\n"
                 )
                 response += "## Tier 2 — hand-authored summaries\n"
@@ -3065,6 +3071,31 @@ Consider:
             if exact:
                 response = self._format_stat_description_response(exact, raw_query)
                 logger.info(f"Explained via Tier 1 exact: {raw_query}")
+                return [types.TextContent(type="text", text=response)]
+
+            # ---- Tier 1a-bis: exact match in per-skill stat descriptions ----
+            # Some stat_ids only exist in the specific_skill_stat_descriptions/
+            # subtree (e.g. skill-specific damage tags). Consult the per-skill
+            # bundle before falling through to the hand-authored Tier 2 so we
+            # preserve "canonical game text" provenance whenever possible.
+            per_skill_exact = find_per_skill_stat_description(raw_query)
+            if per_skill_exact:
+                # Same formatter as Tier 1a — the record shape is identical
+                # except `source_skill` replaces `source_file`. The formatter
+                # picks up source_csd which is set on both paths, and we tag
+                # the skill key for added provenance.
+                response = self._format_stat_description_response(
+                    per_skill_exact, raw_query
+                )
+                if per_skill_exact.get("source_skill"):
+                    response = response.replace(
+                        "Canonical game-shipped text",
+                        f"Canonical game-shipped text (per-skill bundle, "
+                        f"skill: `{per_skill_exact['source_skill']}`)",
+                    )
+                logger.info(
+                    f"Explained via Tier 1a-bis (per-skill): {raw_query}"
+                )
                 return [types.TextContent(type="text", text=response)]
 
             # ---- Tier 2: legacy hand-authored mechanics (high-level concepts) ----
@@ -3132,35 +3163,51 @@ Consider:
                 return [types.TextContent(type="text", text=response)]
 
             # ---- Tier 1b: substring search across the canonical dataset ----
+            # Augmented to also search the per-skill bundle (#129) — that's
+            # +1,240 descriptions vs the root-level 16,533. Both sources tagged
+            # with source_csd, so the response shows where each hit came from.
             t1_hits = search_stat_descriptions(raw_query, limit=10)
-            if t1_hits:
+            per_skill_hits = search_per_skill_stat_descriptions(raw_query, limit=10)
+            combined_hits = (t1_hits or []) + (per_skill_hits or [])
+            if combined_hits:
+                # Trim to top 12 across both sources to keep the response tight
+                combined_hits = combined_hits[:12]
                 response = f"# Suggestions for `{raw_query}`\n\n"
                 response += (
-                    f"No exact match in either tier. Found {len(t1_hits)} stat_id"
-                    f"{'s' if len(t1_hits) != 1 else ''} matching that substring "
-                    f"in the canonical dataset. Query any of these directly for "
-                    f"its full description:\n\n"
+                    f"No exact match in either tier. Found "
+                    f"{len(combined_hits)} stat_id"
+                    f"{'s' if len(combined_hits) != 1 else ''} matching that "
+                    f"substring across the canonical dataset (root + per-skill). "
+                    f"Query any of these directly for its full description:\n\n"
                 )
-                for h in t1_hits:
+                for h in combined_hits:
                     template = (h.get('primary_template') or '').replace('\n', ' ')
                     if len(template) > 120:
                         template = template[:117] + '...'
-                    response += f"- **`{h['primary_stat_id']}`** ({h['source_csd']}, matched on {h['match_field']})\n"
+                    source_marker = h.get('source_csd', '?')
+                    response += (
+                        f"- **`{h['primary_stat_id']}`** "
+                        f"({source_marker}, matched on {h['match_field']})\n"
+                    )
                     if template:
                         response += f"  > {template}\n"
                 response += (
                     f"\n**Data source**: data/game/stat_descriptions/ — "
-                    f"16,533 canonical game-shipped stat descriptions.\n"
+                    f"16,533 root-level + 1,240 per-skill canonical descriptions.\n"
                 )
                 return [types.TextContent(type="text", text=response)]
 
-            # ---- Total miss: helpful failure with both-tier exhaustion noted ----
+            # ---- Total miss: helpful failure with all-tier exhaustion noted ----
             return [types.TextContent(
                 type="text",
                 text=(
-                    f"No match for `{raw_query}` in either tier:\n"
-                    f"- Tier 1 (canonical stat_descriptions, 16,533 entries): "
-                    f"no exact stat_id match, no substring matches in stat_ids or templates\n"
+                    f"No match for `{raw_query}` in any tier:\n"
+                    f"- Tier 1a (root canonical stat_descriptions, 16,533 entries): "
+                    f"no exact stat_id match\n"
+                    f"- Tier 1a-bis (per-skill canonical descriptions, 1,240 entries "
+                    f"from specific_skill_stat_descriptions/): no exact match\n"
+                    f"- Tier 1b (substring search across both canonical sources): "
+                    f"no matches\n"
                     f"- Tier 2 (hand-authored mechanics): no match by name, search, or Q&A\n\n"
                     f"Try a broader substring (`proliferation` instead of "
                     f"`fire_proliferation_radius_multiplier`), or call this tool "
