@@ -34,6 +34,24 @@ from sqlalchemy import select
 logger = logging.getLogger(__name__)
 
 
+# Semantic-conflict detection (damage-type / skill-tag) lives in a lightweight
+# sibling module so it can be unit-tested without SQLAlchemy import cost.
+try:
+    from .support_validation import (
+        SUPPORT_DAMAGE_REQUIREMENTS,
+        support_required_tags,
+        lookup_spell_tags,
+        check_semantic_conflicts,
+    )
+except ImportError:
+    from src.optimizer.support_validation import (
+        SUPPORT_DAMAGE_REQUIREMENTS,
+        support_required_tags,
+        lookup_spell_tags,
+        check_semantic_conflicts,
+    )
+
+
 # Hardcoded support gem incompatibilities (until database is complete)
 # Based on PoE2 game mechanics - supports that modify the same stat in opposite directions
 # or have mutually exclusive effects cannot be used together
@@ -759,30 +777,53 @@ class GemSynergyCalculator:
 
         return True
 
-    def validate_combination(self, support_names: List[str]) -> Dict[str, Any]:
+    def validate_combination(
+        self,
+        support_names: List[str],
+        spell_name: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """
-        Validate if a combination of support gems is valid
+        Validate if a combination of support gems is valid.
+
+        Hard conflicts (returned as `valid=False`):
+            * Two supports that modify the same stat in opposite directions
+              (Projectile Acceleration + Deceleration, Concentrated Effect +
+              Increased AoE) — see HARDCODED_INCOMPATIBILITIES.
+
+        Soft conflicts (returned as `warnings`, `valid` stays True):
+            * Damage-type / skill-tag mismatch detected when `spell_name` is
+              supplied. Example: "Added Fire Damage Support" recommended on
+              "Ice Nova" (cold spell, no fire/attack tag). Surfaced via
+              SUPPORT_DAMAGE_REQUIREMENTS, name-pattern-inferred (the canonical
+              support_gems extraction lacks per-gem damage-type metadata —
+              see the dict's docstring above).
 
         Args:
-            support_names: List of support gem names
+            support_names: List of support gem names (display names).
+            spell_name: Optional target spell. When supplied, the spell's tags
+                are read from data/game/skill_gems/skill_gems.json and used
+                to detect semantic conflicts.
 
         Returns:
             {
-                "valid": bool,
-                "reason": str (if invalid),
-                "conflicts": List[Tuple[str, str]] (pairs of incompatible gems)
+                "valid": bool,         # False only on hard conflicts
+                "reason": str,
+                "conflicts": List[Tuple[str, str]],
+                "warnings": List[Dict[str, Any]],  # one entry per semantic conflict
+                "spell_tags": List[str] | None,    # tags resolved from spell_name
             }
         """
         conflicts = []
+        warnings: List[Dict[str, Any]] = []
+        spell_tags: Optional[List[str]] = None
 
+        # --- Hard conflict check (pre-existing behavior) ---
         for i, support_a in enumerate(support_names):
-            # Check hardcoded incompatibilities
             if support_a in HARDCODED_INCOMPATIBILITIES:
                 for incompatible in HARDCODED_INCOMPATIBILITIES[support_a]:
                     if incompatible in support_names:
                         conflicts.append((support_a, incompatible))
 
-            # Also check normalized names
             support_base = support_a.replace(" Support", "")
             if support_base in HARDCODED_INCOMPATIBILITIES:
                 for incompatible in HARDCODED_INCOMPATIBILITIES[support_base]:
@@ -791,19 +832,51 @@ class GemSynergyCalculator:
                         if variation in support_names:
                             conflicts.append((support_a, variation))
 
+        # --- Semantic-conflict check (new — #117). Delegated to the light
+        #     sibling module so unit tests don't drag SQLAlchemy.
+        sem = check_semantic_conflicts(support_names, spell_name=spell_name)
+        warnings.extend(sem["warnings"])
+        spell_tags = sem["spell_tags"]
+
         if conflicts:
             conflict_pairs = [f"{a} + {b}" for a, b in conflicts]
             return {
                 "valid": False,
                 "reason": f"Incompatible support combinations detected: {', '.join(conflict_pairs)}",
-                "conflicts": conflicts
+                "conflicts": conflicts,
+                "warnings": warnings,
+                "spell_tags": spell_tags,
+            }
+
+        if warnings:
+            return {
+                "valid": True,
+                "reason": (
+                    f"All supports pass hard compatibility checks. "
+                    f"{len(warnings)} semantic warning(s) — see `warnings`."
+                ),
+                "conflicts": [],
+                "warnings": warnings,
+                "spell_tags": spell_tags,
             }
 
         return {
             "valid": True,
             "reason": "All supports are compatible",
-            "conflicts": []
+            "conflicts": [],
+            "warnings": [],
+            "spell_tags": spell_tags,
         }
+
+    # Backward-compat thin wrappers — implementation now lives in
+    # src/optimizer/support_validation.py so it can be unit-tested without
+    # SQLAlchemy import cost.
+    def _lookup_spell_tags(self, spell_name: str) -> Optional[List[str]]:
+        return lookup_spell_tags(spell_name)
+
+    @staticmethod
+    def _support_required_tags(support_name: str) -> List[str]:
+        return support_required_tags(support_name)
 
     def trace_dps_calculation(
         self,

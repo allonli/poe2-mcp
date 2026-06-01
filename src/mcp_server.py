@@ -879,7 +879,15 @@ class PoE2BuildOptimizerMCP:
                 # Validation
                 types.Tool(
                     name="validate_support_combination",
-                    description="Check if support gems are compatible. Detects conflicts like Faster+Slower Projectiles.",
+                    description=(
+                        "Check if support gems are compatible with each other and with "
+                        "the target spell. Hard conflicts (Faster+Slower Projectiles, "
+                        "Concentrated Effect+Increased AoE) mark the combination "
+                        "invalid. Semantic conflicts (Added Fire Damage on a cold-only "
+                        "spell, Minion Damage on a non-minion skill) are surfaced as "
+                        "WARNINGS — the AI can still recommend the combo but knows "
+                        "it's wasted unless there's conversion."
+                    ),
                     inputSchema={
                         "type": "object",
                         "properties": {
@@ -897,6 +905,17 @@ class PoE2BuildOptimizerMCP:
                                 "type": "array",
                                 "items": {"type": "string"},
                                 "description": "Alias for support_gems"
+                            },
+                            "spell_name": {
+                                "type": "string",
+                                "description": (
+                                    "Optional target spell name (e.g. 'Ice Nova', "
+                                    "'Fireball'). When supplied, the spell's tags "
+                                    "are read from data/game/skill_gems/ and "
+                                    "checked against each support's name-pattern "
+                                    "damage-type requirements. Catches recommendations "
+                                    "like 'Added Fire Damage' on a cold-tagged spell."
+                                )
                             }
                         },
                         "oneOf": [
@@ -3679,7 +3698,7 @@ Consider:
     # ============================================================================
 
     async def _handle_validate_support_combination(self, args: dict) -> List[types.TextContent]:
-        """Validate if support gems can work together. Accepts support_gems, support_gem_names, or names (aliases)."""
+        """Validate if support gems can work together. Accepts support_gems, support_gem_names, or names (aliases). Optional spell_name unlocks damage-type-conflict detection (#117)."""
         try:
             support_gems = (
                 args.get("support_gems")
@@ -3687,6 +3706,7 @@ Consider:
                 or args.get("names")
                 or []
             )
+            spell_name = args.get("spell_name")
 
             if not support_gems:
                 return [types.TextContent(
@@ -3695,7 +3715,9 @@ Consider:
                 )]
 
             # Use gem synergy calculator's validation method
-            result = self.gem_synergy_calculator.validate_combination(support_gems)
+            result = self.gem_synergy_calculator.validate_combination(
+                support_gems, spell_name=spell_name
+            )
 
             if result["valid"]:
                 response = f"Valid combination: {', '.join(support_gems)}\n\n"
@@ -3708,6 +3730,24 @@ Consider:
                     for conflict_a, conflict_b in result['conflicts']:
                         response += f"  - {conflict_a} + {conflict_b}\n"
 
+            # Semantic warnings (#117) — surface even when valid=True
+            warnings = result.get("warnings") or []
+            if warnings:
+                response += "\n\n**Warnings (semantic conflicts):**\n"
+                for w in warnings:
+                    response += f"- {w['message']}\n"
+                if result.get("spell_tags") is not None:
+                    response += (
+                        f"\nSpell tags consulted: {result['spell_tags']}\n"
+                    )
+
+            response += "\n" + format_provenance(
+                COMPUTED,
+                source=(
+                    "src/optimizer/gem_synergy_calculator.py::validate_combination "
+                    "(name-pattern damage-type rules vs canonical skill_gems tags)"
+                ),
+            )
             return [types.TextContent(type="text", text=response)]
 
         except Exception as e:
