@@ -121,6 +121,24 @@ try:
 except ImportError:
     from src.provenance import format_banner as format_provenance, CANONICAL, COMPUTED, INTERPRETED, EXTERNAL
 
+# Mod-data helpers (#118). Inline-stat_id-aware extraction from mods.json.
+try:
+    from .mod_data import (
+        iter_resolved_stats as _iter_resolved_stats,
+        load_stat_lookup as _load_stat_lookup,
+        mod_value_range as _mod_value_range,
+        canonical_mods_path as _canonical_mods_path,
+        legacy_mods_path as _legacy_mods_path,
+    )
+except ImportError:
+    from src.mod_data import (
+        iter_resolved_stats as _iter_resolved_stats,
+        load_stat_lookup as _load_stat_lookup,
+        mod_value_range as _mod_value_range,
+        canonical_mods_path as _canonical_mods_path,
+        legacy_mods_path as _legacy_mods_path,
+    )
+
 
 debug_log("=== PoE2 Build Optimizer MCP Server ===")
 debug_log(f"Python version: {sys.version}")
@@ -5467,7 +5485,12 @@ Could not extract account and character from URL.
     # ============================================================================
 
     async def _handle_inspect_mod(self, args: dict) -> List[types.TextContent]:
-        """Get complete details for a specific mod"""
+        """Get complete details for a specific mod.
+
+        Reads inline-resolved stat_id from data/game/mods/mods.json (#118).
+        Stats list uses {stat_id, min_value, max_value, is_empty} per-entry;
+        the older slot/stat_index/stat_value shape no longer exists.
+        """
         try:
             mod_id = args.get("mod_id", "").strip()
 
@@ -5477,12 +5500,14 @@ Could not extract account and character from URL.
                     text="Error: mod_id is required"
                 )]
 
-            # Load mods from JSON file
-            mods_file = DATA_DIR / "poe2_mods_extracted.json"
+            # Prefer canonical data/game/mods/, fall back to legacy path.
+            mods_file = _canonical_mods_path(DATA_DIR)
+            if not mods_file.exists():
+                mods_file = _legacy_mods_path(DATA_DIR)
             if not mods_file.exists():
                 return [types.TextContent(
                     type="text",
-                    text="Error: Mod database not found. File poe2_mods_extracted.json is missing."
+                    text="Error: Mod database not found. Run `git pull` or scripts/extract_mods_datc64_v2.py."
                 )]
 
             with open(mods_file, 'r', encoding='utf-8') as f:
@@ -5512,32 +5537,38 @@ Could not extract account and character from URL.
 
             # Format detailed response
             response = f"# {found['mod_id']}\n\n"
+            if found.get('display_name'):
+                response += f"**Display Name:** *{found['display_name']}*\n"
             response += f"**Generation Type:** {found.get('generation_type_name', 'Unknown')}\n"
             response += f"**Level Requirement:** {found.get('level_requirement', 0)}\n"
-            response += f"**Min Value:** {found.get('min_value', 0)}\n"
-            response += f"**Max Value:** {found.get('max_value', 0)}\n"
-            response += f"**Domain Flag:** {found.get('domain_flag', 0)}\n\n"
+            if 'domain' in found:
+                response += f"**Domain:** {found.get('domain', 0)}\n"
+            response += "\n"
 
-            # Show stats
-            if found.get('stats'):
+            # Show stats — inline-stat_id-aware (#118). Falls back to
+            # stat_lookup only when an older record lacks inline stat_id.
+            stat_lookup = _load_stat_lookup(DATA_DIR)
+            resolved = _iter_resolved_stats(found, stat_lookup=stat_lookup)
+            if resolved:
                 response += "## Stats\n"
-                for stat in found['stats']:
-                    response += f"- Slot {stat['slot']}: Index={stat['stat_index']}, Value={stat['stat_value']}\n"
+                for r in resolved:
+                    src_marker = "" if r["from_inline"] else " *(via stat_lookup fallback)*"
+                    if r["min_value"] == r["max_value"]:
+                        response += f"- `{r['stat_id']}`: {r['min_value']}{src_marker}\n"
+                    else:
+                        response += f"- `{r['stat_id']}`: {r['min_value']} to {r['max_value']}{src_marker}\n"
                 response += "\n"
-
-            # Show strings if available
-            if found.get('strings'):
-                response += "## String References\n"
-                for key, value in found['strings'].items():
-                    response += f"- {key}: {value}\n"
+            elif found.get('stats'):
+                # All stats were is_empty — record is a structural/sentinel mod
+                response += "## Stats\n*(no resolvable stats — all entries marked empty)*\n\n"
 
             response += "\n" + format_provenance(
-                CANONICAL, source="data/game/mods/mods.json"
+                CANONICAL, source=f"{mods_file.relative_to(DATA_DIR.parent).as_posix()}"
             )
             return [types.TextContent(type="text", text=response)]
 
         except Exception as e:
-            logger.error(f"Error inspecting mod: {e}")
+            logger.error(f"Error inspecting mod: {e}", exc_info=True)
             return [types.TextContent(type="text", text=f"Error: {str(e)}")]
 
     async def _handle_list_all_mods(self, args: dict) -> List[types.TextContent]:
@@ -5555,12 +5586,14 @@ Could not extract account and character from URL.
             detail = args.get("detail", "standard")
             output_format = args.get("format", "markdown")
 
-            # Load mods from JSON file
-            mods_file = DATA_DIR / "poe2_mods_extracted.json"
+            # Prefer canonical data/game/mods/, fall back to legacy path (#118).
+            mods_file = _canonical_mods_path(DATA_DIR)
+            if not mods_file.exists():
+                mods_file = _legacy_mods_path(DATA_DIR)
             if not mods_file.exists():
                 return [types.TextContent(
                     type="text",
-                    text="Error: Mod database not found. File poe2_mods_extracted.json is missing."
+                    text="Error: Mod database not found. Run `git pull` or scripts/extract_mods_datc64_v2.py."
                 )]
 
             with open(mods_file, 'r', encoding='utf-8') as f:
@@ -5602,15 +5635,34 @@ Could not extract account and character from URL.
             return [types.TextContent(type="text", text=f"Error: {str(e)}")]
 
     def _format_mod_item(self, mod: dict, detail: str) -> str:
-        """Format a single mod for markdown output."""
+        """Format a single mod for markdown output.
+
+        Value range is now read from the first non-empty entry in stats[]
+        (the canonical schema), not top-level min_value/max_value (which
+        don't exist in current extractions — #118).
+        """
         if detail == "summary":
             return f"- {mod.get('mod_id', 'Unknown')} ({mod.get('generation_type_name', '?')})\n"
 
-        result = f"### {mod.get('mod_id', 'Unknown')}\n"
+        result = f"### {mod.get('mod_id', 'Unknown')}"
+        if mod.get('display_name'):
+            result += f" — *{mod['display_name']}*"
+        result += "\n"
         result += f"- Type: {mod.get('generation_type_name', 'Unknown')}\n"
         if detail in ("standard", "full"):
             result += f"- Level: {mod.get('level_requirement', 0)}\n"
-            result += f"- Value: {mod.get('min_value', 0)} - {mod.get('max_value', 0)}\n"
+            rng = _mod_value_range(mod)
+            if rng is not None:
+                if rng["min"] == rng["max"]:
+                    result += f"- Value: {rng['min']}\n"
+                else:
+                    result += f"- Value: {rng['min']} to {rng['max']}\n"
+            if detail == "full":
+                # Surface stat_ids in full-detail mode (#118 inline-aware)
+                resolved = _iter_resolved_stats(mod)
+                if resolved:
+                    stat_ids = [r["stat_id"] for r in resolved]
+                    result += f"- Stats: {', '.join(stat_ids)}\n"
         result += "\n"
         return result
 
@@ -5698,14 +5750,11 @@ Could not extract account and character from URL.
                 if display_name and matches(display_name):
                     matching_mods.append(mod)
                     continue
-                # Surface 3: resolved stat_ids via stat_lookup
-                if stat_lookup:
-                    stat_ids_text = " ".join(
-                        stat_lookup.get(s.get('stat_key', 0), "")
-                        for s in mod.get('stats', [])
-                        if not s.get('is_empty', False) and s.get('stat_key', 0) in stat_lookup
-                    )
-                    if stat_ids_text and matches(stat_ids_text):
+                # Surface 3: inline stat_ids (#118), with stat_lookup as fallback
+                resolved = _iter_resolved_stats(mod, stat_lookup=stat_lookup or None)
+                if resolved:
+                    stat_ids_text = " ".join(r["stat_id"] for r in resolved)
+                    if matches(stat_ids_text):
                         matching_mods.append(mod)
                         continue
 
@@ -5744,15 +5793,11 @@ Could not extract account and character from URL.
                     response += "\n"
                     response += f"- Type: {mod.get('generation_type_name', 'Unknown')}\n"
                     response += f"- Level: {mod.get('level_requirement', 0)}\n"
-                    # Surface stat IDs when known (cross-reference)
-                    if stat_lookup:
-                        sids = [
-                            stat_lookup[s['stat_key']]
-                            for s in mod.get('stats', [])
-                            if not s.get('is_empty', False) and s.get('stat_key', 0) in stat_lookup
-                        ]
-                        if sids:
-                            response += f"- Stats: {', '.join(sids)}\n"
+                    # Surface stat IDs — inline first, stat_lookup fallback (#118)
+                    resolved = _iter_resolved_stats(mod, stat_lookup=stat_lookup or None)
+                    if resolved:
+                        sids = [r["stat_id"] for r in resolved]
+                        response += f"- Stats: {', '.join(sids)}\n"
                     response += "\n"
 
             return [types.TextContent(type="text", text=response)]
@@ -5762,7 +5807,10 @@ Could not extract account and character from URL.
             return [types.TextContent(type="text", text=f"Error: {str(e)}")]
 
     async def _handle_get_mod_tiers(self, args: dict) -> List[types.TextContent]:
-        """Get all tiers of a mod family"""
+        """Get all tiers of a mod family.
+
+        Reads inline-resolved stat values from data/game/mods/mods.json (#118).
+        """
         try:
             mod_base = args.get("mod_base", "").strip()
 
@@ -5772,12 +5820,14 @@ Could not extract account and character from URL.
                     text="Error: mod_base is required"
                 )]
 
-            # Load mods from JSON file
-            mods_file = DATA_DIR / "poe2_mods_extracted.json"
+            # Prefer canonical data/game/mods/, fall back to legacy path (#118).
+            mods_file = _canonical_mods_path(DATA_DIR)
+            if not mods_file.exists():
+                mods_file = _legacy_mods_path(DATA_DIR)
             if not mods_file.exists():
                 return [types.TextContent(
                     type="text",
-                    text="Error: Mod database not found. File poe2_mods_extracted.json is missing."
+                    text="Error: Mod database not found. Run `git pull` or scripts/extract_mods_datc64_v2.py."
                 )]
 
             with open(mods_file, 'r', encoding='utf-8') as f:
@@ -5822,16 +5872,23 @@ Could not extract account and character from URL.
 
             for i, mod in enumerate(tier_mods, 1):
                 tier_label = f"T{i}"
-                response += f"### {tier_label}: {mod['mod_id']}\n"
-                response += f"- Level Requirement: {mod.get('level_requirement', 0)}\n"
-                response += f"- Value: {mod.get('min_value', 0)}"
-                if mod.get('max_value', 0) > 0:
-                    response += f" - {mod.get('max_value', 0)}"
+                response += f"### {tier_label}: {mod['mod_id']}"
+                if mod.get('display_name'):
+                    response += f" — *{mod['display_name']}*"
                 response += "\n"
+                response += f"- Level Requirement: {mod.get('level_requirement', 0)}\n"
+                # Value range from canonical inline schema (#118)
+                rng = _mod_value_range(mod)
+                if rng is not None:
+                    if rng["min"] == rng["max"]:
+                        response += f"- Value: {rng['min']}\n"
+                    else:
+                        response += f"- Value: {rng['min']} to {rng['max']}\n"
                 response += f"- Type: {mod.get('generation_type_name', 'Unknown')}\n\n"
 
             response += "\n" + format_provenance(
-                CANONICAL, source="data/poe2_mods_extracted.json (.datc64 extract)"
+                CANONICAL,
+                source=f"{mods_file.relative_to(DATA_DIR.parent).as_posix()}",
             )
             return [types.TextContent(type="text", text=response)]
 
