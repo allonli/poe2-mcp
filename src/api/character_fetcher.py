@@ -85,6 +85,31 @@ class CharacterFetcher:
         # Return as-is if no mapping found (works for Standard, Hardcore, etc.)
         return league
 
+    def _to_poe_ninja_league_slug(self, league: str) -> str:
+        """
+        Convert league display name to poe.ninja URL slug.
+
+        poe.ninja's 0.5 profile/events APIs require the league slug as a
+        path segment (e.g. "runesofaldur"). The slug is what /poe2/api/data/
+        index-state returns as ``buildLeagues[].url``. Reuses
+        ``PoeNinjaAPI.LEAGUE_MAPPINGS`` for the canonical mapping.
+
+        Args:
+            league: Display league name (e.g., "Runes of Aldur")
+
+        Returns:
+            URL slug (e.g., "runesofaldur"). Falls back to a lowercased
+            no-space version of the input when the mapping is missing —
+            works for "Standard"/"Hardcore"-style canonical names.
+        """
+        mappings = PoeNinjaAPI.LEAGUE_MAPPINGS
+        if league in mappings:
+            return mappings[league]
+        for key, value in mappings.items():
+            if key.lower() == league.lower():
+                return value
+        return league.replace(" ", "").lower()
+
     async def get_character(
         self,
         account_name: str,
@@ -267,7 +292,9 @@ class CharacterFetcher:
             response.raise_for_status()
 
             # Parse the HTML to extract character data
-            character_data = await self._parse_poe_ninja_page(response.text, account_name, character_name)
+            character_data = await self._parse_poe_ninja_page(
+                response.text, account_name, character_name, league
+            )
 
             if character_data:
                 # Cache the result
@@ -311,7 +338,8 @@ class CharacterFetcher:
         self,
         html: str,
         account_name: str,
-        character_name: str
+        character_name: str,
+        league: str = "Standard"
     ) -> Optional[Dict[str, Any]]:
         """
         Parse poe.ninja character page HTML to extract character data
@@ -349,7 +377,7 @@ class CharacterFetcher:
             # If we can't find embedded data, we need to make additional API calls
             # poe.ninja likely has an internal API we can use
             logger.warning("Could not find embedded character data, will try API approach")
-            return await self._fetch_from_poe_ninja_api(account_name, character_name)
+            return await self._fetch_from_poe_ninja_api(account_name, character_name, league)
 
         except Exception as e:
             self.last_error_message = f"Error parsing poe.ninja page for {character_name}: {e}"
@@ -359,16 +387,33 @@ class CharacterFetcher:
     async def _fetch_from_poe_ninja_api(
         self,
         account_name: str,
-        character_name: str
+        character_name: str,
+        league: str = "Standard"
     ) -> Optional[Dict[str, Any]]:
         """
         Fetch character data from poe.ninja's internal API
-        Based on actual API endpoints found in HAR file analysis
+
+        Based on HAR-captured API flow (re-verified 2026-06-02 against a live
+        Runes of Aldur character, issue #131):
+
+        1. ``GET /poe2/api/events/character/{account}/{leagueUrl}/{character}``
+           -> SSE stream yielding ``data: {"version": <content-hash int>}``
+        2. ``GET /poe2/api/profile/characters/{account}/{leagueUrl}/{character}/model/{version}``
+           -> JSON ``{type, charModel: {...}}``
+
+        The ``{leagueUrl}`` segment is the league slug (``runesofaldur``,
+        ``runesofaldurhc``, ``standard``, ...) — NOT the display name. The
+        endpoint is fully public; no auth required.
         """
         try:
+            league_slug = self._to_poe_ninja_league_slug(league)
+
             # The events API returns Server-Sent Events (SSE) with model ID
             # Format: data: {"version":4211492750}
-            events_url = f"{settings.POE_NINJA_PROFILE_URL}/poe2/api/events/character/{account_name}/{character_name}"
+            events_url = (
+                f"{settings.POE_NINJA_PROFILE_URL}/poe2/api/events/character/"
+                f"{account_name}/{league_slug}/{character_name}"
+            )
 
             logger.info(f"Fetching character model ID from: {events_url}")
             await self.rate_limiter.acquire()
@@ -402,7 +447,10 @@ class CharacterFetcher:
                     return None
 
             # Now fetch the character model using the ID
-            model_url = f"{settings.POE_NINJA_PROFILE_URL}/poe2/api/profile/characters/{account_name}/{character_name}/model/{model_id}"
+            model_url = (
+                f"{settings.POE_NINJA_PROFILE_URL}/poe2/api/profile/characters/"
+                f"{account_name}/{league_slug}/{character_name}/model/{model_id}"
+            )
 
             logger.info(f"Fetching character model from: {model_url}")
             await self.rate_limiter.acquire()
