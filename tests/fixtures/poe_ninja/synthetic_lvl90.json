@@ -1,0 +1,25 @@
+{
+  "_note": "Synthetic charModel fixture for the calc reconciliation harness (#139). Hand-built to a self-consistent shape - NOT a real captured character. The defensiveStats values are constructed so our local EHP calc lands inside the default 15% tolerance band on every reconciled stat. Replace with a real captured charModel.json (license-clean: it's character data, allowed by policy) once HivemindOverlord has a recent fetch.",
+  "name": "ReconcileTestChar_Synthetic",
+  "level": 90,
+  "class": "Witch",
+  "ascendancy": "Infernalist",
+  "league": "Runes of Aldur",
+  "defensiveStats": {
+    "life": 5500,
+    "energyShield": 1200,
+    "armour": 8000,
+    "evasion": 1500,
+    "block": 0,
+    "fireResistance": 75,
+    "coldResistance": 75,
+    "lightningResistance": 75,
+    "chaosResistance": 0,
+    "effectiveHealthPool": 12060,
+    "physicalMaximumHitTaken": 12060,
+    "fireMaximumHitTaken": 26800,
+    "coldMaximumHitTaken": 26800,
+    "lightningMaximumHitTaken": 26800,
+    "chaosMaximumHitTaken": 6100
+  }
+}
