@@ -15,9 +15,12 @@ logger = logging.getLogger(__name__)
 class PoBImporter:
     """Import builds from Path of Building format"""
 
-    async def import_build(self, pob_code: str) -> Dict[str, Any]:
+    def import_build_sync(self, pob_code: str) -> Dict[str, Any]:
         """
-        Import a PoB build code
+        Synchronously import a PoB build code. PoB import is entirely
+        CPU-bound (base64 + zlib + XML parsing), so a sync entry point lets
+        callers invoke it from sync code paths (e.g. the character data
+        normaliser at fetch time, #132). Same return shape as ``import_build``.
 
         Args:
             pob_code: Base64-encoded PoB build
@@ -55,6 +58,18 @@ class PoBImporter:
         except Exception as e:
             logger.error(f"PoB import failed: {e}", exc_info=True)
             raise ValueError(f"Invalid PoB code: {str(e)}")
+
+    async def import_build(self, pob_code: str) -> Dict[str, Any]:
+        """
+        Import a PoB build code (async wrapper around ``import_build_sync``).
+
+        Args:
+            pob_code: Base64-encoded PoB build
+
+        Returns:
+            Build data dictionary
+        """
+        return self.import_build_sync(pob_code)
 
     async def import_from_file(self, file_path: str) -> Dict[str, Any]:
         """

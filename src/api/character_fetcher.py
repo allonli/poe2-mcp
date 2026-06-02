@@ -16,9 +16,11 @@ from bs4 import BeautifulSoup
 try:
     from ..config import settings
     from ..api.poe_ninja_api import PoeNinjaAPI
+    from ..pob.importer import PoBImporter
 except ImportError:
     from src.config import settings
     from src.api.poe_ninja_api import PoeNinjaAPI
+    from src.pob.importer import PoBImporter
 from .rate_limiter import RateLimiter
 from .cache_manager import CacheManager
 
@@ -644,11 +646,44 @@ class CharacterFetcher:
         character_name: str
     ) -> Dict[str, Any]:
         """
-        Normalize character data from various sources into a standard format
-        Handles poe.ninja API format
+        Normalize character data from various sources into a standard format.
+
+        For poe.ninja-sourced characters (where ``charModel`` is present), the
+        ``charModel.pathOfBuildingExport`` blob - when non-empty - is decoded
+        via the PoB importer and used as the **primary** parse route (#132).
+        This sidesteps our local passive-tree resolution gap (CLAUDE.md
+        CRITICAL #1): PoB exports embed all allocated passives in their own
+        ``passiveTreeName: "PassiveTree-0.5"`` format. poe.ninja-only fields
+        not present in the PoB payload (``defensiveStats``, ``breakdowns``,
+        ``league``, ``experience``, ``lastSeen``...) are merged on top.
+
+        When the export is missing or fails to decode, falls back to direct
+        field-based normalization of ``charModel`` (the pre-#132 path).
         """
         # Check if this is poe.ninja format with charModel
         char_model = raw_data.get('charModel', raw_data)
+        pob_export = char_model.get('pathOfBuildingExport', '') or ''
+
+        # ------------------------------------------------------------------
+        # Primary route (#132): decode pob_export via the PoB importer.
+        # The export is base64+zlib XML; PoBImporter.import_build_sync handles
+        # the full parse and returns name/level/class/ascendancy/items/skills/
+        # tree/config/stats/notes/version.
+        # ------------------------------------------------------------------
+        pob_data: Optional[Dict[str, Any]] = None
+        if pob_export and pob_export.startswith(('eNr', 'eJx', 'eJw', 'eNo')):
+            try:
+                pob_data = PoBImporter().import_build_sync(pob_export)
+                logger.info(
+                    f"Parsed character via pathOfBuildingExport (#132 primary route): "
+                    f"{pob_data.get('name')}, {pob_data.get('class')} lvl {pob_data.get('level')}"
+                )
+            except Exception as e:
+                logger.warning(
+                    f"pathOfBuildingExport decode failed for {character_name}, "
+                    f"falling back to field-based normalize: {e}"
+                )
+                pob_data = None
 
         # Passive tree data - poe.ninja uses 'passiveSelection' (list of node IDs)
         passive_data = (
@@ -659,7 +694,7 @@ class CharacterFetcher:
             []
         )
 
-        return {
+        normalised: Dict[str, Any] = {
             'name': char_model.get('name', character_name),
             'account': char_model.get('account', account_name),
             'level': char_model.get('level', 0),
@@ -674,9 +709,43 @@ class CharacterFetcher:
             'flasks': char_model.get('flasks', []),
             'charms': char_model.get('charms', []),
             'stats': char_model.get('defensiveStats', {}),
-            'pob_export': char_model.get('pathOfBuildingExport', ''),
+            'pob_export': pob_export,
             'raw_data': raw_data  # Keep original data for reference
         }
+
+        # ------------------------------------------------------------------
+        # Merge PoB-derived fields when available. PoB is authoritative for
+        # items/skills/passive_tree (its export embeds them in
+        # PassiveTree-0.5 format, no local resolution needed). poe.ninja-only
+        # metadata (account, league, experience, defensiveStats, breakdowns)
+        # stays from the manual normalize above.
+        # ------------------------------------------------------------------
+        if pob_data:
+            # PoB items/skills/tree are richer and structurally-complete; prefer them.
+            if pob_data.get('items'):
+                normalised['items'] = pob_data['items']
+            if pob_data.get('skills'):
+                normalised['skills'] = pob_data['skills']
+            if pob_data.get('tree'):
+                normalised['passive_tree'] = pob_data['tree']
+            # PoB-only enrichment fields - retained alongside poe.ninja stats.
+            normalised['ascendancy'] = pob_data.get('ascendancy')
+            normalised['pob_config'] = pob_data.get('config', {})
+            normalised['pob_stats'] = pob_data.get('stats', {})
+            normalised['pob_notes'] = pob_data.get('notes', '')
+            normalised['pob_version'] = pob_data.get('version', 'Unknown')
+            normalised['parse_source'] = 'pob_export'
+            # Honor PoB level/class only if the poe.ninja record didn't supply them.
+            # (poe.ninja is the source of truth for the live snapshot; PoB's copy
+            # is what the character last exported.)
+            if normalised['level'] == 0 and pob_data.get('level'):
+                normalised['level'] = pob_data['level']
+            if normalised['class'] == 'Unknown' and pob_data.get('class'):
+                normalised['class'] = pob_data['class']
+        else:
+            normalised['parse_source'] = 'field_normalize'
+
+        return normalised
 
     async def close(self):
         """Close the HTTP client and ninja API client"""
