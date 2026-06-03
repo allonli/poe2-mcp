@@ -16,6 +16,19 @@ if sys.platform == 'win32':
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
     sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
 
+# Load .env into os.environ so launcher-level flags (POE2_MCP_AUTO_UPDATE,
+# POE2_MCP_NO_CODE_CHECK, POE2_MCP_NO_DATA_FETCH) are picked up before any
+# helper that uses os.environ.get(...). Pydantic settings load .env into
+# the Settings object only, not into os.environ — those vars wouldn't be
+# visible to subprocess-based helpers otherwise.
+try:
+    from dotenv import load_dotenv
+    load_dotenv(Path(__file__).parent / ".env")
+except ImportError:
+    # python-dotenv is a regular dependency; if it's missing the deps
+    # check below will report it. Don't crash here.
+    pass
+
 # ANSI color codes for pretty output
 class Colors:
     HEADER = '\033[95m'
@@ -207,6 +220,23 @@ async def start_mcp_server():
         traceback.print_exc()
 
 
+def check_code_freshness():
+    """Thin wrapper: delegate to src.launcher_helpers.check_code_freshness.
+
+    The real logic lives in src/launcher_helpers.py (light module pattern)
+    so it can be unit-tested without launch.py's import-time stdout wrap.
+    """
+    try:
+        from src.launcher_helpers import check_code_freshness as _impl
+    except ImportError:
+        from launcher_helpers import check_code_freshness as _impl  # fallback
+    _impl(
+        print_success=print_success,
+        print_warning=print_warning,
+        print_info=print_info,
+    )
+
+
 def check_data_freshness():
     """Pull the latest game-data bundle from this repo's GitHub Releases.
 
@@ -241,6 +271,10 @@ async def main():
 
     if not check_python_version():
         return
+
+    # Code freshness check (may fast-forward main; runs BEFORE deps so any new
+    # requirements introduced by the update get installed on this same launch).
+    check_code_freshness()
 
     if not check_dependencies():
         print_error("Please install dependencies first")
