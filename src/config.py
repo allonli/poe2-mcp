@@ -113,7 +113,13 @@ class Settings(BaseSettings):
     model_config = ConfigDict(
         env_file=str(BASE_DIR / ".env"),  # Use absolute path
         env_file_encoding="utf-8",
-        case_sensitive=True
+        case_sensitive=True,
+        # Forward-compat: launcher-level flags like POE2_MCP_AUTO_UPDATE /
+        # POE2_MCP_NO_CODE_CHECK / POE2_MCP_NO_DATA_FETCH live in os.environ
+        # but aren't Settings fields. Without `extra='ignore'` pydantic
+        # raises ValidationError on them. Also future-proofs any new
+        # process-level env var we add without touching this class.
+        extra="ignore",
     )
 
 
