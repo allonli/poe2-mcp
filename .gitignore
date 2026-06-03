@@ -325,6 +325,7 @@ scripts/data/
 scripts/debug_*.py
 scripts/examine_*.py
 scripts/extract_*.py
+!scripts/extract_balance_tables_v1.py
 scripts/generate_*.py
 scripts/improve_*.py
 scripts/test_*.py
