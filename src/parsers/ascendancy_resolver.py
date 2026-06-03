@@ -1,15 +1,32 @@
 #!/usr/bin/env python3
 """
-Ascendancy Data Resolver - Resolves ascendancy node data from complete_models.
+Ascendancy Data Resolver - Resolves ascendancy node data.
 
-Provides high-level API for:
-- Looking up ascendancy nodes by name or ID
-- Getting all nodes for a specific ascendancy
-- Resolving unresolved node IDs that might be ascendancy nodes
+Primary source (PoE 2 0.5+):
+- data/game/ascendancies/ascendancies.json
+  Fresh extraction (2026-05-31) from data/balance/ascendancy.datc64. Contains
+  the canonical 23 active ascendancies including the 4 the legacy file misses:
+  Spirit Walker (Huntress), Martial Artist (Monk), Abyssal Lich (Witch),
+  Disciple of Varashta (Sorceress). Schema is a flat list of records with
+  id / display_name / base_class / is_unused. NO per-node data — that's the
+  domain of the passive tree.
 
-Uses data from:
-- data/complete_models/all_ascendancies.json
-- data/complete_models/druid_ascendancies.json (detailed Druid data)
+Detailed node fallback:
+- data/complete_models/druid_ascendancies.json
+  Still loaded for detailed Druid node stats. The 0.5 extraction doesn't
+  include notable-node level data yet; covering the other ascendancies'
+  detailed nodes is deferred until passive-tree wiring (#137 follow-up).
+
+Legacy fallback (deprecated, kept for safety):
+- data/complete_models/all_ascendancies.json (Jan 2026, 19 ascendancies,
+  marked "incomplete/placeholder" in its own metadata). Loaded only if the
+  fresh dataset is missing; will be removed once all callers verified.
+
+Migration scope (#137 / #135): wires ascendancy_resolver to read from
+data/game/. Schema adapter normalises the new flat list into the resolver's
+internal lookup tables. The hardcoded ``ASCENDANCY_TO_CLASS`` map is now
+seeded from the fresh dataset, with the hand-curated map kept as a defensive
+fallback so a missing data file doesn't break callers.
 """
 
 import json
@@ -107,17 +124,45 @@ class AscendancyResolver:
         if self._loaded:
             return
 
-        # Load all_ascendancies.json
-        all_asc_path = self.data_dir / "complete_models" / "all_ascendancies.json"
-        if all_asc_path.exists():
+        # Primary: data/game/ascendancies/ascendancies.json (0.5 fresh extraction)
+        # Adapt the new flat list schema to the resolver's expected dict-of-dicts.
+        fresh_path = self.data_dir / "game" / "ascendancies" / "ascendancies.json"
+        loaded_fresh = False
+        if fresh_path.exists():
             try:
-                with open(all_asc_path, 'r', encoding='utf-8') as f:
-                    self._all_ascendancies = json.load(f)
-                logger.info(f"Loaded {len(self._all_ascendancies.get('ascendancies', {}))} ascendancies")
+                with open(fresh_path, 'r', encoding='utf-8') as f:
+                    fresh = json.load(f)
+                self._all_ascendancies = self._adapt_fresh_schema(fresh)
+                loaded_fresh = True
+                active_count = len(self._all_ascendancies.get("ascendancies", {}))
+                logger.info(
+                    f"Loaded {active_count} active ascendancies from data/game/ "
+                    f"(source: {fresh.get('metadata', {}).get('source', 'unknown')})"
+                )
             except Exception as e:
-                logger.error(f"Failed to load all_ascendancies.json: {e}")
+                logger.error(f"Failed to load fresh ascendancies.json: {e}")
 
-        # Load druid_ascendancies.json for detailed Druid data
+        # Legacy fallback (Jan 2026, marked incomplete in its own metadata).
+        # Loaded only if the fresh dataset is unavailable, to keep the
+        # resolver functional during transition or test contexts that mock
+        # data/game/ away.
+        if not loaded_fresh:
+            legacy_path = self.data_dir / "complete_models" / "all_ascendancies.json"
+            if legacy_path.exists():
+                try:
+                    with open(legacy_path, 'r', encoding='utf-8') as f:
+                        self._all_ascendancies = json.load(f)
+                    logger.warning(
+                        "Loaded legacy data/complete_models/all_ascendancies.json "
+                        "(pre-0.5; missing Spirit Walker / Martial Artist / "
+                        "Abyssal Lich / Disciple of Varashta). Run extraction "
+                        "(#138) and re-deploy data/game/ to fix."
+                    )
+                except Exception as e:
+                    logger.error(f"Failed to load legacy all_ascendancies.json: {e}")
+
+        # Load druid_ascendancies.json for detailed Druid node data
+        # (still authoritative; the new dataset only has metadata, not nodes)
         druid_path = self.data_dir / "complete_models" / "druid_ascendancies.json"
         if druid_path.exists():
             try:
@@ -129,7 +174,53 @@ class AscendancyResolver:
 
         # Build lookup indices
         self._build_indices()
+
+        # Augment the hardcoded class map with fresh-data discoveries so
+        # ``get_base_class`` returns correct values for the new 0.5
+        # ascendancies even if a caller doesn't iterate via the data dict.
+        self._augment_class_map_from_data()
+
         self._loaded = True
+
+    @staticmethod
+    def _adapt_fresh_schema(fresh: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Convert the data/game/ascendancies/ascendancies.json flat-list schema
+        into the resolver's expected dict-keyed-by-display-name shape.
+
+        Skips ``is_unused`` placeholder rows (the source datc64 has 14 of
+        them — internal slots for cut/scrapped ascendancies that ship with
+        ``[DNT-UNUSED]`` display names).
+        """
+        adapted: Dict[str, Dict[str, Any]] = {}
+        for record in fresh.get("ascendancies", []):
+            if record.get("is_unused"):
+                continue
+            display_name = record.get("display_name")
+            if not display_name:
+                continue
+            adapted[display_name] = {
+                "base_class": record.get("base_class"),
+                "id": record.get("id"),
+                "row_index": record.get("row_index"),
+                # notable_nodes intentionally absent — fresh dataset doesn't
+                # cover per-node data. Downstream code already handles this.
+                "notable_nodes": {},
+            }
+        return {
+            "metadata": fresh.get("metadata", {}),
+            "ascendancies": adapted,
+        }
+
+    def _augment_class_map_from_data(self):
+        """Add any ascendancies discovered in fresh data that the hardcoded
+        ``ASCENDANCY_TO_CLASS`` map doesn't already cover. The hardcoded map
+        is a defensive fallback so ``get_base_class`` works when callers
+        don't trigger a full load."""
+        for asc_name, asc_data in self._all_ascendancies.get("ascendancies", {}).items():
+            base_class = asc_data.get("base_class")
+            if base_class and asc_name not in self.ASCENDANCY_TO_CLASS:
+                self.ASCENDANCY_TO_CLASS[asc_name] = base_class
 
     def _build_indices(self):
         """Build lookup indices for nodes."""
