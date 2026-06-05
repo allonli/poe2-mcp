@@ -53,6 +53,9 @@ try:
     from .parsers.passive_tree_resolver import PassiveTreeResolver
     # Fresh data provider - Single Source of Truth
     from .data.fresh_data_provider import get_fresh_data_provider
+    # Local live-game readers (Client.txt log + client config INI)
+    from .api.client_log_reader import ClientLogReader
+    from .api.game_config_reader import GameConfigReader
 except ImportError:
     # Fallback for direct execution
     from src.config import settings, DATA_DIR
@@ -87,6 +90,9 @@ except ImportError:
     from src.parsers.passive_tree_resolver import PassiveTreeResolver
     # Fresh data provider - Single Source of Truth
     from src.data.fresh_data_provider import get_fresh_data_provider
+    # Local live-game readers (Client.txt log + client config INI)
+    from src.api.client_log_reader import ClientLogReader
+    from src.api.game_config_reader import GameConfigReader
 
 # Setup logging to both file and stderr (for Claude Desktop logs)
 import sys
@@ -195,6 +201,10 @@ class PoE2BuildOptimizerMCP:
 
         # Passive Tree Resolver (for poe.ninja node ID resolution)
         self.passive_tree_resolver: Optional[PassiveTreeResolver] = None
+
+        # Local live-game readers (no API — read the running client's files)
+        self.client_log_reader: Optional[ClientLogReader] = None
+        self.game_config_reader: Optional[GameConfigReader] = None
 
         # Conversation context
         self.conversation_contexts: Dict[str, Any] = {}
@@ -307,6 +317,22 @@ class PoE2BuildOptimizerMCP:
                 debug_log(f"Passive tree resolver loaded {node_count} nodes")
             except Exception as e:
                 logger.warning(f"Passive tree resolver initialization failed (non-critical): {e}")
+
+            # Initialize local live-game readers (Client.txt + config INI).
+            # These are cheap, file-based, and degrade gracefully when the game
+            # isn't installed at a known path (is_available() == False).
+            try:
+                self.client_log_reader = ClientLogReader()
+                self.game_config_reader = GameConfigReader()
+                log_found = self.client_log_reader.is_available()
+                cfg_found = self.game_config_reader.is_available()
+                logger.info(
+                    f"Local game readers initialized (Client.txt: "
+                    f"{'found' if log_found else 'not found'}, "
+                    f"config: {'found' if cfg_found else 'not found'})"
+                )
+            except Exception as e:
+                logger.warning(f"Local game reader init failed (non-critical): {e}")
 
             logger.info("PoE2 Build Optimizer MCP Server initialized successfully")
 
@@ -426,6 +452,11 @@ class PoE2BuildOptimizerMCP:
                 return await self._handle_validate_item_mods(arguments)
             elif name == "get_available_mods":
                 return await self._handle_get_available_mods(arguments)
+            # LOCAL LIVE-GAME TOOLS (read the running client's local files)
+            elif name == "get_live_game_state":
+                return await self._handle_get_live_game_state(arguments)
+            elif name == "get_game_config":
+                return await self._handle_get_game_config(arguments)
             else:
                 raise ValueError(f"Unknown tool: {name}")
 
@@ -1253,6 +1284,69 @@ class PoE2BuildOptimizerMCP:
                             }
                         },
                         "required": ["generation_type"]
+                    }
+                ),
+
+                # ============================================
+                # LOCAL LIVE-GAME TOOLS (read the running client's local files)
+                # ============================================
+                types.Tool(
+                    name="get_live_game_state",
+                    description=(
+                        "Read the player's CURRENT in-game state from the local "
+                        "PoE2 client log (Client.txt) while the game is running. "
+                        "Returns the live character name, class/ascendancy, level, "
+                        "current area (internal code + monster level + instance seed), "
+                        "instance server, recent death count, and AFK status. "
+                        "Purely local file read — no API, no network. This is the "
+                        "primary fallback for character identity now that poe.ninja "
+                        "is unavailable for patch 0.5. Returns available=false if the "
+                        "game is not installed at a known path."
+                    ),
+                    inputSchema={
+                        "type": "object",
+                        "properties": {
+                            "include_recent_events": {
+                                "type": "boolean",
+                                "description": "Also return the recent parsed event stream (level-ups, zone changes, deaths, whispers).",
+                                "default": False
+                            },
+                            "event_limit": {
+                                "type": "integer",
+                                "description": "Max recent events to return when include_recent_events is true.",
+                                "default": 25
+                            },
+                            "log_path": {
+                                "type": "string",
+                                "description": "Optional explicit path to Client.txt (overrides auto-discovery)."
+                            }
+                        }
+                    }
+                ),
+                types.Tool(
+                    name="get_game_config",
+                    description=(
+                        "Read the player's local PoE2 client settings "
+                        "(poe2_production_Config.ini). Returns gateway, input mode "
+                        "(wasd vs click-to-move — affects build/skill recommendations), "
+                        "current act, display resolution, renderer, framerate cap, and "
+                        "GPU. Purely local file read. NOTE: account_name is empty under "
+                        "Steam authentication — use get_live_game_state for character "
+                        "identity. Set full=true for the complete raw config."
+                    ),
+                    inputSchema={
+                        "type": "object",
+                        "properties": {
+                            "full": {
+                                "type": "boolean",
+                                "description": "Return the complete raw config (all sections) instead of the build-relevant summary.",
+                                "default": False
+                            },
+                            "config_path": {
+                                "type": "string",
+                                "description": "Optional explicit path to poe2_production_Config.ini (overrides auto-discovery)."
+                            }
+                        }
                     }
                 )
             ]
@@ -6267,6 +6361,139 @@ Could not extract account and character from URL.
 
         except Exception as e:
             logger.error(f"Error getting available mods: {e}")
+            return [types.TextContent(type="text", text=f"Error: {str(e)}")]
+
+    async def _handle_get_live_game_state(self, args: dict) -> List[types.TextContent]:
+        """Read current in-game state from the local PoE2 client log (Client.txt).
+
+        Local file read only — no API. Surfaces live character/level/area so the
+        AI knows who/where the player is without poe.ninja (broken for 0.5).
+        """
+        try:
+            include_events = args.get("include_recent_events", False)
+            event_limit = min(int(args.get("event_limit", 25)), 200)
+            log_path = args.get("log_path")
+
+            # Honor an explicit path override; otherwise use the shared reader
+            # built at init (falls back to a fresh one if init was skipped).
+            reader = self.client_log_reader
+            if log_path or reader is None:
+                reader = ClientLogReader(log_path=log_path)
+
+            if not reader.is_available():
+                response = (
+                    "# Live Game State\n\n"
+                    ":warning: **Client.txt not found.** The game log could not be "
+                    "located at any known install path.\n\n"
+                    "- The game may not be installed, or is in a custom location.\n"
+                    "- Pass `log_path` pointing at `...\\Path of Exile 2\\logs\\Client.txt`.\n"
+                )
+                return [types.TextContent(type="text", text=response)]
+
+            state = reader.get_current_state()
+
+            response = "# Live Game State\n\n"
+            response += "*Source: local PoE2 client log (Client.txt) — no network*\n\n"
+            response += f"- **Character:** {state.get('character') or '(unknown)'}\n"
+            response += f"- **Class / Ascendancy:** {state.get('ascendancy_or_class') or '(unknown)'}\n"
+            response += f"- **Level:** {state.get('level') if state.get('level') is not None else '(unknown)'}\n"
+
+            area_code = state.get("area_code")
+            if area_code:
+                response += (
+                    f"- **Current area:** `{area_code}` "
+                    f"(monster level {state.get('area_level')}, seed {state.get('area_seed')})\n"
+                )
+                response += "  *(area code is the game's internal id, not the display name)*\n"
+            else:
+                response += "- **Current area:** (unknown)\n"
+
+            if state.get("instance_server"):
+                response += f"- **Instance server:** {state['instance_server']}\n"
+            if state.get("afk") is not None:
+                response += f"- **AFK:** {'ON' if state['afk'] else 'OFF'}\n"
+            response += f"- **Deaths (recent window):** {state.get('deaths_in_window', 0)}\n"
+            response += f"- **Last log event:** {state.get('last_event_time') or '(none)'}\n"
+            response += f"- **Events scanned:** {state.get('event_count', 0)}\n"
+            response += f"\n*Log: `{state.get('log_path')}`*\n"
+
+            if include_events:
+                events = reader.get_recent_events(limit=event_limit)
+                response += f"\n## Recent events ({len(events)})\n\n"
+                for ev in events:
+                    parts = [f"`{ev['timestamp']}`", f"**{ev['kind']}**"]
+                    detail = {k: v for k, v in ev.items()
+                              if k not in ("timestamp", "kind", "log_level")}
+                    parts.append(", ".join(f"{k}={v}" for k, v in detail.items()))
+                    response += "- " + " — ".join(p for p in parts if p) + "\n"
+
+            return [types.TextContent(type="text", text=response)]
+
+        except Exception as e:
+            logger.error(f"Error reading live game state: {e}")
+            return [types.TextContent(type="text", text=f"Error: {str(e)}")]
+
+    async def _handle_get_game_config(self, args: dict) -> List[types.TextContent]:
+        """Read the local PoE2 client config INI (poe2_production_Config.ini).
+
+        Local file read only. Provides playstyle/context (input mode, current
+        act, display, GPU). account_name is intentionally surfaced even though
+        Steam auth usually leaves it blank.
+        """
+        try:
+            full = args.get("full", False)
+            config_path = args.get("config_path")
+
+            reader = self.game_config_reader
+            if config_path or reader is None:
+                reader = GameConfigReader(config_path=config_path)
+
+            if not reader.is_available():
+                response = (
+                    "# Game Config\n\n"
+                    ":warning: **poe2_production_Config.ini not found** at any known "
+                    "path.\n\n- Pass `config_path` to "
+                    "`...\\Documents\\My Games\\Path of Exile 2\\poe2_production_Config.ini`.\n"
+                )
+                return [types.TextContent(type="text", text=response)]
+
+            if full:
+                raw = reader.read_all()
+                response = "# Game Config (full)\n\n"
+                response += f"*Source: `{reader.config_path}`*\n\n"
+                for section, kv in raw.items():
+                    response += f"## [{section}]\n\n"
+                    for k, v in kv.items():
+                        response += f"- `{k}` = {v}\n"
+                    response += "\n"
+                return [types.TextContent(type="text", text=response)]
+
+            s = reader.get_summary()
+            response = "# Game Config\n\n"
+            response += "*Source: local PoE2 client config (poe2_production_Config.ini) — no network*\n\n"
+            response += f"- **Account name:** {s.get('account_name') or '(empty)'}\n"
+            if s.get("account_name_note"):
+                response += f"  *({s['account_name_note']})*\n"
+            response += f"- **Gateway:** {s.get('gateway') or '(unknown)'}\n"
+            response += f"- **Input mode:** {s.get('input_mode') or '(unknown)'} *(wasd vs click-to-move)*\n"
+            response += f"- **Current act:** {s.get('current_act_environment') or '?'}"
+            if s.get("current_act_hint"):
+                response += f" *({s['current_act_hint']})*"
+            response += "\n"
+            response += f"- **Resolution:** {s.get('resolution') or '(unknown)'}\n"
+            response += f"- **Renderer:** {s.get('renderer') or '(unknown)'}\n"
+            response += f"- **Upscale:** {s.get('upscale') or '(none)'}\n"
+            fps_cap = s.get("framerate_limit")
+            fps_on = s.get("framerate_limit_enabled")
+            response += f"- **Framerate cap:** {fps_cap} ({'enabled' if fps_on == 'true' else 'disabled'})\n"
+            response += f"- **GPU:** {s.get('gpu') or '(unknown)'}\n"
+            response += f"\n*Config: `{s.get('config_path')}`*\n"
+            response += "\n*Tip: use `get_live_game_state` for live character identity (Client.txt).*\n"
+
+            return [types.TextContent(type="text", text=response)]
+
+        except Exception as e:
+            logger.error(f"Error reading game config: {e}")
             return [types.TextContent(type="text", text=f"Error: {str(e)}")]
 
     # ============================================================================
