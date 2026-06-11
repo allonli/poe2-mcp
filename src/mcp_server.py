@@ -684,16 +684,24 @@ class PoE2BuildOptimizerMCP:
                 # Path of Building Integration
                 types.Tool(
                     name="import_pob",
-                    description="Import a Path of Building build code. Returns parsed build data.",
+                    description="Import a Path of Building build. Accepts a local file path (most reliable — a saved .xml build or a .txt containing the share code, auto-detected), raw uncompressed PoB XML, or an inline base64 share code. Provide exactly one of the three inputs. Returns parsed build data.",
                     inputSchema={
                         "type": "object",
                         "properties": {
+                            "pob_file_path": {
+                                "type": "string",
+                                "description": "Path to a local file containing the PoB build — either raw XML or a base64 share code (auto-detected). Preferred over pob_code: long codes corrupt easily when passed inline."
+                            },
+                            "pob_xml": {
+                                "type": "string",
+                                "description": "Raw uncompressed Path of Building XML"
+                            },
                             "pob_code": {
                                 "type": "string",
-                                "description": "Path of Building build code (base64)"
+                                "description": "Path of Building share code (base64 + zlib). Whitespace/newlines and URL-safe base64 are tolerated."
                             }
                         },
-                        "required": ["pob_code"]
+                        "required": []
                     }
                 ),
                 types.Tool(
@@ -1781,8 +1789,10 @@ Tracked at https://github.com/HivemindOverlord/poe2-mcp/issues/61.
             )]
 
     async def _handle_import_pob(self, args: dict) -> List[types.TextContent]:
-        """Handle PoB import"""
-        pob_code = args["pob_code"]
+        """Handle PoB import — from a local file, raw XML, or an inline share code"""
+        pob_file_path = args.get("pob_file_path")
+        pob_xml = args.get("pob_xml")
+        pob_code = args.get("pob_code")
 
         if not self.pob_importer:
             return [types.TextContent(
@@ -1790,11 +1800,38 @@ Tracked at https://github.com/HivemindOverlord/poe2-mcp/issues/61.
                 text="Path of Building import is not enabled."
             )]
 
-        try:
-            build_data = await self.pob_importer.import_build(pob_code)
+        if not (pob_file_path or pob_xml or pob_code):
             return [types.TextContent(
                 type="text",
-                text=f"Successfully imported build:\n{json.dumps(build_data, indent=2)}"
+                text=(
+                    "No build input provided. Pass one of:\n"
+                    "- `pob_file_path` — path to a local file with the build "
+                    "(raw XML or share code; most reliable)\n"
+                    "- `pob_xml` — raw uncompressed PoB XML\n"
+                    "- `pob_code` — inline base64 share code"
+                )
+            )]
+
+        try:
+            if pob_file_path:
+                path = Path(pob_file_path).expanduser()
+                if not path.is_file():
+                    return [types.TextContent(
+                        type="text",
+                        text=f"PoB import failed: file not found: {path}"
+                    )]
+                build_data = await self.pob_importer.import_from_file(str(path))
+                source = f"file `{path}`"
+            elif pob_xml:
+                build_data = await self.pob_importer.import_xml(pob_xml)
+                source = "raw XML"
+            else:
+                build_data = await self.pob_importer.import_build(pob_code)
+                source = "share code"
+
+            return [types.TextContent(
+                type="text",
+                text=f"Successfully imported build from {source}:\n{json.dumps(build_data, indent=2)}"
             )]
 
         except Exception as e:
@@ -5261,30 +5298,15 @@ Consider:
 
     async def _handle_import_poe_ninja_url(self, args: dict) -> List[types.TextContent]:
         """Import and analyze a character from a poe.ninja URL"""
-        import re
+        try:
+            from .api.poe_ninja_api import parse_poe_ninja_url
+        except ImportError:
+            from src.api.poe_ninja_api import parse_poe_ninja_url
 
         url = args.get("url", "")
+        parsed = parse_poe_ninja_url(url)
 
-        # Parse poe.ninja URL formats:
-        # https://poe.ninja/poe2/profile/AccountName/character/CharacterName
-        # https://poe.ninja/poe2/builds/character/AccountName/CharacterName
-        patterns = [
-            r'poe\.ninja/poe2/profile/([^/]+)/character/([^/?\s]+)',
-            r'poe\.ninja/poe2/builds/character/([^/]+)/([^/?\s]+)',
-            r'poe\.ninja/builds/character/([^/]+)/([^/?\s]+)',
-        ]
-
-        account = None
-        character = None
-
-        for pattern in patterns:
-            match = re.search(pattern, url)
-            if match:
-                account = match.group(1)
-                character = match.group(2)
-                break
-
-        if not account or not character:
+        if not parsed:
             return [types.TextContent(
                 type="text",
                 text=f"""# URL Parse Error
@@ -5294,20 +5316,26 @@ Could not extract account and character from URL.
 **URL provided:** `{url}`
 
 **Expected formats:**
+- `https://poe.ninja/poe2/profile/AccountName/LeagueSlug/character/CharacterName`
 - `https://poe.ninja/poe2/profile/AccountName/character/CharacterName`
+- `https://poe.ninja/poe2/builds/LeagueSlug/character/AccountName/CharacterName`
 - `https://poe.ninja/poe2/builds/character/AccountName/CharacterName`
 
 **Example:**
-`https://poe.ninja/poe2/profile/Tomawar40-2671/character/TomawarTheFourth`
+`https://poe.ninja/poe2/profile/Tomawar40-2671/runesofaldur/character/TomawarTheFourth`
 """
             )]
 
-        # Now fetch and analyze using existing handler
-        # Default to current league (Vaal = Fate of the Vaal)
+        # Prefer the display name resolved from the URL's league slug; fall
+        # back to the raw slug for leagues we don't know yet (the fetcher's
+        # slug normalisation passes it through unchanged), then to the
+        # current league.
+        league = parsed["league"] or parsed["league_slug"] or "Runes of Aldur"
+
         return await self._handle_analyze_character({
-            "account": account,
-            "character": character,
-            "league": "Vaal"
+            "account": parsed["account"],
+            "character": parsed["character"],
+            "league": league
         })
 
     # ============================================================================

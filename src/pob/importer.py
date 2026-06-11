@@ -4,16 +4,90 @@ Complete XML parser for PoB builds
 """
 
 import base64
-import zlib
+import binascii
 import logging
+import zlib
+from pathlib import Path
 from typing import Dict, Any, List, Optional
 import xml.etree.ElementTree as ET
 
 logger = logging.getLogger(__name__)
 
+# Standard base64 alphabet (post URL-safe normalisation) — used to pinpoint
+# corrupt characters in share codes instead of surfacing a raw binascii error.
+_B64_CHARS = frozenset(
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="
+)
+
 
 class PoBImporter:
     """Import builds from Path of Building format"""
+
+    def _decode_pob_code(self, pob_code: str) -> str:
+        """
+        Decode a PoB share code (base64 + zlib) into the XML string.
+
+        Tolerates whitespace/newlines and PoB's URL-safe base64 variant
+        ('-'/'_' for '+'/'/') and missing padding. Failures raise ValueError
+        with diagnostics (length, corrupt-char position, truncation hint)
+        rather than raw binascii/zlib errors — agent callers reproduce long
+        codes imperfectly and need to know WHERE it broke.
+        """
+        code = "".join(pob_code.split())
+        if not code:
+            raise ValueError("PoB code is empty after stripping whitespace")
+
+        # PoB share codes use URL-safe base64; standard alphabet never
+        # contains '-'/'_' so this translation is lossless either way.
+        code = code.replace("-", "+").replace("_", "/")
+
+        bad = [(i, c) for i, c in enumerate(code) if c not in _B64_CHARS]
+        if bad:
+            idx, char = bad[0]
+            raise ValueError(
+                f"PoB code contains {len(bad)} non-base64 character(s); first is "
+                f"{char!r} at position {idx} of {len(code)}. The code was corrupted "
+                f"in transit — pass the export via a file (pob_file_path) instead "
+                f"of inline text."
+            )
+
+        code += "=" * (-len(code) % 4)
+
+        try:
+            decoded = base64.b64decode(code)
+        except binascii.Error as e:
+            raise ValueError(
+                f"Base64 decode failed for PoB code ({len(code)} chars): {e}"
+            )
+
+        try:
+            decompressed = zlib.decompress(decoded)
+        except zlib.error as e:
+            raise ValueError(
+                f"PoB code base64-decoded cleanly ({len(decoded)} bytes) but zlib "
+                f"decompression failed: {e}. The code is truncated or corrupted "
+                f"mid-stream — a single wrong character breaks the whole stream. "
+                f"Save the exact export to a file and import via pob_file_path, "
+                f"or supply the uncompressed XML directly."
+            )
+
+        return decompressed.decode('utf-8')
+
+    def _build_data_from_root(self, root: ET.Element) -> Dict[str, Any]:
+        """Extract the build dictionary from a parsed PoB XML root."""
+        return {
+            "name": self._get_build_name(root),
+            "level": self._get_build_level(root),
+            "class": self._get_build_class(root),
+            "ascendancy": self._get_ascendancy(root),
+            "items": self._parse_items(root),
+            "skills": self._parse_skills(root),
+            "tree": self._parse_tree(root),
+            "config": self._parse_config(root),
+            "stats": self._extract_stats(root),
+            "notes": self._get_notes(root),
+            "version": root.get('version', 'Unknown')
+        }
 
     def import_build_sync(self, pob_code: str) -> Dict[str, Any]:
         """
@@ -23,41 +97,44 @@ class PoBImporter:
         normaliser at fetch time, #132). Same return shape as ``import_build``.
 
         Args:
-            pob_code: Base64-encoded PoB build
+            pob_code: Base64-encoded PoB build (whitespace and URL-safe
+                base64 tolerated)
 
         Returns:
             Build data dictionary
         """
         try:
-            # Decode and decompress
-            decoded = base64.b64decode(pob_code)
-            decompressed = zlib.decompress(decoded)
-            xml_str = decompressed.decode('utf-8')
-
-            # Parse XML
-            root = ET.fromstring(xml_str)
-
-            # Extract all build components
-            build_data = {
-                "name": self._get_build_name(root),
-                "level": self._get_build_level(root),
-                "class": self._get_build_class(root),
-                "ascendancy": self._get_ascendancy(root),
-                "items": self._parse_items(root),
-                "skills": self._parse_skills(root),
-                "tree": self._parse_tree(root),
-                "config": self._parse_config(root),
-                "stats": self._extract_stats(root),
-                "notes": self._get_notes(root),
-                "version": root.get('version', 'Unknown')
-            }
-
-            logger.info(f"Successfully imported build: {build_data['name']}")
-            return build_data
-
+            xml_str = self._decode_pob_code(pob_code)
+            return self.import_xml_sync(xml_str)
+        except ValueError:
+            raise
         except Exception as e:
             logger.error(f"PoB import failed: {e}", exc_info=True)
             raise ValueError(f"Invalid PoB code: {str(e)}")
+
+    def import_xml_sync(self, xml_str: str) -> Dict[str, Any]:
+        """
+        Import a build from raw (uncompressed) PoB XML.
+
+        Args:
+            xml_str: PoB build XML as a string (BOM tolerated)
+
+        Returns:
+            Build data dictionary
+        """
+        try:
+            root = ET.fromstring(xml_str.lstrip("﻿").strip())
+        except ET.ParseError as e:
+            raise ValueError(f"Invalid PoB XML: {e}")
+
+        try:
+            build_data = self._build_data_from_root(root)
+        except Exception as e:
+            logger.error(f"PoB XML parse failed: {e}", exc_info=True)
+            raise ValueError(f"Failed to parse PoB build XML: {str(e)}")
+
+        logger.info(f"Successfully imported build: {build_data['name']}")
+        return build_data
 
     async def import_build(self, pob_code: str) -> Dict[str, Any]:
         """
@@ -71,43 +148,39 @@ class PoBImporter:
         """
         return self.import_build_sync(pob_code)
 
+    async def import_xml(self, xml_str: str) -> Dict[str, Any]:
+        """Import raw PoB XML (async wrapper around ``import_xml_sync``)."""
+        return self.import_xml_sync(xml_str)
+
     async def import_from_file(self, file_path: str) -> Dict[str, Any]:
         """
-        Import a PoB build from an XML file
+        Import a PoB build from a local file. The file may contain either
+        the raw build XML (a saved .xml build) or a base64 share code
+        (e.g. a .txt the export was pasted into) — auto-detected.
 
         Args:
-            file_path: Path to the PoB XML file
+            file_path: Path to the PoB build file
 
         Returns:
             Build data dictionary
         """
+        path = Path(file_path).expanduser()
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
-                xml_str = f.read()
+            # utf-8-sig strips a BOM if present (Notepad saves leave one)
+            content = path.read_text(encoding='utf-8-sig')
+        except OSError as e:
+            raise ValueError(f"Cannot read PoB file {path}: {e}")
 
-            root = ET.fromstring(xml_str)
+        try:
+            if content.lstrip().startswith('<'):
+                build_data = self.import_xml_sync(content)
+            else:
+                build_data = self.import_build_sync(content)
+        except ValueError as e:
+            raise ValueError(f"Failed to import build from {path}: {e}")
 
-            # Use the same parsing logic as import_build
-            build_data = {
-                "name": self._get_build_name(root),
-                "level": self._get_build_level(root),
-                "class": self._get_build_class(root),
-                "ascendancy": self._get_ascendancy(root),
-                "items": self._parse_items(root),
-                "skills": self._parse_skills(root),
-                "tree": self._parse_tree(root),
-                "config": self._parse_config(root),
-                "stats": self._extract_stats(root),
-                "notes": self._get_notes(root),
-                "version": root.get('version', 'Unknown')
-            }
-
-            logger.info(f"Successfully imported build from file: {file_path}")
-            return build_data
-
-        except Exception as e:
-            logger.error(f"Failed to import build from file: {e}", exc_info=True)
-            raise ValueError(f"Failed to import build from {file_path}: {str(e)}")
+        logger.info(f"Successfully imported build from file: {file_path}")
+        return build_data
 
     def _get_build_name(self, root: ET.Element) -> str:
         """Extract build name"""

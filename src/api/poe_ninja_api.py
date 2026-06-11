@@ -6,7 +6,9 @@ Fetches character data, build rankings, and economy data from poe.ninja
 import httpx
 import json
 import logging
+import re
 from typing import Dict, List, Optional, Any
+from urllib.parse import unquote
 from bs4 import BeautifulSoup
 from datetime import datetime
 
@@ -56,6 +58,64 @@ ASCENDANCY_TO_BASE_CLASS = {
 
 # Base classes (not ascendancies)
 BASE_CLASSES = {"Warrior", "Ranger", "Huntress", "Witch", "Sorceress", "Mercenary", "Monk", "Druid"}
+
+
+# poe.ninja URL shapes that identify a character. Ordered most-specific first;
+# the 3-segment profile form is what poe.ninja actually links post-0.5
+# (league slug sits BETWEEN account and /character/).
+_POE_NINJA_URL_PATTERNS = [
+    # /poe2/profile/{account}/{league}/character/{char} — current 0.5 format
+    re.compile(r"poe\.ninja/poe2/profile/(?P<account>[^/?#\s]+)/(?P<league>[^/?#\s]+)/character/(?P<character>[^/?#\s]+)"),
+    # /poe2/profile/{account}/character/{char} — pre-0.5 / league-less form
+    re.compile(r"poe\.ninja/poe2/profile/(?P<account>[^/?#\s]+)/character/(?P<character>[^/?#\s]+)"),
+    # /poe2/builds/{league}/character/{account}/{char}
+    re.compile(r"poe\.ninja/poe2/builds/(?P<league>[^/?#\s]+)/character/(?P<account>[^/?#\s]+)/(?P<character>[^/?#\s]+)"),
+    # /poe2/builds/character/{account}/{char} — legacy
+    re.compile(r"poe\.ninja/poe2/builds/character/(?P<account>[^/?#\s]+)/(?P<character>[^/?#\s]+)"),
+    # /builds/character/{account}/{char} — PoE1-style legacy
+    re.compile(r"poe\.ninja/builds/character/(?P<account>[^/?#\s]+)/(?P<character>[^/?#\s]+)"),
+]
+
+
+def league_slug_to_display(slug: Optional[str]) -> Optional[str]:
+    """
+    Reverse-map a poe.ninja URL slug to its canonical display name.
+
+    LEAGUE_MAPPINGS lists the canonical full name first for each slug
+    (e.g. "Runes of Aldur" before "RoA"), so first match wins. Returns
+    None for unknown slugs — callers can pass the raw slug through to
+    the fetcher, whose own slug normalisation is a lowercase no-op on it.
+    """
+    if not slug:
+        return None
+    slug_lower = slug.lower()
+    for display, mapped in PoeNinjaAPI.LEAGUE_MAPPINGS.items():
+        if mapped == slug_lower:
+            return display
+    return None
+
+
+def parse_poe_ninja_url(url: str) -> Optional[Dict[str, Optional[str]]]:
+    """
+    Extract account / character / league from any known poe.ninja URL shape.
+
+    Returns a dict with keys ``account``, ``character``, ``league_slug``
+    (raw slug from the URL, or None when the URL form has no league
+    segment) and ``league`` (display name when the slug is known,
+    else None). Returns None when no pattern matches.
+    """
+    for pattern in _POE_NINJA_URL_PATTERNS:
+        match = pattern.search(url)
+        if match:
+            groups = match.groupdict()
+            league_slug = groups.get("league")
+            return {
+                "account": unquote(groups["account"]),
+                "character": unquote(groups["character"]),
+                "league_slug": league_slug,
+                "league": league_slug_to_display(league_slug),
+            }
+    return None
 
 
 class PoeNinjaAPI:

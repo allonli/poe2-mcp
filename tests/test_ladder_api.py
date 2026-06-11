@@ -9,10 +9,15 @@ import sys
 import io
 from pathlib import Path
 
-# Fix Windows encoding
+# Fix Windows encoding. reconfigure() keeps the same stream object —
+# rewrapping sys.stdout.buffer here used to close pytest's capture file
+# and abort collection of the entire suite.
 if sys.platform == 'win32':
-    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
-    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
+    for _stream in (sys.stdout, sys.stderr):
+        try:
+            _stream.reconfigure(encoding='utf-8')
+        except (AttributeError, io.UnsupportedOperation):
+            pass  # pytest capture streams don't support reconfigure — fine
 
 # Add parent directory to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
