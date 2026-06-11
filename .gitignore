@@ -95,10 +95,15 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 
-# Personal demo/test scripts
+# Personal demo/test scripts (root-level only — tests/ has real suites;
+# test_mcp_*.py was unanchored and silently kept tests/test_mcp_integration.py
+# out of the repo)
 analyze_*.py
-test_mcp_*.py
-test_user_*.py
+/test_mcp_*.py
+/test_user_*.py
+# Depends on a locally populated SQLite DB (data/*.db is untracked) —
+# fails on a fresh clone, so it stays local-only
+tests/test_mcp_validation_tools.py
 tests/analyze_*.py
 tests/debug_*.py
 tests/debug_*.js
