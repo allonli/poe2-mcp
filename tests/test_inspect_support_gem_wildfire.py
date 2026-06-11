@@ -78,19 +78,24 @@ async def test_tier1_known_support_returns_existing_record(mcp):
 
 
 # ---------------------------------------------------------------------------
-# Tier 2 — Wildfire (only exists in skill_gems, gem_type='Support')
+# Tier 2 — Fire Attunement (only exists in skill_gems, gem_type='Support')
+#
+# NOTE (2026-06-11): the original probe gem, Wildfire, graduated into the
+# 0.5 canonical support_gems extraction (data-v0.5.0-r10) and now resolves
+# via Tier 1. The fallback wiring is still load-bearing — ~347 supports
+# exist only in skill_gems — so these tests probe with Fire Attunement,
+# one of those Tier-2-only gems.
 # ---------------------------------------------------------------------------
 
 @needs_pr107
 @pytest.mark.asyncio
-async def test_tier2_wildfire_resolves_via_fallback(mcp):
-    """The headline case from PR #107. Wildfire wasn't in .datc64
-    support_gems — fallback to skill_gems returns it. Lock the Data Source
-    line so any future change that breaks the wiring is caught here."""
-    text = await _call_inspect(mcp, "Wildfire")
+async def test_tier2_resolves_via_fallback(mcp):
+    """A skill_gems-only support resolves through the fallback. Lock the
+    Data Source line so any future change that breaks the wiring is
+    caught here."""
+    text = await _call_inspect(mcp, "Fire Attunement")
 
-    # Wildfire is now reachable (was bare not-found pre-PR-#107)
-    assert "Wildfire" in text
+    assert "Fire Attunement" in text
     assert "not found" not in text.lower()
 
     # Tier-2 source line present — the load-bearing provenance signal
@@ -100,13 +105,13 @@ async def test_tier2_wildfire_resolves_via_fallback(mcp):
 
 @needs_pr107
 @pytest.mark.asyncio
-async def test_tier2_wildfire_carries_v1_schema_gap_note(mcp):
+async def test_tier2_carries_v1_schema_gap_note(mcp):
     """The Tier-2 fallback notes field explicitly tells the caller which
     fields aren't extracted in v1 (spirit_cost, effects, compatibility).
     Without this, an LLM might assume the silence on those fields means
-    Wildfire genuinely has no effects — a worse failure mode than a
+    the gem genuinely has no effects — a worse failure mode than a
     bare not-found."""
-    text = await _call_inspect(mcp, "Wildfire")
+    text = await _call_inspect(mcp, "Fire Attunement")
 
     # The note should mention the gap explicitly
     assert "v1" in text.lower()
@@ -118,20 +123,18 @@ async def test_tier2_wildfire_carries_v1_schema_gap_note(mcp):
 
 @needs_pr107
 @pytest.mark.asyncio
-async def test_tier2_wildfire_surfaces_locked_metadata(mcp):
-    """The metadata fields PR #108's data-side test guarantees are present
-    must actually surface in the handler output. Cross-PR contract:
-    PR #108 locks the data, this test locks the handler-side display."""
-    text = await _call_inspect(mcp, "Wildfire")
+async def test_tier2_surfaces_locked_metadata(mcp):
+    """The Tier-2 record's gem metadata (tags, tier, attribute
+    requirements) must actually surface in the handler output."""
+    text = await _call_inspect(mcp, "Fire Attunement")
 
-    # Tags from PR #108's locked-in set
+    # Tags from the canonical skill_gems record
     assert "support" in text.lower()
-    assert "area" in text.lower()
     assert "fire" in text.lower()
-    # Tier from PR #108 (Wildfire tier=2)
-    assert "Tier" in text and "2" in text
-    # Int 100 requirement from PR #108
-    assert "100 Int" in text or "Int: 100" in text or "Int 100" in text
+    assert "attack" in text.lower()
+    # Tier and the 100 Str requirement from the same record
+    assert "**Tier**: 1" in text
+    assert "100 Str" in text or "Str: 100" in text or "Str 100" in text
 
 
 # ---------------------------------------------------------------------------
@@ -141,13 +144,16 @@ async def test_tier2_wildfire_surfaces_locked_metadata(mcp):
 @needs_pr107
 @pytest.mark.asyncio
 async def test_both_tiers_miss_returns_informative_error(mcp):
-    """When neither dataset has the queried support, the error must name
-    BOTH datasets that were searched. Pre-PR-#107 the error said only
-    'not found in database' — opaque about what was actually checked."""
+    """When neither dataset has the queried support, the caller must get
+    an actionable error. Originally that meant naming both searched
+    datasets; the fuzzy-suggestions rework superseded it with a
+    'Did you mean' list + a pointer at inspect_support_gem — assert that
+    informative shape rather than the old dataset-name format."""
     text = await _call_inspect(mcp, "TotallyNonexistentSupport_XYZ123")
 
-    # Names both datasets explicitly
-    assert "support_gems" in text  # the .datc64 dataset
-    assert "skill_gems" in text    # the PoB2 fallback dataset
     # Clear failure framing
-    assert "not found" in text.lower()
+    assert "Not Found" in text
+    assert "no exact match" in text.lower()
+    # Actionable recovery path: suggestions plus how to use them
+    assert "Did you mean" in text
+    assert "inspect_support_gem" in text

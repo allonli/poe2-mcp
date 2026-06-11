@@ -77,53 +77,61 @@ class TestValidationToolsIntegration:
         print(f"[OK] AoE conflict detected: {result['reason']}")
 
     def test_inspect_support_gem(self, gem_calculator):
-        """Test support gem inspection"""
-        # Inspect a known support
-        supports_file = Path(__file__).parent.parent / 'data' / 'poe2_support_gems_database.json'
+        """Test support gem inspection against the canonical 0.5 dataset"""
+        supports_file = Path(__file__).parent.parent / 'data' / 'game' / 'support_gems' / 'support_gems.json'
 
         if not supports_file.exists():
-            pytest.skip("Support gems database not found")
+            pytest.skip("Canonical support gems dataset not found")
 
-        with open(supports_file, 'r') as f:
+        with open(supports_file, 'r', encoding='utf-8') as f:
             data = json.load(f)
 
-        # Find first support
+        # Find first named support in the canonical extraction
         first_support = None
         support_gems = data.get('support_gems', {})
-        for support_id, support_data in support_gems.items():
-            if isinstance(support_data, dict) and 'name' in support_data:
+        gem_iter = support_gems.values() if isinstance(support_gems, dict) else support_gems
+        for support_data in gem_iter:
+            if isinstance(support_data, dict) and support_data.get('name'):
                 first_support = support_data['name']
                 break
 
         assert first_support is not None, "Should find at least one support gem"
-        assert first_support in gem_calculator.support_gems or first_support.lower() in [s.name.lower() for s in gem_calculator.support_gems.values()]
+
+        # Calculator must resolve it by display name (suffix-tolerant lookup)
+        resolved = gem_calculator._get_support(first_support)
+        assert resolved is not None, f"Calculator should resolve '{first_support}'"
+        # And without the " Support" suffix, the way callers actually ask
+        base_name = first_support.removesuffix(" Support")
+        assert gem_calculator._get_support(base_name) is not None, \
+            f"Calculator should resolve suffix-less '{base_name}'"
 
         print(f"[OK] Can inspect support: {first_support}")
 
     def test_inspect_spell_gem(self, gem_calculator):
-        """Test spell gem inspection"""
-        spells_file = Path(__file__).parent.parent / 'data' / 'poe2_spell_gems_database.json'
+        """Test spell gem inspection — Fireball must resolve by display name"""
+        spells_file = Path(__file__).parent.parent / 'data' / 'game' / 'skill_gems' / 'skill_gems.json'
 
         if not spells_file.exists():
-            pytest.skip("Spell gems database not found")
+            pytest.skip("Canonical skill gems dataset not found")
 
-        with open(spells_file, 'r') as f:
+        with open(spells_file, 'r', encoding='utf-8') as f:
             data = json.load(f)
 
-        # Find Fireball (the spell from the original bug report)
-        fireball_found = False
-        for category, spells in data.items():
-            if category == 'metadata':
-                continue
-            for spell_id, spell_data in spells.items():
-                if isinstance(spell_data, dict) and spell_data.get('name', '').lower() == 'fireball':
-                    fireball_found = True
-                    break
-            if fireball_found:
-                break
-
+        # Fireball (the spell from the original bug report) is in the
+        # canonical extraction
+        gems = data.get('skill_gems', {})
+        gem_iter = gems.values() if isinstance(gems, dict) else gems
+        fireball_found = any(
+            isinstance(g, dict) and g.get('name', '').lower() == 'fireball'
+            for g in gem_iter
+        )
         assert fireball_found, "Should find Fireball spell"
-        assert 'fireball' in gem_calculator.spell_gems
+
+        # The calculator stores spells under internal skill ids
+        # ("fireballplayer") — the display-name lookup must bridge that
+        spell = gem_calculator._get_spell('fireball')
+        assert spell is not None, "Calculator should resolve 'fireball' by display name"
+        assert spell.name == "Fireball"
 
         print("[OK] Can inspect spell: Fireball")
 
@@ -255,20 +263,24 @@ class TestValidationToolsIntegration:
             print(f"  - Warning: Some supports not found, trace has errors: {trace.get('errors', [])}")
 
     def test_trace_dps_invalid_combination(self, gem_calculator):
-        """Test that DPS trace detects invalid combinations"""
+        """Test that DPS trace detects invalid combinations.
+
+        Uses the PoE2 gem names (Projectile Acceleration/Deceleration —
+        PoE2's equivalent of PoE1's Faster/Slower Projectiles, which don't
+        exist in the 0.5 dataset)."""
         trace = gem_calculator.trace_dps_calculation(
             spell_name="fireball",
-            support_names=["Faster Projectiles", "Slower Projectiles"],  # INVALID!
+            support_names=["Projectile Acceleration", "Projectile Deceleration"],  # INVALID!
             max_spirit=100
         )
 
         # Should be invalid
-        assert trace["valid"] is False, "Faster + Slower Projectiles should be INVALID"
+        assert trace["valid"] is False, "Acceleration + Deceleration should be INVALID"
         assert len(trace["errors"]) > 0, "Should have error messages"
         assert any("incompatible" in err.lower() or "conflict" in err.lower() for err in trace["errors"]), \
             f"Error should mention incompatibility, got: {trace['errors']}"
 
-        print(f"[OK] DPS trace correctly rejects Faster + Slower Projectiles:")
+        print(f"[OK] DPS trace correctly rejects Projectile Acceleration + Deceleration:")
         print(f"  - Valid: {trace['valid']}")
         print(f"  - Errors: {trace['errors']}")
 

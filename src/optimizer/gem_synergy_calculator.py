@@ -77,6 +77,29 @@ HARDCODED_INCOMPATIBILITIES = {
 }
 
 
+def _normalize_gem_name(name: str) -> str:
+    """
+    Canonical form for gem-name comparison: lowercase, underscores as
+    spaces, trailing " support" suffix dropped. Makes "Concentrated
+    Effect", "Concentrated Effect Support" and "concentrated_effect"
+    all compare equal — the 0.5 canonical extraction carries the
+    suffix, callers usually don't.
+    """
+    normalized = name.lower().replace("_", " ").strip()
+    if normalized.endswith(" support"):
+        normalized = normalized[: -len(" support")].strip()
+    return normalized
+
+
+# HARDCODED_INCOMPATIBILITIES folded to normalized names so conflict checks
+# are insensitive to suffix/case/underscore variants of the same gem.
+_NORMALIZED_INCOMPATIBILITIES: Dict[str, set] = {}
+for _key, _conflicts in HARDCODED_INCOMPATIBILITIES.items():
+    _NORMALIZED_INCOMPATIBILITIES.setdefault(_normalize_gem_name(_key), set()).update(
+        _normalize_gem_name(_c) for _c in _conflicts
+    )
+
+
 @dataclass
 class GemStats:
     """Base gem statistics"""
@@ -200,6 +223,11 @@ class GemSynergyCalculator:
         """
         self.spell_gems: Dict[str, GemStats] = {}
         self.support_gems: Dict[str, SupportGemEffect] = {}
+        # Display-name -> dict-key alias maps. Kept SEPARATE from the gem
+        # dicts so iteration (e.g. _get_compatible_supports) never sees the
+        # same gem twice under different keys.
+        self._spell_aliases: Dict[str, str] = {}
+        self._support_aliases: Dict[str, str] = {}
         self._fresh_provider = get_fresh_data_provider()
         self._pob_skills = {}  # Cache for PoB complete skills with constantStats
 
@@ -231,8 +259,12 @@ class GemSynergyCalculator:
             if skill_id.startswith('Art/') or 'Meta' in skill_id:
                 continue
 
-            self.spell_gems[skill_id.lower()] = GemStats(
-                name=skill_data.get('name', skill_id),
+            key = skill_id.lower()
+            display_name = (
+                skill_data.get('display_name') or skill_data.get('name') or skill_id
+            )
+            self.spell_gems[key] = GemStats(
+                name=display_name,
                 tags=[],  # Tags would need extraction from game files
                 base_damage_min=0,  # Damage values need grantedeffectsperlevel extraction
                 base_damage_max=0,
@@ -243,6 +275,18 @@ class GemSynergyCalculator:
                 spirit_cost=0
             )
 
+            # Alias by display name so callers can say "fireball", not
+            # "fireballplayer". Player variants win over monster/boss skills
+            # that share the same display name (e.g. boss Fireballs).
+            name_key = _normalize_gem_name(display_name) if display_name != skill_id else ''
+            if name_key and name_key != key:
+                is_player_variant = key.endswith('player')
+                existing = self._spell_aliases.get(name_key)
+                if existing is None or (
+                    is_player_variant and not existing.endswith('player')
+                ):
+                    self._spell_aliases[name_key] = key
+
         # Load support gems
         support_gems = self._fresh_provider.get_all_support_gems()
         for support_id, support_data in support_gems.items():
@@ -251,7 +295,13 @@ class GemSynergyCalculator:
                 continue
 
             name = support_data.get('name', support_id)
-            self.support_gems[support_id.lower()] = SupportGemEffect(
+            support_key = support_id.lower()
+            # Alias by display name (normalized — " Support" suffix dropped)
+            # so "Spell Echo" finds the gem stored under its internal id.
+            support_name_key = _normalize_gem_name(name)
+            if support_name_key and support_name_key != support_key:
+                self._support_aliases.setdefault(support_name_key, support_key)
+            self.support_gems[support_key] = SupportGemEffect(
                 name=name,
                 tags=support_data.get('tags', []),
                 # Effects would need detailed extraction from grantedeffectsperlevel
@@ -274,6 +324,43 @@ class GemSynergyCalculator:
             )
 
         logger.info(f"FreshDataProvider: {len(self.spell_gems)} active skills, {len(support_gems)} support gems")
+
+    def _get_spell(self, spell_name: str) -> Optional[GemStats]:
+        """
+        Resolve a spell by dict key, display-name alias, or (last resort)
+        a scan over loaded names. The fresh-provider data keys spells by
+        internal skill id ("fireballplayer") while callers pass display
+        names ("fireball") — the alias map bridges that.
+        """
+        key = spell_name.lower().strip()
+        if key in self.spell_gems:
+            return self.spell_gems[key]
+        normalized = _normalize_gem_name(spell_name)
+        alias = self._spell_aliases.get(normalized)
+        if alias and alias in self.spell_gems:
+            return self.spell_gems[alias]
+        for gem in self.spell_gems.values():
+            if _normalize_gem_name(gem.name) == normalized:
+                return gem
+        return None
+
+    def _get_support(self, support_name: str) -> Optional[Tuple[str, SupportGemEffect]]:
+        """
+        Resolve a support gem by dict key, display-name alias (suffix
+        tolerant: "Spell Echo" matches "Spell Echo Support"), or a scan
+        over loaded names. Returns (dict_key, effect) or None.
+        """
+        key = support_name.lower().strip()
+        if key in self.support_gems:
+            return key, self.support_gems[key]
+        normalized = _normalize_gem_name(support_name)
+        alias = self._support_aliases.get(normalized)
+        if alias and alias in self.support_gems:
+            return alias, self.support_gems[alias]
+        for support_id, support in self.support_gems.items():
+            if _normalize_gem_name(support.name) == normalized:
+                return support_id, support
+        return None
 
     async def load_support_gems_from_database(self, db_manager: DatabaseManager) -> int:
         """
@@ -648,8 +735,8 @@ class GemSynergyCalculator:
             "optimization_goal": optimization_goal
         }
 
-        # Get spell
-        spell = self.spell_gems.get(spell_name.lower())
+        # Get spell (key, display-name alias, or name scan)
+        spell = self._get_spell(spell_name)
         if not spell:
             logger.error(f"Spell '{spell_name}' not found in database")
             if return_trace:
@@ -758,22 +845,21 @@ class GemSynergyCalculator:
                         logger.warning(f"Rejecting {support_id} + {incompatible} (database incompatibility)")
                         return False
 
-            # Check hardcoded incompatibilities
-            if support_id in HARDCODED_INCOMPATIBILITIES:
-                for incompatible in HARDCODED_INCOMPATIBILITIES[support_id]:
-                    if incompatible in support_names:
-                        logger.warning(f"Rejecting {support_id} + {incompatible} (hardcoded incompatibility)")
-                        return False
-
-            # Also check normalized names (without "Support" suffix)
-            support_base_name = support_id.replace(" Support", "")
-            if support_base_name in HARDCODED_INCOMPATIBILITIES:
-                for incompatible in HARDCODED_INCOMPATIBILITIES[support_base_name]:
-                    incomp_variations = [incompatible, incompatible + " Support"]
-                    for variation in incomp_variations:
-                        if variation in support_names:
-                            logger.warning(f"Rejecting {support_id} + {incompatible} (hardcoded incompatibility - normalized)")
-                            return False
+        # Hardcoded incompatibilities — match on normalized id AND display
+        # name so internal-id keys ("supportprojectileaccelerationplayer")
+        # and display names ("Projectile Acceleration Support") both trip
+        # the same rule.
+        for i, (id_a, sup_a) in enumerate(support_combo):
+            conflict_set = (
+                _NORMALIZED_INCOMPATIBILITIES.get(_normalize_gem_name(id_a), set())
+                | _NORMALIZED_INCOMPATIBILITIES.get(_normalize_gem_name(sup_a.name), set())
+            )
+            if not conflict_set:
+                continue
+            for id_b, sup_b in support_combo[i + 1:]:
+                if {_normalize_gem_name(id_b), _normalize_gem_name(sup_b.name)} & conflict_set:
+                    logger.warning(f"Rejecting {sup_a.name} + {sup_b.name} (hardcoded incompatibility)")
+                    return False
 
         return True
 
@@ -817,20 +903,18 @@ class GemSynergyCalculator:
         warnings: List[Dict[str, Any]] = []
         spell_tags: Optional[List[str]] = None
 
-        # --- Hard conflict check (pre-existing behavior) ---
+        # --- Hard conflict check. Names normalized (case, underscores,
+        #     " Support" suffix) before matching so callers can pass either
+        #     "Concentrated Effect" or "Concentrated Effect Support".
         for i, support_a in enumerate(support_names):
-            if support_a in HARDCODED_INCOMPATIBILITIES:
-                for incompatible in HARDCODED_INCOMPATIBILITIES[support_a]:
-                    if incompatible in support_names:
-                        conflicts.append((support_a, incompatible))
-
-            support_base = support_a.replace(" Support", "")
-            if support_base in HARDCODED_INCOMPATIBILITIES:
-                for incompatible in HARDCODED_INCOMPATIBILITIES[support_base]:
-                    incomp_variations = [incompatible, incompatible + " Support"]
-                    for variation in incomp_variations:
-                        if variation in support_names:
-                            conflicts.append((support_a, variation))
+            conflict_set = _NORMALIZED_INCOMPATIBILITIES.get(
+                _normalize_gem_name(support_a), set()
+            )
+            if not conflict_set:
+                continue
+            for support_b in support_names[i + 1:]:
+                if _normalize_gem_name(support_b) in conflict_set:
+                    conflicts.append((support_a, support_b))
 
         # --- Semantic-conflict check (new — #117). Delegated to the light
         #     sibling module so unit tests don't drag SQLAlchemy.
@@ -926,8 +1010,8 @@ class GemSynergyCalculator:
             "errors": []
         }
 
-        # Get spell
-        spell = self.spell_gems.get(spell_name.lower())
+        # Get spell (key, display-name alias, or name scan)
+        spell = self._get_spell(spell_name)
         if not spell:
             trace["valid"] = False
             trace["errors"].append(f"Spell '{spell_name}' not found")
@@ -940,23 +1024,21 @@ class GemSynergyCalculator:
             "cast_time": spell.cast_time
         }
 
-        # Get supports
+        # Get supports (key, display-name alias, or name scan — suffix tolerant)
         support_objs = []
         for sup_name in support_names:
-            found = False
-            for sup_id, sup_obj in self.support_gems.items():
-                if sup_obj.name.lower() == sup_name.lower() or sup_id.lower() == sup_name.lower():
-                    support_objs.append((sup_id, sup_obj))
-                    trace["supports"].append({
-                        "name": sup_obj.name,
-                        "more_damage": sup_obj.more_damage,
-                        "less_damage": sup_obj.less_damage,
-                        "increased_damage": sup_obj.increased_damage,
-                        "spirit_cost": sup_obj.spirit_cost
-                    })
-                    found = True
-                    break
-            if not found:
+            resolved = self._get_support(sup_name)
+            if resolved:
+                sup_id, sup_obj = resolved
+                support_objs.append((sup_id, sup_obj))
+                trace["supports"].append({
+                    "name": sup_obj.name,
+                    "more_damage": sup_obj.more_damage,
+                    "less_damage": sup_obj.less_damage,
+                    "increased_damage": sup_obj.increased_damage,
+                    "spirit_cost": sup_obj.spirit_cost
+                })
+            else:
                 trace["errors"].append(f"Support '{sup_name}' not found")
 
         if trace["errors"]:

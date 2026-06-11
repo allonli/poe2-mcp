@@ -105,11 +105,15 @@ async def mcp():
 
 @pytest.mark.asyncio
 async def test_inspect_support_gem_typo_returns_suggestions(mcp):
-    """inspect_support_gem('Wildfir') should return 'Did you mean' with Wildfire."""
+    """inspect_support_gem('Wildfir') must not dead-end on the typo.
+
+    Since Wildfire Support entered the 0.5 canonical dataset, the handler
+    may resolve the near-miss directly instead of suggesting — both are
+    acceptable; a flat unhelpful error is not."""
     r = await mcp._handle_inspect_support_gem({"support_name": "Wildfir"})
     text = r[0].text
-    assert "Did you mean" in text
     assert "Wildfire" in text
+    assert "Did you mean" in text or "not found" not in text.lower()
 
 
 @pytest.mark.asyncio

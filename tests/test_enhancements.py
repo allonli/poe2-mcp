@@ -32,7 +32,6 @@ from src.api.poe_ninja_api import PoeNinjaAPI
 from src.api.character_fetcher import CharacterFetcher
 from src.api.cache_manager import CacheManager
 from src.api.rate_limiter import RateLimiter
-from src.utils.scraper import PoE2DataScraper
 from src.optimizer.gear_optimizer import GearOptimizer
 from src.database.manager import DatabaseManager
 
@@ -120,42 +119,11 @@ class TestEnhancements:
 
         print("\n✓ Character fetcher test completed")
 
-    @pytest.mark.asyncio
-    async def test_web_scraper(self):
-        """Test web scraper for game data"""
-        print("\n" + "="*60)
-        print("Testing Web Scraper")
-        print("="*60)
-
-        scraper = PoE2DataScraper()
-
-        try:
-            # Test scraping unique items (limit to 5 for speed)
-            print("\nScraping unique items (limited to 5)...")
-            unique_items = await scraper.scrape_unique_items(limit=5)
-
-            if unique_items:
-                print(f"✓ Successfully scraped {len(unique_items)} unique items")
-                for item in unique_items[:3]:
-                    print(f"  - {item['name']} ({item['item_class']})")
-            else:
-                print("⚠ No unique items scraped (may indicate poe2db.tw structure changed)")
-
-            # Test scraping skill gems (limit to 5 for speed)
-            print("\nScraping skill gems (limited to 5)...")
-            skills = await scraper.scrape_skill_gems()
-
-            if skills:
-                print(f"✓ Successfully scraped {len(skills)} skill gems")
-                for skill in skills[:3]:
-                    print(f"  - {skill['name']}")
-            else:
-                print("⚠ No skill gems scraped")
-
-        finally:
-            await scraper.close()
-
-        print("\n✓ Web scraper test completed")
+    # test_web_scraper removed (2026-06-11): it scraped poe2db.tw live —
+    # a direct violation of the local-game-data-only policy in CLAUDE.md —
+    # and depended on settings.POE2DB_BASE_URL, which was removed from
+    # Settings. The PoE2DataScraper itself is legacy; game data comes from
+    # the extracted .datc64 pipeline.
 
     @pytest.mark.asyncio
     async def test_gear_optimizer(self):
@@ -258,7 +226,6 @@ async def run_all_tests():
   Testing new features:
   - poe.ninja API client with web scraping fallback
   - Multi-source character fetching
-  - Web scraper for game data
   - Enhanced gear optimizer
   - Database population capabilities
 ================================================================
@@ -269,7 +236,6 @@ async def run_all_tests():
     tests = [
         ("poe.ninja API", tester.test_poe_ninja_api),
         ("Character Fetcher", tester.test_character_fetcher),
-        ("Web Scraper", tester.test_web_scraper),
         ("Gear Optimizer", tester.test_gear_optimizer),
         ("Database Population", tester.test_database_population_dry_run),
     ]
