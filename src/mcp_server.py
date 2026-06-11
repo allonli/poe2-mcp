@@ -939,6 +939,31 @@ class PoE2BuildOptimizerMCP:
                                     "lightning_penetration, is_shocked}. "
                                     "Defaults to a target dummy (all zeros)."
                                 )
+                            },
+                            "dot": {
+                                "type": "object",
+                                "description": (
+                                    "Optional damage-over-time layer (#159). When present, "
+                                    "the response adds ailment/skill-DoT breakdowns and "
+                                    "total_sustained_dps (hit + DoT). Shape: "
+                                    "{ailments: [{type: 'ignite'|'poison'|'bleed', "
+                                    "chance (0-100, default 100), increased_magnitude, "
+                                    "more_multipliers (list), increased_duration, "
+                                    "stack_limit (poison; default 1), enemy_moving (bleed), "
+                                    "aggravated (bleed)}], "
+                                    "skill_dot: {base_dps (REQUIRED — e.g. Essence Drain's "
+                                    "base chaos DPS at gem level; the 0.5 extraction lacks "
+                                    "absolute DoT base values so the caller supplies it), "
+                                    "damage_type (default 'chaos'), increased, "
+                                    "more_multipliers, uptime (0-1, default 1)}, "
+                                    "hit_damage_by_type: optional {fire, cold, lightning, "
+                                    "chaos, physical} override of the expected hit's type "
+                                    "split — otherwise derived from spell base type + added "
+                                    "damage}. PoE2 ailment math: ignite 20%/s of fire hit "
+                                    "for 4s; poison 20%/s of phys+chaos for 2s (stack limit "
+                                    "applies); bleed 15%/s of phys for 5s, x2 while moving/"
+                                    "aggravated. Non-stacking ailments cap at 1 active."
+                                )
                             }
                         },
                         "required": []
@@ -3536,6 +3561,115 @@ Consider:
             # ---- Run the math ----
             result = calc.calculate_dps(spell, char_mods, enemy)
 
+            # ---- DoT layer (#159) — optional `dot` block ----
+            dot_in = args.get("dot") or {}
+            dot_section: list = []
+            dot_totals = None
+            if dot_in:
+                try:
+                    from .calculator.dot_calculator import (
+                        DoTCalculator, AilmentInput, SkillDoTInput,
+                        split_expected_hit_by_type,
+                    )
+                except ImportError:
+                    from src.calculator.dot_calculator import (
+                        DoTCalculator, AilmentInput, SkillDoTInput,
+                        split_expected_hit_by_type,
+                    )
+
+                dot_calc = DoTCalculator()
+                breakdown = result.get("breakdown") or {}
+
+                # Hit damage by type: explicit override, else attribute the
+                # crit-weighted expected hit (pre-resistance — ailment
+                # magnitude is based on unmitigated damage dealt).
+                hit_by_type = {
+                    k.lower(): float(v_)
+                    for k, v_ in (dot_in.get("hit_damage_by_type") or {}).items()
+                }
+                if not hit_by_type:
+                    hit_by_type = split_expected_hit_by_type(
+                        expected_hit=float(breakdown.get("expected_hit", 0.0)),
+                        base_damage=float(breakdown.get("base_damage", 0.0)),
+                        primary_type=(spell.damage_types[0] if spell.damage_types else None),
+                        added_by_type={
+                            "fire": char_mods.added_fire,
+                            "cold": char_mods.added_cold,
+                            "lightning": char_mods.added_lightning,
+                            "chaos": char_mods.added_chaos,
+                            "physical": char_mods.added_physical,
+                        },
+                        damage_effectiveness=spell.damage_effectiveness,
+                    )
+
+                hits_per_second = float(result.get("casts_per_second", 0.0))
+
+                ailment_results = []
+                for a in (dot_in.get("ailments") or []):
+                    ailment_results.append(dot_calc.calculate_ailment_dot(
+                        AilmentInput(
+                            ailment=str(a.get("type", "")),
+                            chance_pct=float(a.get("chance", 100)),
+                            increased_magnitude=float(a.get("increased_magnitude", 0)),
+                            more_multipliers=[float(m) for m in (a.get("more_multipliers") or [])],
+                            increased_duration=float(a.get("increased_duration", 0)),
+                            stack_limit=int(a.get("stack_limit", 1)),
+                            enemy_moving=bool(a.get("enemy_moving", False)),
+                            aggravated=bool(a.get("aggravated", False)),
+                        ),
+                        hit_damage_by_type=hit_by_type,
+                        hits_per_second=hits_per_second,
+                        enemy=enemy,
+                    ))
+
+                skill_dot_result = None
+                sd = dot_in.get("skill_dot") or {}
+                if sd:
+                    skill_dot_result = dot_calc.calculate_skill_dot(
+                        SkillDoTInput(
+                            base_dps=float(sd.get("base_dps", 0)),
+                            damage_type=str(sd.get("damage_type", "chaos")),
+                            increased=float(sd.get("increased", 0)),
+                            more_multipliers=[float(m) for m in (sd.get("more_multipliers") or [])],
+                            uptime=float(sd.get("uptime", 1.0)),
+                        ),
+                        enemy=enemy,
+                    )
+
+                dot_totals = dot_calc.combine(
+                    hit_dps=float(result.get("total_dps", 0.0)),
+                    ailment_results=ailment_results,
+                    skill_dot_result=skill_dot_result,
+                )
+
+                # Render the DoT section
+                dot_section.append("## Damage over Time")
+                for r in ailment_results:
+                    if "error" in r:
+                        dot_section.append(f"- ⚠️ {r['error']}")
+                        continue
+                    dot_section.append(
+                        f"- **{r['ailment']}** ({r['damage_type']}): "
+                        f"{r['sustained_dps']} sustained DPS "
+                        f"({r['dps_per_stack']}/stack × {r['expected_active_stacks']} "
+                        f"avg stacks, {r['duration_seconds']}s duration, "
+                        f"{r['applications_per_second']} applications/s)"
+                    )
+                if skill_dot_result:
+                    dot_section.append(
+                        f"- **Skill DoT** ({skill_dot_result['damage_type']}): "
+                        f"{skill_dot_result['sustained_dps']} sustained DPS "
+                        f"({skill_dot_result['dps_at_full_uptime']} at full uptime "
+                        f"× {skill_dot_result['uptime']} uptime)"
+                    )
+                dot_section.append("")
+                dot_section.append(
+                    f"**Sustained totals**: hit {dot_totals['hit_dps']} + "
+                    f"DoT {dot_totals['dot_dps']} = "
+                    f"**{dot_totals['total_sustained_dps']} total sustained DPS**"
+                )
+                dot_section.append("")
+
             # ---- Format response ----
             v = get_version() or {}
             lines = []
@@ -3564,6 +3698,9 @@ Consider:
                     lines.append(f"- More (multiplicative): ×{mults.get('more', 1.0)}")
                     lines.append(f"- Crit: ×{mults.get('crit', 1.0)}")
                 lines.append("")
+
+            if dot_section:
+                lines.extend(dot_section)
 
             if result.get("error"):
                 lines.append(f"⚠️  **Calculator error**: {result['error']}")
