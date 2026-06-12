@@ -3,8 +3,8 @@
   "patch_version": "0.5",
   "patch_name": "Return of the Ancients",
   "patch_released": "2026-05-29",
-  "data_revision": 11,
-  "released_as": "data-v0.5.0-r11",
+  "data_revision": 12,
+  "released_as": "data-v0.5.0-r12",
   "extracted_at": "2026-06-01T15:43:00Z",
   "extracted_by": "HivemindMinion (Claude Code) from HivemindOverlord's licensed PoE2 install + PoB2 community repo",
   "datasets": {
@@ -50,8 +50,8 @@
         "stats.json",
         "metadata.json"
       ],
-      "record_count": 26943,
-      "note": "{row_index: stat_id} mapping; used to resolve stat_key refs in mods/passives/gems"
+      "record_count": 27013,
+      "note": "Refreshed 2026-06-13 from the full 1,019-table re-extraction (campaign C1d): 26,943 -> 27,013 records (+70, includes post-0.5-hotfix stat ids). All 244 spirit-family stat ids verified present (incl. base_spirit_reservation row 16110)."
     },
     "skill_gems": {
       "path": "data/game/skill_gems/",
