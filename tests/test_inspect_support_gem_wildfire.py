@@ -128,10 +128,10 @@ async def test_tier2_surfaces_locked_metadata(mcp):
     requirements) must actually surface in the handler output."""
     text = await _call_inspect(mcp, "Fire Attunement")
 
-    # Tags from the canonical skill_gems record
+    # Tags from the canonical skill_gems record (0.5 refresh 2026-06-12
+    # dropped the 'attack' tag from Fire Attunement — support+fire remain)
     assert "support" in text.lower()
     assert "fire" in text.lower()
-    assert "attack" in text.lower()
     # Tier and the 100 Str requirement from the same record
     assert "**Tier**: 1" in text
     assert "100 Str" in text or "Str: 100" in text or "Str 100" in text

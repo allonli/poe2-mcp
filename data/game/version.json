@@ -3,64 +3,89 @@
   "patch_version": "0.5",
   "patch_name": "Return of the Ancients",
   "patch_released": "2026-05-29",
-  "data_revision": 10,
-  "released_as": "data-v0.5.0-r10",
+  "data_revision": 11,
+  "released_as": "data-v0.5.0-r11",
   "extracted_at": "2026-06-01T15:43:00Z",
   "extracted_by": "HivemindMinion (Claude Code) from HivemindOverlord's licensed PoE2 install + PoB2 community repo",
   "datasets": {
     "mods": {
       "path": "data/game/mods/",
-      "files": ["mods.json", "metadata.json"],
+      "files": [
+        "mods.json",
+        "metadata.json"
+      ],
       "record_count": 16788,
       "enriched_stat_entries": 24632,
       "note": "Non-empty stat entries now include resolved stat_id strings inline (cross-referenced from data/game/stats/). Consumers no longer need a separate stats.json load to resolve stat_key refs."
     },
     "passive_tree": {
       "path": "data/game/passive_tree/",
-      "files": ["tree.json", "metadata.json"],
+      "files": [
+        "tree.json",
+        "metadata.json"
+      ],
       "record_count": 9605
     },
     "support_gems": {
       "path": "data/game/support_gems/",
-      "files": ["support_gems.json", "metadata.json"],
+      "files": [
+        "support_gems.json",
+        "metadata.json"
+      ],
       "record_count": 680
     },
     "ascendancies": {
       "path": "data/game/ascendancies/",
-      "files": ["ascendancies.json", "metadata.json"],
+      "files": [
+        "ascendancies.json",
+        "metadata.json"
+      ],
       "record_count": 37,
       "active_count": 23,
       "note": "display_name canonical (offset 44); base_class field promoted onto every entry (derived from id prefix); 14 DNT-UNUSED placeholders filtered via is_unused flag. Includes NEW 0.5 ascendancies Spirit Walker (Huntress2) and Martial Artist (Monk1)."
     },
     "stats": {
       "path": "data/game/stats/",
-      "files": ["stats.json", "metadata.json"],
+      "files": [
+        "stats.json",
+        "metadata.json"
+      ],
       "record_count": 26943,
       "note": "{row_index: stat_id} mapping; used to resolve stat_key refs in mods/passives/gems"
     },
     "skill_gems": {
       "path": "data/game/skill_gems/",
-      "files": ["skill_gems.json", "metadata.json"],
-      "record_count": 872,
+      "files": [
+        "skill_gems.json",
+        "metadata.json"
+      ],
+      "record_count": 965,
       "matched_effect_count": 872,
-      "source": "PoB2 origin/dev @ 9c2bf0316 (2026-05-30) — Gems.lua + Skills/*.lua joined view",
-      "note": "Joined gem-metadata + granted-effect records. Schema v1: levels/stat_sets surface a useful subset; full statMap / baseFlags / constantStats / stats lists are NOT yet extracted (require structural Lua parser — deferred to v2). Per-gem record count (872) is intentionally smaller than support_gems.record_count (680) because the two datasets cover different surface areas: this is the PoB2 gem-and-effect joined view; support_gems is the extracted .datc64 support-modifier table."
+      "source": "PoB2 origin/dev @ 9c2bf0316 (2026-05-30) \u2014 Gems.lua + Skills/*.lua joined view",
+      "note": "Refreshed 2026-06-12 from PoB2 origin/dev @ 623f6dde0 (2026-06-13) - 0.5-current. Data-correctness campaign C1."
     },
     "skill_gems_v2": {
       "path": "data/game/skill_gems/",
-      "files": ["skill_gems_v2.json", "metadata_v2.json"],
-      "record_count": 1249,
+      "files": [
+        "skill_gems_v2.json",
+        "metadata_v2.json"
+      ],
+      "record_count": 1373,
       "coverage": {
         "with_qualityStats": 338,
         "with_levels": 1249,
         "with_statSets": 1249
       },
       "source": "PoB2 src/Data/Skills/*.lua via structural Lua parser (src/parsers/lua_skill_data.py)",
-      "note": "Rich per-skill numeric data — castTime, skillTypes, qualityStats, per-level {cost, critChance, levelRequirement}, and statSets with baseEffectiveness/constantStats/per-level damage arrays. Closes Issue #119. Distinct from skill_gems.json (the v1 joined view from Gems.lua); v2 covers a larger surface (1,249 records across 9 Skills/*.lua files) including Player/NPC/spectre/minion variants. Use v2 when you need numeric scaling, v1 when you need gem-shop metadata (tags, requirements, tier)."
+      "note": "Refreshed 2026-06-12 from PoB2 origin/dev @ 623f6dde0. NOW INCLUDES spiritReservationFlat per level (campaign C1) - reservations were previously absent from the canonical dataset."
     },
     "stat_descriptions": {
       "path": "data/game/stat_descriptions/",
-      "files": ["index.json", "metadata.json", "<name>_stat_descriptions.json (x18)"],
+      "files": [
+        "index.json",
+        "metadata.json",
+        "<name>_stat_descriptions.json (x18)"
+      ],
       "record_count": 16533,
       "no_description_count": 89,
       "source": "data/extracted/Data/statdescriptions/*.csd (UTF-16-LE, PoB-compatible Compiled Stat Description grammar)",
@@ -68,7 +93,10 @@
     },
     "per_skill_stat_descriptions": {
       "path": "data/game/stat_descriptions/",
-      "files": ["per_skill_stat_descriptions.json", "per_skill_metadata.json"],
+      "files": [
+        "per_skill_stat_descriptions.json",
+        "per_skill_metadata.json"
+      ],
       "record_count": 1240,
       "no_description_count": 153,
       "file_count": 296,

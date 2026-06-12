@@ -4,29 +4,30 @@
   "schema_version": 2,
   "patch_version": "0.5",
   "patch_name": "Return of the Ancients",
-  "extracted_at": "2026-06-01T17:36:58Z",
+  "extracted_at": "2026-06-12T19:22:01Z",
   "source_repo": "PathOfBuilding-PoE2",
-  "source_commit": "ee4128437629f0addacd6a00edefe7508a6e7ed9",
+  "source_commit": "623f6dde035b96c833dde720526862a281aa636b",
   "source_files": [
     "src/Data/Skills/act_dex.lua",
     "src/Data/Skills/act_int.lua",
     "src/Data/Skills/act_str.lua",
     "src/Data/Skills/minion.lua",
     "src/Data/Skills/other.lua",
+    "src/Data/Skills/SkillAssets.lua",
     "src/Data/Skills/spectre.lua",
     "src/Data/Skills/sup_dex.lua",
     "src/Data/Skills/sup_int.lua",
     "src/Data/Skills/sup_str.lua"
   ],
   "extractor": "scripts/extract_skill_gems_rich.py",
-  "record_count": 1249,
+  "record_count": 1373,
   "coverage": {
-    "with_qualityStats": 338,
-    "with_levels": 1249,
-    "with_statSets": 1249
+    "with_qualityStats": 410,
+    "with_levels": 1373,
+    "with_statSets": 1372
   },
-  "sha256": "bd491dd6ac9432755edc96a648341688802068d5bbee3b498556aad4692401e7",
-  "bytes": 7939315,
+  "sha256": "88c365c2d5debfe3cbf8f8f34f882ac13c9139df05597c4b1fc42c5459861c36",
+  "bytes": 9551254,
   "schema_notes": [
     "Captures qualityStats, per-level cost/critChance/levelRequirement, and statSets with baseEffectiveness/constantStats/per-level damage arrays.",
     "PoB's mod()/flag()/skill() inline helpers are stubbed to tagged dicts (see src/parsers/lua_skill_data.py). Other PoB globals are stubbed via a catch-all metatable; unknown identifiers resolve to placeholder dicts.",

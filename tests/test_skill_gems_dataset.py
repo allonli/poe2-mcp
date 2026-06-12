@@ -208,12 +208,13 @@ def test_gem_type_distribution_contains_core_categories(gems):
 
 
 def test_spell_count_matches_handler_expectation(gems):
-    """list_all_spells (PR #94) uses gem_type=='Spell' as its filter and
-    reports 83 active spells. Lock that count."""
+    """list_all_spells (PR #94) uses gem_type=='Spell' as its filter.
+    Count locked at 99 after the 2026-06-12 0.5-current refresh
+    (campaign C1; was 83 on the Dec-2025 PoB ref — +16 new 0.5 spells)."""
     spells = [g for g in gems if g.get("gem_type") == "Spell"]
-    assert len(spells) == 83, (
-        f"gem_type=='Spell' count is {len(spells)}, not 83 — PR #94 handler "
-        "expectation broken"
+    assert len(spells) == 99, (
+        f"gem_type=='Spell' count is {len(spells)}, not 99 — dataset or "
+        "handler expectation drifted"
     )
 
 
