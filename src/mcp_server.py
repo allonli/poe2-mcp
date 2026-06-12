@@ -7216,7 +7216,9 @@ Could not extract account and character from URL.
         # Group items by slot
         by_slot = {}
         for item in items:
-            slot = item.get('slot', 'Unknown')
+            # `or` (not .get default): cached/older records carry an explicit
+            # slot: null, which .get's default does not cover
+            slot = item.get('slot') or 'Unknown'
             # Normalize slot names
             if 'weapon' in slot.lower():
                 slot = 'Weapon'
@@ -7270,18 +7272,23 @@ Could not extract account and character from URL.
                 if type_line and type_line != name:
                     response += f"*{type_line}*\n"
 
-                # Show key mods (limit to avoid wall of text)
-                mods = item.get('mods', {})
-                shown_mods = 0
+                # Show key mods (limit to avoid wall of text). Shape varies
+                # by source: poe.ninja route = {implicit: [...], explicit:
+                # [...]}, PoB-export route = flat list of mod lines.
+                mods = item.get('mods') or {}
                 max_mods = 5
 
-                if mods.get('implicit'):
-                    for mod in mods['implicit'][:2]:
-                        response += f"- {mod} (implicit)\n"
-                        shown_mods += 1
-
-                if mods.get('explicit') and shown_mods < max_mods:
-                    for mod in mods['explicit'][:max_mods - shown_mods]:
+                if isinstance(mods, dict):
+                    shown_mods = 0
+                    if mods.get('implicit'):
+                        for mod in mods['implicit'][:2]:
+                            response += f"- {mod} (implicit)\n"
+                            shown_mods += 1
+                    if mods.get('explicit') and shown_mods < max_mods:
+                        for mod in mods['explicit'][:max_mods - shown_mods]:
+                            response += f"- {mod}\n"
+                elif isinstance(mods, list):
+                    for mod in mods[:max_mods]:
                         response += f"- {mod}\n"
 
         # Show any remaining slots not in order
@@ -7476,8 +7483,8 @@ Could not extract account and character from URL.
 
             all_gems = skill.get('allGems', [])
             gems = skill.get('gems', [])
-            skill_name = skill.get('name', '')
-            slot = skill.get('slot', skill.get('socketGroup', ''))
+            skill_name = skill.get('name') or ''
+            slot = skill.get('slot') or skill.get('socketGroup') or ''
             dps_entries = skill.get('dps', [])
 
             # Structure 1: poe.ninja 'allGems' format (most common)

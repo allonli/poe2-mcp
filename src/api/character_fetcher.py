@@ -15,11 +15,11 @@ from bs4 import BeautifulSoup
 
 try:
     from ..config import settings
-    from ..api.poe_ninja_api import PoeNinjaAPI
+    from ..api.poe_ninja_api import PoeNinjaAPI, ASCENDANCY_TO_BASE_CLASS
     from ..pob.importer import PoBImporter
 except ImportError:
     from src.config import settings
-    from src.api.poe_ninja_api import PoeNinjaAPI
+    from src.api.poe_ninja_api import PoeNinjaAPI, ASCENDANCY_TO_BASE_CLASS
     from src.pob.importer import PoBImporter
 from .rate_limiter import RateLimiter
 from .cache_manager import CacheManager
@@ -736,6 +736,26 @@ class CharacterFetcher:
                 normalised['class'] = pob_data['class']
         else:
             normalised['parse_source'] = 'field_normalize'
+
+        # ------------------------------------------------------------------
+        # Class/ascendancy disambiguation (#151 regression guard): poe.ninja's
+        # charModel `class` field (and PoB's className for ascended chars)
+        # carries the ASCENDANCY name ("Infernalist"), not the base class.
+        # The mapping previously lived in the retired snapshot-tier normalizer
+        # (#166) — apply it here so every route gets Witch/Infernalist split.
+        # ------------------------------------------------------------------
+        raw_class = normalised.get('class')
+        if raw_class and raw_class in ASCENDANCY_TO_BASE_CLASS:
+            if not normalised.get('ascendancy') or normalised['ascendancy'] == raw_class:
+                normalised['ascendancy'] = raw_class
+            normalised['class'] = ASCENDANCY_TO_BASE_CLASS[raw_class]
+        elif (
+            normalised.get('ascendancy')
+            and normalised.get('class') == normalised.get('ascendancy')
+        ):
+            base = ASCENDANCY_TO_BASE_CLASS.get(normalised['ascendancy'])
+            if base:
+                normalised['class'] = base
 
         return normalised
 

@@ -219,8 +219,13 @@ class PoBImporter:
 
     def _parse_items(self, root: ET.Element) -> List[Dict[str, Any]]:
         """
-        Parse items from PoB XML
-        Items are stored in <Items> section with individual <Item> elements
+        Parse items from PoB XML.
+
+        Items live in <Items> as <Item id=N> elements WITHOUT slot
+        attributes — the equipped-slot assignments live separately in
+        <ItemSet><Slot name="Gloves" itemId="9"/>. Build the id->slot map
+        from the (first/default) ItemSet so equipped items carry their
+        slot; unassigned items (spares/swaps) keep slot=None.
         """
         items = []
         items_elem = root.find('./Items')
@@ -228,10 +233,21 @@ class PoBImporter:
         if items_elem is None:
             return items
 
+        # id -> slot name from the default ItemSet's Slot assignments
+        slot_by_item_id: Dict[str, str] = {}
+        item_set = items_elem.find('ItemSet') or root.find('.//ItemSet')
+        if item_set is not None:
+            for slot_elem in item_set.findall('Slot'):
+                item_id = slot_elem.get('itemId')
+                slot_name = slot_elem.get('name')
+                if item_id and item_id != '0' and slot_name:
+                    slot_by_item_id[item_id] = slot_name
+
         for item_elem in items_elem.findall('Item'):
+            item_id = item_elem.get('id')
             item_data = {
-                'id': item_elem.get('id'),
-                'slot': self._get_item_slot(item_elem),
+                'id': item_id,
+                'slot': self._get_item_slot(item_elem) or slot_by_item_id.get(item_id),
                 'raw_text': item_elem.text or '',
                 'enabled': item_elem.get('enabled', '1') == '1'
             }
@@ -251,15 +267,43 @@ class PoBImporter:
 
     def _parse_item_text(self, text: str) -> Dict[str, Any]:
         """
-        Parse PoB item text format
-        Format is similar to in-game item tooltips
+        Parse PoB item text format (in-game tooltip shape):
+
+            Rarity: UNIQUE
+            The Dark Defiler          <- item NAME
+            Rattling Sceptre          <- base type
+            ...stats/mods...
+
+        The name is the line AFTER the Rarity line (the old code took the
+        first line, which IS the Rarity line — every item rendered as
+        'Rarity: UNIQUE'). Lines arrive indented/blank-padded in real
+        exports, so each is stripped first.
         """
-        lines = text.strip().split('\n')
+        lines = [ln.strip() for ln in text.strip().split('\n') if ln.strip()]
         if not lines:
             return {}
 
+        name = 'Unknown'
+        base_type = ''
+        # Locate the Rarity line; name and base type follow it
+        rarity_idx = next(
+            (i for i, ln in enumerate(lines) if ln.lower().startswith('rarity:')),
+            None,
+        )
+        if rarity_idx is not None and rarity_idx + 1 < len(lines):
+            name = lines[rarity_idx + 1]
+            candidate = lines[rarity_idx + 2] if rarity_idx + 2 < len(lines) else ''
+            # The base-type line never contains ':' (metadata lines do) and
+            # Normal/Magic items have no separate name line to follow
+            if candidate and ':' not in candidate:
+                base_type = candidate
+        elif lines:
+            name = lines[0]
+
         return {
-            'name': lines[0] if lines else 'Unknown',
+            'name': name,
+            'type_line': base_type,
+            'base_type': base_type,
             'item_level': self._extract_item_level(text),
             'rarity': self._extract_rarity(text),
             'requirements': self._extract_requirements(text),

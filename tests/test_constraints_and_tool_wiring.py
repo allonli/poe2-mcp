@@ -231,3 +231,28 @@ async def test_no_node_ids_no_section(mcp):
         character_data, analysis={}, recommendations="", passive_analysis=None
     )
     assert "Passive Node IDs" not in text
+
+
+# ---------------------------------------------------------------------------
+# Regression: items with explicit slot: null (cached/older records) must not
+# crash the equipment formatter — .get('slot', default) does not cover None
+# ---------------------------------------------------------------------------
+
+@pytest.mark.asyncio
+async def test_equipment_formatter_tolerates_null_slot(mcp):
+    character_data = {
+        "name": "NullSlotChar",
+        "class": "Witch",
+        "level": 87,
+        "passive_tree": [],
+        "skills": [{"name": None, "slot": None, "allGems": [], "gems": [], "dps": []}],
+        "items": [
+            {"slot": None, "name": "Mystery Item", "type_line": "Wand", "rarity": 2, "mods": {}},
+            {"slot": "Weapon", "name": "Real Wand", "type_line": "Wand", "rarity": 3, "mods": {}},
+        ],
+    }
+    text = mcp._format_character_analysis(
+        character_data, analysis={}, recommendations="", passive_analysis=None
+    )
+    assert "Real Wand" in text
+    assert "Mystery Item" in text   # rendered under Unknown, not crashed
