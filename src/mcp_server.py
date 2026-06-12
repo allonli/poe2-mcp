@@ -422,6 +422,8 @@ class PoE2BuildOptimizerMCP:
                 return await self._handle_validate_support_combination(arguments)
             elif name == "validate_build_constraints":
                 return await self._handle_validate_build_constraints(arguments)
+            elif name == "reconcile_defensive_stats":
+                return await self._handle_reconcile_defensive_stats(arguments)
             elif name == "analyze_passive_tree":
                 return await self._handle_analyze_passive_tree(arguments)
             elif name == "import_poe_ninja_url":
@@ -491,7 +493,13 @@ class PoE2BuildOptimizerMCP:
                 # Character Data Access
                 types.Tool(
                     name="analyze_character",
-                    description="Fetch PoE2 character data from poe.ninja API. Returns raw character stats, gear, skills, and passives for Claude to analyze.",
+                    description=(
+                        "Fetch PoE2 character data from poe.ninja API. Returns raw "
+                        "character stats, gear, skills, and passives for Claude to "
+                        "analyze. The response includes the raw `passive_node_ids` "
+                        "array (plus `unresolved_node_ids` against the local tree) "
+                        "so analyze_passive_tree can be chained directly (#149)."
+                    ),
                     inputSchema={
                         "type": "object",
                         "properties": {
@@ -1059,16 +1067,64 @@ class PoE2BuildOptimizerMCP:
                 ),
                 types.Tool(
                     name="validate_build_constraints",
-                    description="Validate build against game constraints (resistances, spirit, mana reservation).",
+                    description=(
+                        "Validate build against game constraints (resistances, "
+                        "spirit, survivability baseline). Fields not provided "
+                        "are SKIPPED and reported as such — never validated as "
+                        "zero. Explicit null values are treated as absent."
+                    ),
                     inputSchema={
                         "type": "object",
                         "properties": {
                             "character_data": {
                                 "type": "object",
-                                "description": "Character stats to validate"
+                                "description": (
+                                    "Character stats to validate. Accepted shapes: "
+                                    "resistances as flat {fire_resistance, "
+                                    "cold_resistance, lightning_resistance, "
+                                    "chaos_resistance}, legacy {fire_res, ...}, or "
+                                    "nested {resistances: {fire, cold, lightning, "
+                                    "chaos}}; survivability as {life, energy_shield} "
+                                    "or combined {life_plus_es}; plus {spirit, "
+                                    "spirit_reserved, level}. All numeric; null = "
+                                    "not provided."
+                                )
                             }
                         },
                         "required": ["character_data"]
+                    }
+                ),
+                types.Tool(
+                    name="reconcile_defensive_stats",
+                    description=(
+                        "Run the local EHP/defense calculators on a poe.ninja "
+                        "charModel and diff each headline stat (effective HP, "
+                        "per-element max hits) against poe.ninja's own computed "
+                        "defensiveStats — a per-stat delta table with tolerance "
+                        "flags. Use to detect drift/bugs in the local calculators "
+                        "against a live oracle (issue #139 harness; was never "
+                        "registered as a tool until #154)."
+                    ),
+                    inputSchema={
+                        "type": "object",
+                        "properties": {
+                            "char_model": {
+                                "type": "object",
+                                "description": (
+                                    "A poe.ninja charModel dict (or just its "
+                                    "defensiveStats sub-dict). Obtain via "
+                                    "analyze_character's raw data or the profile API."
+                                )
+                            },
+                            "tolerance_pct": {
+                                "type": "object",
+                                "description": (
+                                    "Optional per-stat tolerance overrides in percent, "
+                                    "e.g. {\"effective_hp\": 10}. Default 15% per stat."
+                                )
+                            }
+                        },
+                        "required": ["char_model"]
                     }
                 ),
 
@@ -5440,8 +5496,41 @@ Consider:
                 text=f"Error: {str(e)}"
             )]
 
+    @staticmethod
+    def _coerce_optional_number(value) -> Optional[float]:
+        """Null-tolerant numeric read (#153): explicit null, booleans, and
+        non-numeric garbage all coerce to None instead of raising later."""
+        if value is None or isinstance(value, bool):
+            return None
+        try:
+            return float(value)
+        except (TypeError, ValueError):
+            return None
+
+    def _resolve_resistance(self, data: dict, element: str) -> Optional[float]:
+        """Resolve a resistance under any of the three common shapes (#152):
+        flat ``fire_resistance``, legacy ``fire_res``, nested
+        ``resistances.fire``. Returns None when genuinely absent."""
+        nested = data.get("resistances")
+        candidates = (
+            data.get(f"{element}_resistance"),
+            data.get(f"{element}_res"),
+            nested.get(element) if isinstance(nested, dict) else None,
+        )
+        for candidate in candidates:
+            num = self._coerce_optional_number(candidate)
+            if num is not None:
+                return num
+        return None
+
     async def _handle_validate_build_constraints(self, args: dict) -> List[types.TextContent]:
-        """Comprehensive build validation"""
+        """Comprehensive build validation.
+
+        #152: resistances accepted under flat/legacy/nested key shapes;
+        fields that are absent are reported as SKIPPED, never validated
+        as silent zeros. #153: explicit nulls are treated as absent —
+        no TypeError on comparisons.
+        """
         try:
             character_data = args.get("character_data", {})
 
@@ -5452,65 +5541,85 @@ Consider:
                 )]
 
             violations = []
+            skipped = []
 
-            # Check resistances
-            for res_type in ["fire_res", "cold_res", "lightning_res"]:
-                res_value = character_data.get(res_type, 0)
+            # ---- Resistances (#152: three accepted shapes; absent = skipped) ----
+            for element in ("fire", "cold", "lightning"):
+                res_value = self._resolve_resistance(character_data, element)
+                label = f"{element.title()} Res"
+                if res_value is None:
+                    skipped.append(f"{label} (not provided)")
+                    continue
                 if res_value < -60:
                     violations.append({
                         "severity": "CRITICAL",
                         "category": "Resistances",
-                        "message": f"{res_type.replace('_', ' ').title()} is below minimum (-60%): {res_value}%"
+                        "message": f"{label} is below minimum (-60%): {res_value:g}%"
                     })
                 elif res_value < 75:
                     violations.append({
                         "severity": "HIGH",
                         "category": "Resistances",
-                        "message": f"{res_type.replace('_', ' ').title()} is below cap (75%): {res_value}%"
+                        "message": f"{label} is below cap (75%): {res_value:g}%"
                     })
                 elif res_value > 90:
                     violations.append({
                         "severity": "MEDIUM",
                         "category": "Resistances",
-                        "message": f"{res_type.replace('_', ' ').title()} exceeds hard cap (90%): {res_value}%"
+                        "message": f"{label} exceeds hard cap (90%): {res_value:g}%"
                     })
 
-            # Check spirit
-            spirit = character_data.get("spirit", 0)
-            spirit_reserved = character_data.get("spirit_reserved", 0)
-            if spirit_reserved > spirit:
+            # Chaos res: floor check only — PoE2 builds commonly run low/negative
+            # chaos res by choice; only the -60% floor is a hard violation.
+            chaos_res = self._resolve_resistance(character_data, "chaos")
+            if chaos_res is None:
+                skipped.append("Chaos Res (not provided)")
+            elif chaos_res < -60:
+                violations.append({
+                    "severity": "CRITICAL",
+                    "category": "Resistances",
+                    "message": f"Chaos Res is below minimum (-60%): {chaos_res:g}%"
+                })
+
+            # ---- Spirit (#153: null-tolerant) ----
+            spirit = self._coerce_optional_number(character_data.get("spirit"))
+            spirit_reserved = self._coerce_optional_number(character_data.get("spirit_reserved"))
+            if spirit is None or spirit_reserved is None:
+                skipped.append("Spirit allocation (spirit/spirit_reserved not provided)")
+            elif spirit_reserved > spirit:
                 violations.append({
                     "severity": "CRITICAL",
                     "category": "Spirit",
-                    "message": f"Spirit overflow: {spirit_reserved} reserved > {spirit} available"
+                    "message": f"Spirit overflow: {spirit_reserved:g} reserved > {spirit:g} available"
                 })
 
             # NOTE: PoE2 uses Spirit system, not mana reservation
             # Mana reservation validation removed - it's a PoE1 mechanic
 
-            # Check life/ES
-            life = character_data.get("life", 0)
-            es = character_data.get("energy_shield", 0)
-            level = character_data.get("level", 1)
+            # ---- Life/ES survivability baseline (absent = skipped, not zero) ----
+            life = self._coerce_optional_number(character_data.get("life"))
+            es = self._coerce_optional_number(character_data.get("energy_shield"))
+            combined_direct = self._coerce_optional_number(character_data.get("life_plus_es"))
+            level = self._coerce_optional_number(character_data.get("level")) or 1
 
-            expected_min_life = 300 + (level * 50)  # Rough guideline
-            if life + es < expected_min_life:
-                violations.append({
-                    "severity": "HIGH",
-                    "category": "Survivability",
-                    "message": f"Combined Life+ES ({life + es}) below recommended for level {level} ({expected_min_life})"
-                })
+            if life is None and es is None and combined_direct is None:
+                skipped.append("Survivability baseline (life/energy_shield/life_plus_es not provided)")
+            else:
+                combined = combined_direct if combined_direct is not None else (life or 0.0) + (es or 0.0)
+                expected_min_life = 300 + (level * 50)  # Rough guideline
+                if combined < expected_min_life:
+                    violations.append({
+                        "severity": "HIGH",
+                        "category": "Survivability",
+                        "message": f"Combined Life+ES ({combined:g}) below recommended for level {level:g} ({expected_min_life:g})"
+                    })
 
             # Format response
             response = "# Build Constraint Validation\n\n"
 
             if not violations:
-                response += "✓ **All constraints satisfied**\n\n"
-                response += "No issues detected with:\n"
-                response += "- Resistances (within -60% to 90% range)\n"
-                response += "- Spirit allocation\n"
-                response += "- Mana reservation\n"
-                response += "- Survivability baseline\n"
+                response += "✓ **All provided constraints satisfied**\n\n"
+                response += "No issues detected in the checks that ran.\n"
             else:
                 # Group by severity
                 critical = [v for v in violations if v["severity"] == "CRITICAL"]
@@ -5537,6 +5646,18 @@ Consider:
                         response += f"- [{v['category']}] {v['message']}\n"
                     response += "\n"
 
+            # #152: never silently ignore fields — say exactly what was skipped
+            if skipped:
+                response += "## Skipped (not provided — NOT validated as zero)\n"
+                for s in skipped:
+                    response += f"- {s}\n"
+                response += (
+                    "\nAccepted field shapes: flat (`fire_resistance`), legacy "
+                    "(`fire_res`), or nested (`resistances.fire`); `life` + "
+                    "`energy_shield` or combined `life_plus_es`; `spirit` + "
+                    "`spirit_reserved`; `level`. Explicit `null` = not provided.\n"
+                )
+
             return [types.TextContent(type="text", text=response)]
 
         except Exception as e:
@@ -5544,6 +5665,61 @@ Consider:
             return [types.TextContent(
                 type="text",
                 text=f"Error: {str(e)}"
+            )]
+
+    async def _handle_reconcile_defensive_stats(self, args: dict) -> List[types.TextContent]:
+        """Reconcile local EHP/defense calcs against poe.ninja's defensiveStats
+        oracle. The harness shipped in PR #144 but was never registered as an
+        MCP tool (#154) — this is the wiring."""
+        try:
+            try:
+                from .calculator.reconcile_poe_ninja import (
+                    reconcile_defensive_stats, format_report,
+                )
+            except ImportError:
+                from src.calculator.reconcile_poe_ninja import (
+                    reconcile_defensive_stats, format_report,
+                )
+
+            char_model = args.get("char_model")
+            if not char_model or not isinstance(char_model, dict):
+                return [types.TextContent(
+                    type="text",
+                    text=(
+                        "Error: char_model (object) is required — a poe.ninja "
+                        "charModel dict or its defensiveStats sub-dict."
+                    )
+                )]
+
+            tolerance_pct = args.get("tolerance_pct") or None
+            report = reconcile_defensive_stats(char_model, tolerance_pct=tolerance_pct)
+
+            lines = ["# Defensive Stats Reconciliation", ""]
+            lines.append("```")
+            lines.append(format_report(report))
+            lines.append("```")
+            lines.append("")
+            verdict = (
+                "✓ All stats within tolerance"
+                if report.all_within_tolerance
+                else "✗ One or more stats OUTSIDE tolerance — local calculator drift suspected"
+            )
+            lines.append(f"**Verdict**: {verdict}")
+            if report.skipped:
+                lines.append(f"**Skipped** (absent from oracle): {', '.join(report.skipped)}")
+            lines.append("")
+            lines.append(
+                "**Source**: src/calculator/reconcile_poe_ninja.py (#139 harness) — "
+                "oracle values come from poe.ninja's own computed defensiveStats "
+                "for this exact build (character data, policy-compliant)."
+            )
+            return [types.TextContent(type="text", text="\n".join(lines))]
+
+        except Exception as e:
+            logger.error(f"reconcile_defensive_stats error: {e}", exc_info=True)
+            return [types.TextContent(
+                type="text",
+                text=f"Error in reconcile_defensive_stats: {str(e)}"
             )]
 
     async def _handle_analyze_passive_tree(self, args: dict) -> List[types.TextContent]:
@@ -6978,6 +7154,30 @@ Could not extract account and character from URL.
                     response += f"- {node.name} ({dist} nodes away)\n"
                     if node.stats:
                         response += f"  - {node.stats[0]}\n"
+
+        # #149: surface the RAW allocated node-id array so downstream tools
+        # (analyze_passive_tree) can be chained on real characters instead of
+        # the caller having to fabricate 80+ integers. Rendered even when the
+        # summary analysis above is unavailable — the ids come straight from
+        # the fetched character data.
+        raw_tree = character_data.get('passive_tree')
+        raw_node_ids = (
+            raw_tree.get('allocated_nodes') if isinstance(raw_tree, dict) else raw_tree
+        ) or []
+        node_ids = sorted(
+            int(n) for n in raw_node_ids
+            if isinstance(n, int) or (isinstance(n, str) and n.isdigit())
+        )
+        if node_ids:
+            response += f"\n### Passive Node IDs ({len(node_ids)})\n"
+            response += f"`passive_node_ids`: {node_ids}\n"
+            if self.passive_tree_resolver:
+                unresolved = [
+                    n for n in node_ids
+                    if self.passive_tree_resolver.resolve(n) is None
+                ]
+                response += f"`unresolved_node_ids` (absent from local tree): {unresolved}\n"
+            response += "Feed `passive_node_ids` directly into `analyze_passive_tree`.\n"
 
         # Add skill gems section
         skills_section = self._format_skills_section(character_data)
