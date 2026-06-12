@@ -4683,6 +4683,12 @@ Consider:
                             if 'cost' in lvl and isinstance(lvl['cost'], dict):
                                 c = lvl['cost']
                                 entry['cost'] = {c.get('type', 'Mana'): c.get('value', 0)}
+                            # Spirit reservation (campaign C1b): present since
+                            # the 0.5-current refresh (data-v0.5.0-r11)
+                            if 'spirit_reservation_flat' in lvl:
+                                entry['spiritReservationFlat'] = lvl['spirit_reservation_flat']
+                            if 'reservation_flat' in lvl:
+                                entry['reservationFlat'] = lvl['reservation_flat']
                             normalized_levels[lvl_key] = entry
                         normalized_stat_sets = []
                         for ss in (ge.get('stat_sets') or []):
@@ -4924,6 +4930,13 @@ Consider:
                             costs = level_data['cost']
                             cost_parts = [f"{k}: {v}" for k, v in costs.items()]
                             response += f"  - Cost: {', '.join(cost_parts)}\n"
+
+                        # Spirit reservation (persistent skills / meta gems —
+                        # campaign C1b; the answer to "what does this reserve")
+                        if 'spiritReservationFlat' in level_data:
+                            response += f"  - Spirit Reservation: {level_data['spiritReservationFlat']}\n"
+                        if 'reservationFlat' in level_data:
+                            response += f"  - Reservation: {level_data['reservationFlat']}\n"
 
                         # Crit chance
                         if 'critChance' in level_data:
