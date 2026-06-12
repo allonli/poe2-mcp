@@ -414,6 +414,8 @@ class PoE2BuildOptimizerMCP:
                 return await self._handle_get_formula(arguments)
             elif name == "explain_mechanic":
                 return await self._handle_explain_mechanic(arguments)
+            elif name == "find_stat_sources":
+                return await self._handle_find_stat_sources(arguments)
             elif name == "calculate_character_dps":
                 return await self._handle_calculate_character_dps(arguments)
             elif name == "validate_support_combination":
@@ -828,9 +830,45 @@ class PoE2BuildOptimizerMCP:
                                     "or a substring to search (e.g. 'proliferation'). "
                                     "Omit entirely to see overview + sample suggestions."
                                 )
+                            },
+                            "cluster": {
+                                "type": "boolean",
+                                "description": (
+                                    "Cluster-dump mode: return ALL related stat_ids "
+                                    "(root + per-skill canonical) AND the skills/"
+                                    "passives/mods that grant each, in one call — "
+                                    "instead of chaining substring searches. "
+                                    "Default false."
+                                )
                             }
                         },
                         "required": []
+                    }
+                ),
+                types.Tool(
+                    name="find_stat_sources",
+                    description=(
+                        "Reverse lookup: which skills, passive/ascendancy nodes, and "
+                        "item mods grant or reference a stat. Accepts a stat_id, a "
+                        "stat_id substring, or stat text (e.g. 'withered', "
+                        "'spell_minimum_base_fire_damage', 'chance to Shock'). Sources: "
+                        "skill_gems_v2 statSets (1,249 skills), psg_passive_nodes "
+                        "(keystones/notables/smalls), ascendancy notables (when local "
+                        "data present), and the canonical mods table."
+                    ),
+                    inputSchema={
+                        "type": "object",
+                        "properties": {
+                            "query": {
+                                "type": "string",
+                                "description": "stat_id, stat_id substring, or stat text fragment"
+                            },
+                            "limit": {
+                                "type": "integer",
+                                "description": "Max results per source category (default 15)"
+                            }
+                        },
+                        "required": ["query"]
                     }
                 ),
 
@@ -3222,6 +3260,11 @@ Consider:
 
             debug_log(f"Explaining mechanic: {mechanic_name}")
 
+            # ---- Cluster-dump mode (#159 field feedback): everything related
+            #      to the query in ONE call — stat_ids + granting sources ----
+            if args.get("cluster"):
+                return await self._handle_mechanic_cluster_dump(raw_query)
+
             # ---- Tier 1a: exact stat_id match in the canonical dataset ----
             exact = find_stat_description(raw_query)
             if exact:
@@ -3726,6 +3769,198 @@ Consider:
             return [types.TextContent(
                 type="text",
                 text=f"Error in calculate_character_dps: {e}"
+            )]
+
+    async def _handle_mechanic_cluster_dump(self, raw_query: str) -> List[types.TextContent]:
+        """Cluster-dump mode for explain_mechanic (field-feedback wish).
+
+        One call returns: every canonical stat_id matching the query
+        (root + per-skill), each with its template AND the skills that
+        grant it, plus passive/ascendancy/mod sources matching the query
+        text — replacing the chain of substring searches the reporter had
+        to run to rebuild a mechanic's system by hand.
+        """
+        from src.data.game_data import (
+            search_stat_descriptions,
+            search_per_skill_stat_descriptions,
+        )
+        try:
+            from .data.stat_source_index import get_stat_source_index
+        except ImportError:
+            from src.data.stat_source_index import get_stat_source_index
+
+        try:
+            index = get_stat_source_index()
+
+            t1_hits = search_stat_descriptions(raw_query, limit=20) or []
+            per_skill_hits = search_per_skill_stat_descriptions(raw_query, limit=20) or []
+            sources = index.find_sources(raw_query, limit_per_source=15)
+
+            lines = [f"# Cluster dump: `{raw_query}`", ""]
+
+            # --- Stat ids with templates and granting skills ---
+            combined = (t1_hits + per_skill_hits)[:25]
+            if combined:
+                lines.append(f"## Canonical stat_ids ({len(combined)} shown)")
+                for h in combined:
+                    template = (h.get('primary_template') or '').replace('\n', ' ')
+                    if len(template) > 110:
+                        template = template[:107] + '...'
+                    stat_id = h['primary_stat_id']
+                    lines.append(f"- **`{stat_id}`** ({h.get('source_csd', '?')})")
+                    if template:
+                        lines.append(f"  > {template}")
+                    granting = index.skills_granting_stat(stat_id)
+                    if granting:
+                        shown = ", ".join(granting[:8])
+                        more = f" (+{len(granting) - 8} more)" if len(granting) > 8 else ""
+                        lines.append(f"  Granted by skills: {shown}{more}")
+                lines.append("")
+            else:
+                lines.append("## Canonical stat_ids")
+                lines.append("No stat_ids match that substring.")
+                lines.append("")
+
+            # --- Source matches on the query text itself ---
+            if sources["skills"]:
+                lines.append("## Skills carrying matching stat_ids")
+                for stat_id, skills in sources["skills"].items():
+                    lines.append(f"- `{stat_id}`: {', '.join(skills[:8])}")
+                lines.append("")
+            if sources["passive_nodes"]:
+                lines.append("## Passive tree nodes")
+                for n in sources["passive_nodes"]:
+                    lines.append(f"- **{n['name']}** ({n['kind']}): {'; '.join(n['stats'][:3])}")
+                lines.append("")
+            if sources["ascendancy_nodes"]:
+                lines.append("## Ascendancy notables")
+                for n in sources["ascendancy_nodes"]:
+                    lines.append(
+                        f"- **{n['name']}** ({n['ascendancy']}/{n['base_class']}): "
+                        f"{'; '.join(n['stats'][:3])}"
+                    )
+                lines.append("")
+            elif not sources["ascendancy_data_available"]:
+                lines.append(
+                    "*Ascendancy node data not available in this checkout "
+                    "(data/complete_models/all_ascendancies.json is a local-only artifact).*"
+                )
+                lines.append("")
+            if sources["mods"]:
+                lines.append("## Item mods")
+                for stat_id, mods in sources["mods"].items():
+                    names = ", ".join(
+                        f"{m['display_name']} ({m['generation_type']})"
+                        for m in mods[:6] if m.get('display_name')
+                    )
+                    lines.append(f"- `{stat_id}`: {names}")
+                lines.append("")
+
+            lines.append("---")
+            lines.append(
+                "**Sources**: data/game/stat_descriptions/ (canonical text), "
+                "data/game/skill_gems/skill_gems_v2.json (skill statSets), "
+                "data/psg_passive_nodes.json (passive tree), "
+                "data/game/mods/mods.json (item mods). "
+                "Use `find_stat_sources` for a focused reverse lookup on one stat."
+            )
+            return [types.TextContent(type="text", text="\n".join(lines))]
+
+        except Exception as e:
+            logger.error(f"Cluster dump error: {e}", exc_info=True)
+            return [types.TextContent(
+                type="text",
+                text=f"Error in cluster dump: {str(e)}"
+            )]
+
+    async def _handle_find_stat_sources(self, args: dict) -> List[types.TextContent]:
+        """Reverse lookup: which skills/passives/ascendancies/mods grant stat X.
+
+        The field-feedback gap this closes: the reporter could find every
+        infusion scaling stat_id but never WHAT spawns the effect — the
+        granting source was unqueryable.
+        """
+        try:
+            from .data.stat_source_index import get_stat_source_index
+        except ImportError:
+            from src.data.stat_source_index import get_stat_source_index
+
+        try:
+            query = (args.get("query") or "").strip()
+            if not query:
+                return [types.TextContent(
+                    type="text",
+                    text="Error: provide `query` — a stat_id, stat_id substring, or stat text fragment."
+                )]
+            limit = int(args.get("limit") or 15)
+
+            sources = get_stat_source_index().find_sources(query, limit_per_source=limit)
+
+            total = (
+                len(sources["skills"]) + len(sources["mods"])
+                + len(sources["passive_nodes"]) + len(sources["ascendancy_nodes"])
+            )
+            lines = [f"# Stat sources for `{query}`", ""]
+
+            if total == 0:
+                lines.append(
+                    "No skills, passive nodes, ascendancy notables, or item mods "
+                    "match that query. Try a broader substring (`wither` instead "
+                    "of `withered_on_hit_for_2_seconds_%_chance`), or "
+                    "`explain_mechanic` with `cluster: true` for the wide net."
+                )
+            else:
+                if sources["skills"]:
+                    lines.append(f"## Skills ({len(sources['skills'])} matching stat_ids)")
+                    for stat_id, skills in sources["skills"].items():
+                        shown = ", ".join(skills[:10])
+                        more = f" (+{len(skills) - 10} more)" if len(skills) > 10 else ""
+                        lines.append(f"- `{stat_id}`")
+                        lines.append(f"  {shown}{more}")
+                    lines.append("")
+                if sources["passive_nodes"]:
+                    lines.append(f"## Passive tree nodes ({len(sources['passive_nodes'])})")
+                    for n in sources["passive_nodes"]:
+                        lines.append(f"- **{n['name']}** ({n['kind']}): {'; '.join(n['stats'][:3])}")
+                    lines.append("")
+                if sources["ascendancy_nodes"]:
+                    lines.append(f"## Ascendancy notables ({len(sources['ascendancy_nodes'])})")
+                    for n in sources["ascendancy_nodes"]:
+                        lines.append(
+                            f"- **{n['name']}** ({n['ascendancy']}/{n['base_class']}): "
+                            f"{'; '.join(n['stats'][:3])}"
+                        )
+                    lines.append("")
+                if sources["mods"]:
+                    lines.append(f"## Item mods ({len(sources['mods'])} matching stat_ids)")
+                    for stat_id, mods in sources["mods"].items():
+                        names = ", ".join(
+                            f"{m['display_name']} ({m['generation_type']})"
+                            for m in mods[:6] if m.get('display_name')
+                        )
+                        lines.append(f"- `{stat_id}`: {names}")
+                    lines.append("")
+
+            if not sources["ascendancy_data_available"]:
+                lines.append(
+                    "*Note: ascendancy node data unavailable in this checkout — "
+                    "data/complete_models/all_ascendancies.json is a local-only artifact.*"
+                )
+                lines.append("")
+
+            lines.append("---")
+            lines.append(
+                "**Sources**: skill_gems_v2 statSets (skills), psg_passive_nodes "
+                "(passives, stat-text match), all_ascendancies (notables, when "
+                "present), canonical mods table (stat_id match)."
+            )
+            return [types.TextContent(type="text", text="\n".join(lines))]
+
+        except Exception as e:
+            logger.error(f"find_stat_sources error: {e}", exc_info=True)
+            return [types.TextContent(
+                type="text",
+                text=f"Error in find_stat_sources: {str(e)}"
             )]
 
     async def _handle_get_formula(self, args: dict) -> List[types.TextContent]:

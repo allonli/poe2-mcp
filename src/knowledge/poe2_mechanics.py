@@ -152,6 +152,101 @@ MAJOR CHANGES from PoE1:
 """
         )
 
+        self.mechanics['chaos_damage'] = MechanicExplanation(
+            name="Chaos Damage",
+            category=MechanicCategory.DAMAGE,
+            short_description="The fifth damage type - mitigated only by Chaos Resistance, end of the conversion chain",
+            detailed_explanation="""
+Chaos damage is one of the five damage types in Path of Exile 2 (physical, fire,
+cold, lightning, chaos). It is mitigated by Chaos Resistance only - armor and
+elemental resistances do nothing against it.
+
+Chaos damage sits at the END of the damage conversion chain: other damage types
+can be converted TO chaos, but chaos can never be converted to anything else.
+
+Chaos is the damage type of poison (the ailment deals chaos DoT regardless of
+what damage applied it) and of chaos-DoT skills like Essence Drain. Chaos DoT
+from poison bypasses Energy Shield and damages life directly.
+
+The Withered debuff makes enemies take increased chaos damage - it is the main
+chaos-damage amplification tool (see the 'wither' mechanic).
+""",
+            how_it_works="""
+1. Chaos damage from hits is reduced by the target's Chaos Resistance
+2. Players have heavily negative chaos resistance by default in PoE2 unless geared
+3. Chaos cannot be converted to other damage types (end of chain)
+4. Poison deals chaos damage over time and bypasses Energy Shield
+5. Withered stacks amplify chaos damage taken by the target
+""",
+            calculation_formula="""
+Chaos Damage Taken = Chaos Damage x (1 - Chaos Resistance / 100)
+(negative resistance increases damage taken)
+""",
+            examples=[
+                "1000 chaos hit vs 30% chaos res = 700 damage taken",
+                "1000 chaos hit vs -60% chaos res = 1600 damage taken",
+            ],
+            common_questions={
+                "Does chaos damage bypass Energy Shield?": "Chaos DoT from poison bypasses ES and damages life directly. For chaos HITS, check the in-game tooltip - the ES interaction is balance-sensitive and patch-dependent.",
+                "Can I convert chaos damage to fire?": "No. Chaos is the end of the conversion chain - it cannot be converted to anything else.",
+                "What amplifies chaos damage?": "Withered stacks (increased chaos damage taken), curses like Despair, and reducing enemy chaos resistance.",
+            },
+            related_mechanics=['wither', 'poison', 'damage_conversion', 'resistances'],
+            important_notes=[
+                "Mitigated ONLY by chaos resistance - armor does nothing",
+                "End of the conversion chain - cannot be converted away",
+                "Withered is the primary chaos-damage amplifier (see 'wither')",
+                "Query stat_ids like 'chaos_damage_+%' for canonical game text",
+            ],
+        )
+
+        self.mechanics['wither'] = MechanicExplanation(
+            name="Wither",
+            category=MechanicCategory.INTERACTION,
+            short_description="Stacking debuff that makes enemies take increased chaos damage",
+            detailed_explanation="""
+Withered is a stacking debuff that increases the chaos damage the affected
+enemy takes. It is the core amplification mechanic for chaos and chaos-DoT
+builds (Essence Drain, Contagion, poison archetypes).
+
+Withered is typically inflicted by hits from skills/supports that grant it
+(canonical stat_ids like 'withered_on_hit_for_2_seconds_%_chance' show the
+game-shipped wording: "X% chance to inflict Withered for 2 seconds on Hit").
+Multiple stacks can be applied, each amplifying chaos damage taken further.
+
+Sources include the Withering Touch support, skills with built-in wither
+application, and passive/ascendancy nodes. Wither effects can be scaled with
+increased duration ('wither_duration_+%') and area ('wither_radius_+%').
+""",
+            how_it_works="""
+1. Hits from wither-granting skills/supports apply Withered stacks
+2. Each stack increases chaos damage taken by the target
+3. Base application duration is commonly 2 seconds (see canonical stat text)
+4. Duration and radius are scalable via dedicated modifiers
+5. Stacks expire independently - sustained application maintains the debuff
+""",
+            calculation_formula="""
+Chaos Damage Taken multiplier scales per Withered stack - exact per-stack
+percentage and stack cap are balance-sensitive; verify in-game. Query
+'withered' via explain_mechanic for all canonical stat_ids.
+""",
+            examples=[
+                "Withering Touch support: hits gain a chance to inflict Withered",
+                "Essence Drain + sustained wither application = amplified chaos DoT",
+            ],
+            common_questions={
+                "What inflicts Withered?": "Skills and supports with wither stats (e.g. Withering Touch), plus certain passives/ascendancy nodes. Use find_stat_sources('wither') to enumerate them from game data.",
+                "Does Withered stack?": "Yes - it is a stacking debuff; each stack further amplifies chaos damage taken (per-stack value and cap are patch-dependent).",
+                "Does Withered affect poison?": "Poison deals chaos damage, so chaos-damage-taken amplification from Withered applies to it.",
+            },
+            related_mechanics=['chaos_damage', 'poison', 'curses'],
+            important_notes=[
+                "Core amplifier for every chaos/DoT archetype",
+                "Canonical stat_ids: withered_on_hit_for_2_seconds_%_chance, wither_duration_+%, wither_radius_+%",
+                "Per-stack magnitude and stack cap are balance-sensitive - cross-reference the in-game tooltip",
+            ],
+        )
+
         self.mechanics['bleed'] = MechanicExplanation(
             name="Bleed",
             category=MechanicCategory.AILMENTS,
@@ -5023,17 +5118,27 @@ COMPLETELY NEW in PoE2:
         return result
 
     def search_mechanics(self, query: str) -> List[MechanicExplanation]:
-        """Search for mechanics matching a query"""
-        results = []
+        """Search for mechanics matching a query.
+
+        Ranked: name matches first, then short-description matches, then
+        detailed-text matches — so "chaos damage" surfaces the Chaos Damage
+        entry rather than whichever entry mentions the phrase first in its
+        body text (issue #155's Poison misfire).
+        """
         query_lower = query.lower()
+        name_hits = []
+        short_hits = []
+        body_hits = []
 
         for mechanic in self.mechanics.values():
-            if (query_lower in mechanic.name.lower() or
-                query_lower in mechanic.short_description.lower() or
-                query_lower in mechanic.detailed_explanation.lower()):
-                results.append(mechanic)
+            if query_lower in mechanic.name.lower():
+                name_hits.append(mechanic)
+            elif query_lower in mechanic.short_description.lower():
+                short_hits.append(mechanic)
+            elif query_lower in mechanic.detailed_explanation.lower():
+                body_hits.append(mechanic)
 
-        return results
+        return name_hits + short_hits + body_hits
 
     def get_by_category(self, category: MechanicCategory) -> List[MechanicExplanation]:
         """Get all mechanics in a specific category"""
