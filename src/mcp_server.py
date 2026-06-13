@@ -2141,43 +2141,78 @@ poe.ninja migrated their builds/character pages to a client-side rendered SPA at
                     text=error_msg
                 )]
 
-            # Perform comparison
-            logger.info("Comparing to top players...")
-            comparison = await self.top_player_fetcher.compare_with_top_players(
-                user_character,
-                league=league,
-                min_level=min_level,
-                comparison_focus="dps",
-                top_player_limit=top_player_limit
-            )
+            # Perform comparison via the recovered protobuf ladder API (#61).
+            # The old snapshot-based top_player_fetcher path died in the 0.5
+            # Astro migration; LadderClient speaks the new columnar protobuf
+            # search endpoint directly.
+            try:
+                from .api.poe_ninja_ladder import LadderClient
+            except ImportError:
+                from src.api.poe_ninja_ladder import LadderClient
 
-            if not comparison.get("success"):
-                base_msg = comparison.get("message", "Comparison failed")
-                # CRITICAL #4 context: poe.ninja migrated its builds-list / ladder pages
-                # to a client-side rendered Astro SPA in/around Patch 0.5. The endpoints
-                # this tool depends on for ladder enumeration are 404 / SPA shells with no
-                # embedded data, so empty/failed comparisons in PoE2 0.5 are very likely
-                # this issue rather than a user-side configuration error. Surface that
-                # explicitly so users don't chase phantom bugs. Tracked at issue #61.
-                spa_notice = (
-                    "\n\n---\n"
-                    "**Heads-up (Patch 0.5 \"Return of the Ancients\"):** As of 2026-05-29, "
-                    "poe.ninja migrated its builds-list / ladder pages to a client-side rendered "
-                    "SPA. The endpoints this tool relies on for ladder enumeration return 404 / "
-                    "empty SPA shells, so empty or failed top-player comparisons in PoE2 0.5 are "
-                    "very likely this issue, **not** a problem with your character or account "
-                    "settings. Tracked at "
-                    "https://github.com/HivemindOverlord/poe2-mcp/issues/61.\n\n"
-                    "The per-character `analyze_character` path is unaffected and still works for "
-                    "characters present in the current poe.ninja snapshot."
-                )
+            logger.info("Comparing to top players via ladder search (#61 revival)...")
+            league_slug = self.char_fetcher._to_poe_ninja_league_slug(league)
+            # Ladder 'class' filter takes the ascendancy name when ascended
+            ladder_class = user_character.get("ascendancy") or user_character.get("class")
+
+            ladder = LadderClient(rate_limiter=self.char_fetcher.rate_limiter)
+            try:
+                rows = await ladder.top_builds(league_slug, class_name=ladder_class, sort="level")
+                if not rows:
+                    # Class filter may not match (e.g. unascended) — fall back to global page
+                    rows = await ladder.top_builds(league_slug, sort="level")
+            finally:
+                await ladder.close()
+
+            if not rows:
                 return [types.TextContent(
                     type="text",
-                    text=base_msg + spa_notice
+                    text=(
+                        f"# Comparison Unavailable\n\nThe ladder search returned no rows "
+                        f"for league '{league}' (slug '{league_slug}'). The league may "
+                        f"not be indexed, or poe.ninja changed the endpoint again — "
+                        f"check https://github.com/HivemindOverlord/poe2-mcp/issues/61."
+                    )
                 )]
 
-            # Format response
-            response = self._format_player_comparison(comparison)
+            if min_level:
+                rows = [r for r in rows if isinstance(r.get("level"), int) and r["level"] >= int(min_level)]
+            top = rows[: int(top_player_limit) if top_player_limit else 10]
+
+            def _median(key):
+                vals = sorted(r[key] for r in rows if isinstance(r.get(key), (int, float)))
+                return vals[len(vals) // 2] if vals else None
+
+            stats = user_character.get("stats") or {}
+            mine = {
+                "level": user_character.get("level"),
+                "life": stats.get("life"),
+                "energyshield": stats.get("energyShield"),
+            }
+            med = {k: _median(k) for k in ("level", "life", "energyshield")}
+
+            response = f"# Top-Player Comparison: {character_name}\n\n"
+            response += f"**Cohort**: top {len(rows)} `{ladder_class}` builds in {league} "
+            response += f"(of the full ladder page, sorted by level)\n\n"
+            response += "## You vs the cohort median\n"
+            response += f"| Stat | You | Median | Delta |\n|---|---|---|---|\n"
+            for key, label in (("level", "Level"), ("life", "Life"), ("energyshield", "Energy Shield")):
+                m, c = mine.get(key), med.get(key)
+                delta = (m - c) if isinstance(m, (int, float)) and isinstance(c, (int, float)) else None
+                delta_s = f"{delta:+}" if delta is not None else "—"
+                response += f"| {label} | {m if m is not None else '—'} | {c if c is not None else '—'} | {delta_s} |\n"
+
+            response += f"\n## Top {len(top)} {ladder_class} builds\n"
+            for i, r in enumerate(top, 1):
+                response += (
+                    f"{i}. **{r.get('name', '?')}** (lvl {r.get('level', '?')}) — "
+                    f"life {r.get('life', '—')}, ES {r.get('energyshield', '—')}, "
+                    f"EHP {r.get('ehp', '—')}, DPS {r.get('dps', '—')}\n"
+                )
+            response += (
+                "\n*Use `analyze_character` on any name above for the full build. "
+                "Data: poe.ninja builds search (protobuf API recovered in #61).*"
+            )
 
             return [types.TextContent(type="text", text=response)]
 
