@@ -3452,6 +3452,39 @@ Consider:
                 )
                 return [types.TextContent(type="text", text=response)]
 
+            # ---- Tier 1c: BM25 lexical ranking (#177). Substring match found
+            #      nothing, but the query may be a morphological variant
+            #      (wither/withered) or multi-word phrase that substring can't
+            #      bridge. Stemmed BM25 over the canonical corpus catches those
+            #      with zero new deps and no model. ----
+            try:
+                from .data.lexical_search import search_stat_descriptions_ranked
+            except ImportError:
+                from src.data.lexical_search import search_stat_descriptions_ranked
+            ranked = search_stat_descriptions_ranked(raw_query, k=10)
+            if ranked:
+                response = f"# Lexical matches for `{raw_query}`\n\n"
+                response += (
+                    f"No exact or substring match, but BM25 ranking over the "
+                    f"canonical stat descriptions (stemmed — handles "
+                    f"wither/withered, slow/slows) found {len(ranked)} relevant "
+                    f"stat_id{'s' if len(ranked) != 1 else ''}. Query any directly "
+                    f"for its full description:\n\n"
+                )
+                for h in ranked:
+                    template = (h.get('template') or '').replace('\n', ' ')
+                    if len(template) > 120:
+                        template = template[:117] + '...'
+                    response += f"- **`{h['stat_id']}`** (score {h['score']})\n"
+                    if template:
+                        response += f"  > {template}\n"
+                response += (
+                    "\n**Tier**: BM25 lexical (Tier 1c, #177) over "
+                    "data/game/stat_descriptions/. For true paraphrase beyond "
+                    "word-stem matching, refine the query toward in-game terms.\n"
+                )
+                return [types.TextContent(type="text", text=response)]
+
             # ---- Total miss: helpful failure with all-tier exhaustion noted ----
             return [types.TextContent(
                 type="text",
@@ -3463,6 +3496,7 @@ Consider:
                     f"from specific_skill_stat_descriptions/): no exact match\n"
                     f"- Tier 1b (substring search across both canonical sources): "
                     f"no matches\n"
+                    f"- Tier 1c (BM25 lexical ranking): no relevant matches\n"
                     f"- Tier 2 (hand-authored mechanics): no match by name, search, or Q&A\n\n"
                     f"Try a broader substring (`proliferation` instead of "
                     f"`fire_proliferation_radius_multiplier`), or call this tool "

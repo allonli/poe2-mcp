@@ -171,12 +171,25 @@ async def test_root_tier_1_still_works(mcp):
 
 @needs_per_skill
 @pytest.mark.asyncio
-async def test_total_miss_lists_all_four_tiers(mcp):
-    """When everything misses, the failure message should enumerate all tiers."""
+async def test_total_miss_lists_all_tiers(mcp):
+    """When everything misses (incl. the BM25 lexical tier added in #177),
+    the failure message enumerates all tiers. Uses a tokenless garbage
+    query — anything with real English words now falls to the BM25 tier
+    rather than total-miss (by design)."""
     r = await mcp._handle_explain_mechanic({
-        "mechanic_name": "definitely_not_a_real_stat_xyz123abcdefghijk"
+        "mechanic_name": "zzqqxxvv_jkqwzx"
     })
     text = r[0].text
     assert "No match" in text
-    # Should mention both root + per-skill tiers
-    assert "Tier 1a" in text and "1a-bis" in text or "per-skill" in text.lower()
+    assert "Tier 1a" in text and ("1a-bis" in text or "per-skill" in text.lower())
+    assert "1c" in text or "BM25" in text   # the new lexical tier is listed
+
+
+@pytest.mark.asyncio
+async def test_bm25_tier_catches_morphological_miss(mcp):
+    """A word that substring-misses but stems to a real stat returns the
+    BM25 lexical tier, not total-miss."""
+    r = await mcp._handle_explain_mechanic({"mechanic_name": "withering"})
+    text = r[0].text
+    # Either a canonical hit or the BM25 tier — never a total miss
+    assert "No match" not in text
