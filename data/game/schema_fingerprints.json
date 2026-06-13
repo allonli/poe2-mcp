@@ -1,0 +1,6120 @@
+{
+ "generated_at": "2026-06-12T22:18:31.214460+00:00",
+ "table_count": 1019,
+ "tables": {
+  "abyssbenchtickettypes": {
+   "bytes": 2312,
+   "sha256": "c9b8799bc0aa50a9",
+   "row_count": 12,
+   "row_size": 69
+  },
+  "abyssbosslifescalingperlevel": {
+   "bytes": 196,
+   "sha256": "30fc835a9d4bf0a5",
+   "row_count": 23,
+   "row_size": 8
+  },
+  "abyssmonstermodreplacement": {
+   "bytes": 12606,
+   "sha256": "1bda98fc112db732",
+   "row_count": 41,
+   "row_size": 66
+  },
+  "abyssstashtablayout": {
+   "bytes": 3669,
+   "sha256": "e1c6dfcbd874b776",
+   "row_count": 21,
+   "row_size": 69
+  },
+  "achievementitemrewards": {
+   "bytes": 2468,
+   "sha256": "883fa9530d1c300a",
+   "row_count": 6,
+   "row_size": 56
+  },
+  "achievementitems": {
+   "bytes": 17264,
+   "sha256": "302ef03659de902f",
+   "row_count": 162,
+   "row_size": 48
+  },
+  "achievements": {
+   "bytes": 15882,
+   "sha256": "0575ca2ed7913c86",
+   "row_count": 72,
+   "row_size": 74
+  },
+  "achievementsetrewards": {
+   "bytes": 1934,
+   "sha256": "03f99b29c715266d",
+   "row_count": 7,
+   "row_size": 60
+  },
+  "achievementsetsdisplay": {
+   "bytes": 112,
+   "sha256": "1236f0baa788bfa4",
+   "row_count": 4,
+   "row_size": 12
+  },
+  "actiontypes": {
+   "bytes": 46702,
+   "sha256": "a3a8d0808142ac10",
+   "row_count": 964,
+   "row_size": 14
+  },
+  "activesettings": {
+   "bytes": 524,
+   "sha256": "13dc4e47895d71ed",
+   "row_count": 5,
+   "row_size": 84
+  },
+  "activeskillrequirementicons": {
+   "bytes": 70,
+   "sha256": "edde7ae1e706585b",
+   "row_count": 1,
+   "row_size": 16
+  },
+  "activeskillrequirements": {
+   "bytes": 1247,
+   "sha256": "e2917b1274452619",
+   "row_count": 13,
+   "row_size": 95
+  },
+  "activeskills": {
+   "bytes": 1374840,
+   "sha256": "b6116c61647648b6",
+   "row_count": 1145,
+   "row_size": 338
+  },
+  "activeskilltype": {
+   "bytes": 17218,
+   "sha256": "a61be84f690e2d28",
+   "row_count": 290,
+   "row_size": 24
+  },
+  "activeskillweaponrequirement": {
+   "bytes": 7968,
+   "sha256": "5930d5e33a73feee",
+   "row_count": 51,
+   "row_size": 60
+  },
+  "acts": {
+   "bytes": 2374,
+   "sha256": "feb4d89697ab6ec6",
+   "row_count": 7,
+   "row_size": 166
+  },
+  "addbufftotargetvarieties": {
+   "bytes": 12060,
+   "sha256": "88115b5e8178c410",
+   "row_count": 88,
+   "row_size": 109
+  },
+  "additionallifescaling": {
+   "bytes": 2488,
+   "sha256": "03506fa7b6fde825",
+   "row_count": 14,
+   "row_size": 20
+  },
+  "additionallifescalingperlevel": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "additionalmonsterpacksfromstats": {
+   "bytes": 5700,
+   "sha256": "0d0f31b824cc5d7d",
+   "row_count": 39,
+   "row_size": 124
+  },
+  "addmapstatgealallowedstats": {
+   "bytes": 92,
+   "sha256": "39abf509d7ea672f",
+   "row_count": 5,
+   "row_size": 16
+  },
+  "advancedcraftingbenchcustomtags": {
+   "bytes": 770,
+   "sha256": "0bc7218266f53903",
+   "row_count": 10,
+   "row_size": 20
+  },
+  "advancedcraftingbenchtabfiltertypes": {
+   "bytes": 3056,
+   "sha256": "cbb5f5298aac6218",
+   "row_count": 12,
+   "row_size": 56
+  },
+  "advancedskillstutorial": {
+   "bytes": 27930,
+   "sha256": "59ab1a8df9f61cf0",
+   "row_count": 33,
+   "row_size": 96
+  },
+  "aegisvariations": {
+   "bytes": 1006,
+   "sha256": "2c9fa46a6aa31bb2",
+   "row_count": 7,
+   "row_size": 94
+  },
+  "afflictionbalanceperlevel": {
+   "bytes": 332,
+   "sha256": "8637e6793d0045ea",
+   "row_count": 4,
+   "row_size": 80
+  },
+  "afflictionconstants": {
+   "bytes": 1574,
+   "sha256": "ed48497a61d0acd6",
+   "row_count": 18,
+   "row_size": 28
+  },
+  "afflictionemotioncraftingaudio": {
+   "bytes": 1052,
+   "sha256": "11c17c9521898764",
+   "row_count": 13,
+   "row_size": 48
+  },
+  "afflictionendgamewavemods": {
+   "bytes": 684,
+   "sha256": "7a2f35e55500cb17",
+   "row_count": 24,
+   "row_size": 28
+  },
+  "afflictionfixedmods": {
+   "bytes": 156,
+   "sha256": "21681387acea3df1",
+   "row_count": 4,
+   "row_size": 36
+  },
+  "afflictionquestfogbankvalues": {
+   "bytes": 912,
+   "sha256": "cee10eab2e8f39b1",
+   "row_count": 1,
+   "row_size": 100
+  },
+  "afflictionrandommodcategories": {
+   "bytes": 515,
+   "sha256": "6daab4d4517b90f5",
+   "row_count": 9,
+   "row_size": 9
+  },
+  "afflictionrewardmapmods": {
+   "bytes": 165,
+   "sha256": "a213ff43d22303d4",
+   "row_count": 9,
+   "row_size": 17
+  },
+  "afflictionrewardtypevisuals": {
+   "bytes": 98,
+   "sha256": "aa10babef65f2aca",
+   "row_count": 1,
+   "row_size": 20
+  },
+  "afflictionspecialeventvisuals": {
+   "bytes": 2626,
+   "sha256": "cfa556ee3073e1cf",
+   "row_count": 9,
+   "row_size": 24
+  },
+  "afflictionsplitdemons": {
+   "bytes": 336,
+   "sha256": "e2bc7bd67d9c197f",
+   "row_count": 9,
+   "row_size": 36
+  },
+  "afflictionstartdialogue": {
+   "bytes": 7156,
+   "sha256": "f667355e9b24bbf0",
+   "row_count": 86,
+   "row_size": 52
+  },
+  "afflictionstartdialogueoverrides": {
+   "bytes": 812,
+   "sha256": "6274158439c32a72",
+   "row_count": 10,
+   "row_size": 64
+  },
+  "alternatecharacterskin": {
+   "bytes": 31876,
+   "sha256": "49ea3828b7a19636",
+   "row_count": 14,
+   "row_size": 104
+  },
+  "alternatecharacterskinmaterialreplacementshape": {
+   "bytes": 13722,
+   "sha256": "d72b85b04beb4c60",
+   "row_count": 36,
+   "row_size": 36
+  },
+  "alternatepassiveadditions": {
+   "bytes": 16114,
+   "sha256": "db567a3d835065a8",
+   "row_count": 95,
+   "row_size": 88
+  },
+  "alternatepassiveskills": {
+   "bytes": 73052,
+   "sha256": "389e2cd6627d15ce",
+   "row_count": 231,
+   "row_size": 168
+  },
+  "alternatequalitytypes": {
+   "bytes": 4428,
+   "sha256": "2bcf5f1b8f51a027",
+   "row_count": 26,
+   "row_size": 66
+  },
+  "alternateskilltargetingbehaviours": {
+   "bytes": 1812,
+   "sha256": "935474abe429d0b6",
+   "row_count": 14,
+   "row_size": 56
+  },
+  "alternatetreeart": {
+   "bytes": 524,
+   "sha256": "d5b83ca451114ffa",
+   "row_count": 8,
+   "row_size": 64
+  },
+  "alternatetreeextraadditionsfromjewelstats": {
+   "bytes": 948,
+   "sha256": "cf478125d1a9eae0",
+   "row_count": 18,
+   "row_size": 52
+  },
+  "alternatetreeextrapassiveoverridesfromjewelstats": {
+   "bytes": 2444,
+   "sha256": "c246b0ab0eea7d94",
+   "row_count": 25,
+   "row_size": 44
+  },
+  "alternatetreeversions": {
+   "bytes": 446,
+   "sha256": "54428733b8ca5df1",
+   "row_count": 8,
+   "row_size": 38
+  },
+  "ancestraltrialunits": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "animatedobjectflags": {
+   "bytes": 7008,
+   "sha256": "395c0dd203e1111e",
+   "row_count": 38,
+   "row_size": 14
+  },
+  "animateweaponuniques": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "animation": {
+   "bytes": 154894,
+   "sha256": "1c2eb01cb5e81e8c",
+   "row_count": 1084,
+   "row_size": 106
+  },
+  "applydamagefunctions": {
+   "bytes": 900,
+   "sha256": "f95c50885ff535b9",
+   "row_count": 10,
+   "row_size": 25
+  },
+  "archetyperewards": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "archetypes": {
+   "bytes": 138,
+   "sha256": "96d7acf7cdaaee48",
+   "row_count": 1,
+   "row_size": 96
+  },
+  "architectlifescalingperlevel": {
+   "bytes": 356,
+   "sha256": "d482a5001ce008cc",
+   "row_count": 43,
+   "row_size": 8
+  },
+  "archnemesismetarewards": {
+   "bytes": 2058,
+   "sha256": "10acac569c68917f",
+   "row_count": 11,
+   "row_size": 36
+  },
+  "archnemesismodcomboachievements": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "archnemesismods": {
+   "bytes": 26855,
+   "sha256": "5576065a0ad2d70a",
+   "row_count": 277,
+   "row_size": 59
+  },
+  "archnemesismodsfromchestmods": {
+   "bytes": 2220,
+   "sha256": "507424cf3a3c67eb",
+   "row_count": 69,
+   "row_size": 32
+  },
+  "archnemesismodvisuals": {
+   "bytes": 15532,
+   "sha256": "251b5ba8c52183cb",
+   "row_count": 96,
+   "row_size": 120
+  },
+  "archnemesisrecipes": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "areadifficultystats": {
+   "bytes": 508,
+   "sha256": "8e397e9d00f7dce9",
+   "row_count": 6,
+   "row_size": 48
+  },
+  "areainfluencedoodads": {
+   "bytes": 8299,
+   "sha256": "45bffb2a6447de57",
+   "row_count": 3,
+   "row_size": 69
+  },
+  "areastatsperdifficulty": {
+   "bytes": 588,
+   "sha256": "05991e7742262607",
+   "row_count": 24,
+   "row_size": 24
+  },
+  "areatransitionanimations": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "areatransitionanimationtypes": {
+   "bytes": 54,
+   "sha256": "31b7b111acfd51d1",
+   "row_count": 2,
+   "row_size": 8
+  },
+  "areatransitioninfo": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "armourtypes": {
+   "bytes": 51172,
+   "sha256": "c5a8477b3aa5b0ef",
+   "row_count": 1279,
+   "row_size": 40
+  },
+  "arrowspearoverride": {
+   "bytes": 1676,
+   "sha256": "07740a6856bd9856",
+   "row_count": 52,
+   "row_size": 32
+  },
+  "arrowstatreference": {
+   "bytes": 144,
+   "sha256": "fbb6bce4aabf8798",
+   "row_count": 1,
+   "row_size": 12
+  },
+  "ascendancy": {
+   "bytes": 15255,
+   "sha256": "b3e9e3a6224b9279",
+   "row_count": 37,
+   "row_size": 165
+  },
+  "ascendancypassiveskilloverrides": {
+   "bytes": 636,
+   "sha256": "d2da2f903fe87202",
+   "row_count": 13,
+   "row_size": 48
+  },
+  "atlasclasspassiveclasses": {
+   "bytes": 4456,
+   "sha256": "8f36cc81537b2db8",
+   "row_count": 4,
+   "row_size": 100
+  },
+  "atlasclasspassives": {
+   "bytes": 20984,
+   "sha256": "9af7b68f624a5f47",
+   "row_count": 36,
+   "row_size": 94
+  },
+  "atlasexilebossarenas": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "atlasexileinfluence": {
+   "bytes": 396,
+   "sha256": "27b121a0f2fcf003",
+   "row_count": 4,
+   "row_size": 32
+  },
+  "atlasexiles": {
+   "bytes": 984,
+   "sha256": "dac7beb8fe6f7613",
+   "row_count": 4,
+   "row_size": 44
+  },
+  "atlasfavouredmapslots": {
+   "bytes": 898,
+   "sha256": "72a9cfa51611fdab",
+   "row_count": 12,
+   "row_size": 16
+  },
+  "atlasfog": {
+   "bytes": 172,
+   "sha256": "8ca184b33b429583",
+   "row_count": 10,
+   "row_size": 16
+  },
+  "atlasinfluencedata": {
+   "bytes": 6276,
+   "sha256": "a02fe23ec2c689a2",
+   "row_count": 44,
+   "row_size": 140
+  },
+  "atlasinfluenceoutcomes": {
+   "bytes": 2412,
+   "sha256": "902246a47b6b1d46",
+   "row_count": 45,
+   "row_size": 16
+  },
+  "atlasinfluencesets": {
+   "bytes": 2396,
+   "sha256": "aa4ebf7238828a7c",
+   "row_count": 36,
+   "row_size": 24
+  },
+  "atlasmemoryline": {
+   "bytes": 9648,
+   "sha256": "b4ca5a42aca3180b",
+   "row_count": 19,
+   "row_size": 48
+  },
+  "atlasmods": {
+   "bytes": 2872,
+   "sha256": "3db292c68ccdfe25",
+   "row_count": 143,
+   "row_size": 20
+  },
+  "atlasnode": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "atlasnodedefinition": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "atlaspassivegrantedskillsfromsubtreepoints": {
+   "bytes": 180,
+   "sha256": "3c7d1e6575f3145e",
+   "row_count": 1,
+   "row_size": 44
+  },
+  "atlaspassiveskillsubtrees": {
+   "bytes": 3522,
+   "sha256": "481b74a953b34215",
+   "row_count": 6,
+   "row_size": 116
+  },
+  "atlaspassiveskilltreegrouptype": {
+   "bytes": 1168,
+   "sha256": "4c52a3efcd07928f",
+   "row_count": 43,
+   "row_size": 8
+  },
+  "atlaspoem": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "atlaspositions": {
+   "bytes": 460,
+   "sha256": "2b68ada90e9e3234",
+   "row_count": 28,
+   "row_size": 16
+  },
+  "atlasprimordialaltarchoices": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "atlasprimordialaltarchoicetypes": {
+   "bytes": 1946,
+   "sha256": "e13579599ed73bef",
+   "row_count": 3,
+   "row_size": 48
+  },
+  "atlasprimordialbosses": {
+   "bytes": 394,
+   "sha256": "0b99bcff0fa0f3e5",
+   "row_count": 2,
+   "row_size": 168
+  },
+  "atlasprimordialbossinfluence": {
+   "bytes": 1236,
+   "sha256": "8c3e7c603e9e4d20",
+   "row_count": 18,
+   "row_size": 68
+  },
+  "atlasprimordialbossoptions": {
+   "bytes": 2746,
+   "sha256": "f167186ffd542a84",
+   "row_count": 3,
+   "row_size": 104
+  },
+  "atlastowerinventorylayout": {
+   "bytes": 192,
+   "sha256": "e0c2eefe7b8d9a89",
+   "row_count": 4,
+   "row_size": 33
+  },
+  "atlasupgradesinventorylayout": {
+   "bytes": 556,
+   "sha256": "e1b86da0cb46941c",
+   "row_count": 4,
+   "row_size": 72
+  },
+  "attackskilldamagescalingtype": {
+   "bytes": 214,
+   "sha256": "ce7e29a6be60e1a4",
+   "row_count": 8,
+   "row_size": 8
+  },
+  "attackskilldamagescalingvalues": {
+   "bytes": 6756,
+   "sha256": "e00c9f0b5705534c",
+   "row_count": 281,
+   "row_size": 24
+  },
+  "attributerequirements": {
+   "bytes": 47052,
+   "sha256": "58c67b233f120931",
+   "row_count": 1680,
+   "row_size": 28
+  },
+  "audiocharacterclass": {
+   "bytes": 958,
+   "sha256": "513816cc115a9ed9",
+   "row_count": 29,
+   "row_size": 8
+  },
+  "awarddisplay": {
+   "bytes": 18300,
+   "sha256": "c75d81133cc742ae",
+   "row_count": 66,
+   "row_size": 104
+  },
+  "azmerifeaturerooms": {
+   "bytes": 7809,
+   "sha256": "00881df36777c858",
+   "row_count": 39,
+   "row_size": 41
+  },
+  "azmeriwoodsdusttype": {
+   "bytes": 1872,
+   "sha256": "a81080c6c2c636ef",
+   "row_count": 3,
+   "row_size": 64
+  },
+  "backenderrors": {
+   "bytes": 123264,
+   "sha256": "dea717b5db6efac0",
+   "row_count": 715,
+   "row_size": 16
+  },
+  "ballisticbouncebehaviour": {
+   "bytes": 630,
+   "sha256": "de9176359e97143a",
+   "row_count": 9,
+   "row_size": 26
+  },
+  "ballisticbounceoverride": {
+   "bytes": 2132,
+   "sha256": "2136b1013dcb6aa7",
+   "row_count": 24,
+   "row_size": 43
+  },
+  "baseitemtypes": {
+   "bytes": 2813424,
+   "sha256": "8dfb8def67fce003",
+   "row_count": 5469,
+   "row_size": 360
+  },
+  "battlepasses": {
+   "bytes": 1701,
+   "sha256": "c038a6792f3c3612",
+   "row_count": 5,
+   "row_size": 57
+  },
+  "battlepassrewards": {
+   "bytes": 13242,
+   "sha256": "7ff5d344f4d2d5b4",
+   "row_count": 50,
+   "row_size": 142
+  },
+  "battlepasstracks": {
+   "bytes": 162,
+   "sha256": "3b28bdd38f5673f5",
+   "row_count": 3,
+   "row_size": 16
+  },
+  "bestiarycapturablemonsters": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "bestiaryencounters": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "bestiaryfamilies": {
+   "bytes": 3509,
+   "sha256": "79be52f95268b3b7",
+   "row_count": 5,
+   "row_size": 109
+  },
+  "bestiarygenus": {
+   "bytes": 6270,
+   "sha256": "00c4cfddbcb123f0",
+   "row_count": 42,
+   "row_size": 48
+  },
+  "bestiarygroups": {
+   "bytes": 10514,
+   "sha256": "5c2f35ea7120cc05",
+   "row_count": 12,
+   "row_size": 80
+  },
+  "bestiarynets": {
+   "bytes": 463,
+   "sha256": "894fe551e336d05e",
+   "row_count": 11,
+   "row_size": 41
+  },
+  "bestiaryrecipecategories": {
+   "bytes": 1574,
+   "sha256": "75a85624016f00bf",
+   "row_count": 17,
+   "row_size": 16
+  },
+  "bestiaryrecipecomponent": {
+   "bytes": 30660,
+   "sha256": "dd3f6569f754c24f",
+   "row_count": 194,
+   "row_size": 108
+  },
+  "bestiaryrecipes": {
+   "bytes": 28402,
+   "sha256": "2cfce27313fbb93a",
+   "row_count": 127,
+   "row_size": 102
+  },
+  "betrayalchoiceactions": {
+   "bytes": 1752,
+   "sha256": "215e195f2d160198",
+   "row_count": 23,
+   "row_size": 40
+  },
+  "betrayalchoices": {
+   "bytes": 288,
+   "sha256": "438601b830d1921a",
+   "row_count": 5,
+   "row_size": 36
+  },
+  "betrayaldialogue": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "betrayalforts": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "betrayaljobs": {
+   "bytes": 1210,
+   "sha256": "f039f11264da75ce",
+   "row_count": 5,
+   "row_size": 112
+  },
+  "betrayalranks": {
+   "bytes": 550,
+   "sha256": "9387f97c4ef07735",
+   "row_count": 4,
+   "row_size": 28
+  },
+  "betrayalrelationshipstate": {
+   "bytes": 112,
+   "sha256": "719d5b176d6e85d2",
+   "row_count": 3,
+   "row_size": 16
+  },
+  "betrayaltargetjobachievements": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "betrayaltargetlifescalingperlevel": {
+   "bytes": 452,
+   "sha256": "70f54be2f69ab99a",
+   "row_count": 55,
+   "row_size": 8
+  },
+  "betrayaltargets": {
+   "bytes": 9342,
+   "sha256": "bb11d7fe6289c7b7",
+   "row_count": 18,
+   "row_size": 177
+  },
+  "betrayaltraitorrewards": {
+   "bytes": 20220,
+   "sha256": "98b1a1640d9266cf",
+   "row_count": 204,
+   "row_size": 64
+  },
+  "betrayalupgrades": {
+   "bytes": 19198,
+   "sha256": "2905315d12b5361f",
+   "row_count": 50,
+   "row_size": 136
+  },
+  "betrayalwalllifescalingperlevel": {
+   "bytes": 452,
+   "sha256": "70f54be2f69ab99a",
+   "row_count": 55,
+   "row_size": 8
+  },
+  "beyondfactions": {
+   "bytes": 124,
+   "sha256": "96d6f44fbed38025",
+   "row_count": 3,
+   "row_size": 24
+  },
+  "bindablevirtualkeys": {
+   "bytes": 3080,
+   "sha256": "cb40d72a605e4ebb",
+   "row_count": 92,
+   "row_size": 20
+  },
+  "blightbalanceperlevel": {
+   "bytes": 1468,
+   "sha256": "1e23b6b993306c63",
+   "row_count": 30,
+   "row_size": 48
+  },
+  "blightchesttypes": {
+   "bytes": 60,
+   "sha256": "6b18af3dd0e55e2f",
+   "row_count": 3,
+   "row_size": 16
+  },
+  "blightcraftingitems": {
+   "bytes": 1070,
+   "sha256": "9c7da547844d55f9",
+   "row_count": 13,
+   "row_size": 64
+  },
+  "blightcraftingrecipes": {
+   "bytes": 99492,
+   "sha256": "3695276a6f538f1e",
+   "row_count": 1017,
+   "row_size": 40
+  },
+  "blightcraftingresults": {
+   "bytes": 56784,
+   "sha256": "ff90685c9a46adf2",
+   "row_count": 1017,
+   "row_size": 40
+  },
+  "blightcraftinguniques": {
+   "bytes": 124,
+   "sha256": "6a9f3f862fd64922",
+   "row_count": 7,
+   "row_size": 16
+  },
+  "blightedsporeauras": {
+   "bytes": 596,
+   "sha256": "82a4e12d86840ac3",
+   "row_count": 9,
+   "row_size": 56
+  },
+  "blightencountertypes": {
+   "bytes": 1689,
+   "sha256": "8e735425c0e66e70",
+   "row_count": 21,
+   "row_size": 21
+  },
+  "blightencounterwaves": {
+   "bytes": 31760,
+   "sha256": "04a6e852bc07f613",
+   "row_count": 165,
+   "row_size": 40
+  },
+  "blightrewardtypes": {
+   "bytes": 3940,
+   "sha256": "7b285115959d09f2",
+   "row_count": 31,
+   "row_size": 16
+  },
+  "blightstashtablayout": {
+   "bytes": 534,
+   "sha256": "98a78e093a36c316",
+   "row_count": 6,
+   "row_size": 52
+  },
+  "blighttopologies": {
+   "bytes": 6206,
+   "sha256": "088d533298dc7507",
+   "row_count": 69,
+   "row_size": 52
+  },
+  "blighttopologynodes": {
+   "bytes": 30502,
+   "sha256": "4ee85781d5965080",
+   "row_count": 153,
+   "row_size": 132
+  },
+  "blighttowerauras": {
+   "bytes": 372,
+   "sha256": "f2de6e687dffed9e",
+   "row_count": 9,
+   "row_size": 40
+  },
+  "blighttowers": {
+   "bytes": 19585,
+   "sha256": "25c6754ed7b9b131",
+   "row_count": 31,
+   "row_size": 133
+  },
+  "blighttowersperlevel": {
+   "bytes": 1376,
+   "sha256": "2db287db97722a43",
+   "row_count": 31,
+   "row_size": 44
+  },
+  "bloodhiteffects": {
+   "bytes": 7764,
+   "sha256": "ecac52f283ed2db0",
+   "row_count": 114,
+   "row_size": 68
+  },
+  "bloodtypes": {
+   "bytes": 11628,
+   "sha256": "74d11317d15d27ed",
+   "row_count": 56,
+   "row_size": 116
+  },
+  "boltstatreference": {
+   "bytes": 104,
+   "sha256": "532656371990688d",
+   "row_count": 1,
+   "row_size": 12
+  },
+  "bosslifescalingperlevel": {
+   "bytes": 684,
+   "sha256": "4d21f6ea6ef39a43",
+   "row_count": 84,
+   "row_size": 8
+  },
+  "breachartvariations": {
+   "bytes": 446,
+   "sha256": "40f2aa071a43779a",
+   "row_count": 2,
+   "row_size": 152
+  },
+  "breachbosslifescalingperlevel": {
+   "bytes": 196,
+   "sha256": "30fc835a9d4bf0a5",
+   "row_count": 23,
+   "row_size": 8
+  },
+  "breachelement": {
+   "bytes": 536,
+   "sha256": "ce98853072a51a73",
+   "row_count": 6,
+   "row_size": 72
+  },
+  "breachstashtablayout": {
+   "bytes": 5041,
+   "sha256": "223713b9cc584d7a",
+   "row_count": 29,
+   "row_size": 69
+  },
+  "breachstashtabsubstashgroup": {
+   "bytes": 1626,
+   "sha256": "5517fac2a6f98f19",
+   "row_count": 7,
+   "row_size": 32
+  },
+  "breachstones": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "brequelcraftingitems": {
+   "bytes": 131,
+   "sha256": "8e262c7191cdea4e",
+   "row_count": 7,
+   "row_size": 17
+  },
+  "brequelencounterskills": {
+   "bytes": 3694,
+   "sha256": "2ab3b9aed172437e",
+   "row_count": 9,
+   "row_size": 76
+  },
+  "brequelexchangelayout": {
+   "bytes": 1672,
+   "sha256": "144aa6e67358bcb8",
+   "row_count": 60,
+   "row_size": 20
+  },
+  "brequelfruitquests": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "brequelfruitrewardtypes": {
+   "bytes": 3222,
+   "sha256": "7109958d3b074175",
+   "row_count": 5,
+   "row_size": 80
+  },
+  "brequelfruittypes": {
+   "bytes": 292,
+   "sha256": "3af0402a9c3d7556",
+   "row_count": 5,
+   "row_size": 56
+  },
+  "brequelitemresourcevalues": {
+   "bytes": 812,
+   "sha256": "60c49b56f38f5a82",
+   "row_count": 100,
+   "row_size": 8
+  },
+  "brequellockerlayout": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "brequelpassivesubtrees": {
+   "bytes": 386,
+   "sha256": "01d7e899be2239fc",
+   "row_count": 5,
+   "row_size": 56
+  },
+  "brequeltreepassiveunlocks": {
+   "bytes": 9156,
+   "sha256": "bfb11e0435aa24f2",
+   "row_count": 254,
+   "row_size": 36
+  },
+  "brequeltreeslots": {
+   "bytes": 172,
+   "sha256": "4a0c32a63c1ed234",
+   "row_count": 5,
+   "row_size": 32
+  },
+  "buffdefinitions": {
+   "bytes": 1676655,
+   "sha256": "bf101ca04d9c3fbd",
+   "row_count": 3211,
+   "row_size": 351
+  },
+  "bufftemplates": {
+   "bytes": 137397,
+   "sha256": "1792c41f9151b2f4",
+   "row_count": 643,
+   "row_size": 139
+  },
+  "buffvisualorbart": {
+   "bytes": 48014,
+   "sha256": "73fa67846893ecd0",
+   "row_count": 288,
+   "row_size": 113
+  },
+  "buffvisualorbs": {
+   "bytes": 37118,
+   "sha256": "7a9821eb93926909",
+   "row_count": 271,
+   "row_size": 72
+  },
+  "buffvisualorbtypes": {
+   "bytes": 3853,
+   "sha256": "1f3e3ed6c45b47db",
+   "row_count": 27,
+   "row_size": 109
+  },
+  "buffvisuals": {
+   "bytes": 1422542,
+   "sha256": "ba6f61a0c3ac36c4",
+   "row_count": 2832,
+   "row_size": 311
+  },
+  "buffvisualsartvariations": {
+   "bytes": 50838,
+   "sha256": "50df5ba0d55f016c",
+   "row_count": 918,
+   "row_size": 28
+  },
+  "buffvisualsetentries": {
+   "bytes": 2220,
+   "sha256": "3e2e7ce4cd9239f1",
+   "row_count": 34,
+   "row_size": 32
+  },
+  "buffvisualshapeshiftoverride": {
+   "bytes": 5970,
+   "sha256": "20c87ad2311eff85",
+   "row_count": 26,
+   "row_size": 64
+  },
+  "buildplannerinventories": {
+   "bytes": 284,
+   "sha256": "0d903b98604b8191",
+   "row_count": 17,
+   "row_size": 16
+  },
+  "buildplannerskilltrees": {
+   "bytes": 28,
+   "sha256": "4d300781f45a6aa5",
+   "row_count": 1,
+   "row_size": 16
+  },
+  "byocrafting": {
+   "bytes": 15358,
+   "sha256": "e6f2f675bb806b9e",
+   "row_count": 52,
+   "row_size": 56
+  },
+  "caravanstops": {
+   "bytes": 3644,
+   "sha256": "09947e1eb0f56564",
+   "row_count": 12,
+   "row_size": 168
+  },
+  "chakraslots": {
+   "bytes": 112,
+   "sha256": "a2308ae410094976",
+   "row_count": 5,
+   "row_size": 20
+  },
+  "chanceableitemclasses": {
+   "bytes": 692,
+   "sha256": "84df47cf229429a2",
+   "row_count": 34,
+   "row_size": 20
+  },
+  "characteraudioevents": {
+   "bytes": 316451,
+   "sha256": "858fdbb6cfb5e5d3",
+   "row_count": 1493,
+   "row_size": 159
+  },
+  "charactercreationbutton": {
+   "bytes": 11348,
+   "sha256": "79e8fb72bdc78bc5",
+   "row_count": 12,
+   "row_size": 48
+  },
+  "charactercreationdialogue": {
+   "bytes": 780,
+   "sha256": "34b9b6a98729cf34",
+   "row_count": 12,
+   "row_size": 64
+  },
+  "charactercreationicons": {
+   "bytes": 12616,
+   "sha256": "e5999a53568da1de",
+   "row_count": 24,
+   "row_size": 40
+  },
+  "charactereventtextaudio": {
+   "bytes": 867208,
+   "sha256": "4990fd9b74c57d69",
+   "row_count": 8667,
+   "row_size": 68
+  },
+  "charactermeleeskills": {
+   "bytes": 2514,
+   "sha256": "124fb19bf40d22d9",
+   "row_count": 38,
+   "row_size": 49
+  },
+  "characterpaneldescriptionmodes": {
+   "bytes": 1522,
+   "sha256": "aa9d9485ded389cf",
+   "row_count": 15,
+   "row_size": 32
+  },
+  "characterpanelstats": {
+   "bytes": 340905,
+   "sha256": "3cdb71063f7831dc",
+   "row_count": 1231,
+   "row_size": 171
+  },
+  "characterpaneltabs": {
+   "bytes": 3085,
+   "sha256": "5b9949a2ff38f5ca",
+   "row_count": 49,
+   "row_size": 25
+  },
+  "characters": {
+   "bytes": 27208,
+   "sha256": "456bef87b07a56fa",
+   "row_count": 12,
+   "row_size": 640
+  },
+  "charactershapeshiftbasicskills": {
+   "bytes": 108,
+   "sha256": "7a20954b34dcafb9",
+   "row_count": 3,
+   "row_size": 32
+  },
+  "characterstartqueststate": {
+   "bytes": 594574,
+   "sha256": "d66c2d88d61a673c",
+   "row_count": 96,
+   "row_size": 104
+  },
+  "characterstartstates": {
+   "bytes": 122304,
+   "sha256": "8c8065bc2905c5de",
+   "row_count": 109,
+   "row_size": 222
+  },
+  "characterstartstateset": {
+   "bytes": 598,
+   "sha256": "96fc86277fe8bba4",
+   "row_count": 15,
+   "row_size": 8
+  },
+  "charactertextaudio": {
+   "bytes": 5726496,
+   "sha256": "897b8a17e602bbcf",
+   "row_count": 17983,
+   "row_size": 40
+  },
+  "charactervariationgroups": {
+   "bytes": 330,
+   "sha256": "6b42ef5a735d6b47",
+   "row_count": 6,
+   "row_size": 40
+  },
+  "chargevariations": {
+   "bytes": 1292,
+   "sha256": "203db4d0e930bef1",
+   "row_count": 20,
+   "row_size": 64
+  },
+  "chaticons": {
+   "bytes": 1458,
+   "sha256": "3e5a409d212e987a",
+   "row_count": 11,
+   "row_size": 16
+  },
+  "chestclusters": {
+   "bytes": 11714,
+   "sha256": "df3f85cbbe87a1ab",
+   "row_count": 84,
+   "row_size": 52
+  },
+  "chesteffects": {
+   "bytes": 24934,
+   "sha256": "26907b43d305a948",
+   "row_count": 64,
+   "row_size": 136
+  },
+  "chests": {
+   "bytes": 625220,
+   "sha256": "b8d02f1efe81d1e5",
+   "row_count": 1027,
+   "row_size": 410
+  },
+  "chooseoneuniquenpcs": {
+   "bytes": 76,
+   "sha256": "b982519026472372",
+   "row_count": 2,
+   "row_size": 32
+  },
+  "classpassiveskilloverrides": {
+   "bytes": 2940,
+   "sha256": "65fe77df8b41ea97",
+   "row_count": 61,
+   "row_size": 48
+  },
+  "clientleagueaction": {
+   "bytes": 4084,
+   "sha256": "5ef452187a355202",
+   "row_count": 23,
+   "row_size": 36
+  },
+  "clientstrings": {
+   "bytes": 1985560,
+   "sha256": "169d4334a8fbca1e",
+   "row_count": 9592,
+   "row_size": 52
+  },
+  "clientstrings2": {
+   "bytes": 163208,
+   "sha256": "9ba9fb3450260927",
+   "row_count": 823,
+   "row_size": 52
+  },
+  "cloneshot": {
+   "bytes": 1304,
+   "sha256": "6fd11d592508568e",
+   "row_count": 19,
+   "row_size": 68
+  },
+  "colours": {
+   "bytes": 4580,
+   "sha256": "49c2b9b4ad481590",
+   "row_count": 50,
+   "row_size": 28
+  },
+  "combatuiprompts": {
+   "bytes": 796,
+   "sha256": "10373f286d45d8ea",
+   "row_count": 8,
+   "row_size": 32
+  },
+  "commands": {
+   "bytes": 8830,
+   "sha256": "dd16e8b6e507e95b",
+   "row_count": 64,
+   "row_size": 34
+  },
+  "completionnotifications": {
+   "bytes": 7524,
+   "sha256": "bf69c9d03259bb24",
+   "row_count": 23,
+   "row_size": 116
+  },
+  "componentcharges": {
+   "bytes": 3016,
+   "sha256": "7de3b81e74094559",
+   "row_count": 31,
+   "row_size": 24
+  },
+  "conditionalachievements": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "contentcultures": {
+   "bytes": 1802,
+   "sha256": "89d4f36b41253bb9",
+   "row_count": 11,
+   "row_size": 96
+  },
+  "coreleagues": {
+   "bytes": 3740,
+   "sha256": "1204e399d9541eae",
+   "row_count": 12,
+   "row_size": 238
+  },
+  "corpseexplosiongibs": {
+   "bytes": 472,
+   "sha256": "727d6d899ab6c604",
+   "row_count": 3,
+   "row_size": 24
+  },
+  "corpsesinkareaoverrides": {
+   "bytes": 36,
+   "sha256": "659325f51ace02c1",
+   "row_count": 1,
+   "row_size": 24
+  },
+  "corpsesinkvariations": {
+   "bytes": 2194,
+   "sha256": "e5004bdb186f4f0a",
+   "row_count": 8,
+   "row_size": 54
+  },
+  "cosmeticsequippanelmode": {
+   "bytes": 376,
+   "sha256": "fcafc2f35fb55dab",
+   "row_count": 2,
+   "row_size": 24
+  },
+  "cosmeticspaneltab": {
+   "bytes": 1612,
+   "sha256": "65b21af66502396e",
+   "row_count": 4,
+   "row_size": 72
+  },
+  "costtypes": {
+   "bytes": 1802,
+   "sha256": "310345d66ce4da94",
+   "row_count": 18,
+   "row_size": 37
+  },
+  "craftablemodtypes": {
+   "bytes": 3630,
+   "sha256": "8c6711e773757330",
+   "row_count": 201,
+   "row_size": 18
+  },
+  "craftingbenchoptions": {
+   "bytes": 30134,
+   "sha256": "5095248e9fa9775c",
+   "row_count": 85,
+   "row_size": 206
+  },
+  "craftingbenchsortcategories": {
+   "bytes": 333,
+   "sha256": "5b81b4e96c239536",
+   "row_count": 7,
+   "row_size": 25
+  },
+  "craftingbenchspecificoptionid": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "craftingbenchunlockcategories": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "craftingitemclasscategories": {
+   "bytes": 3626,
+   "sha256": "9b6c3803e2f362f1",
+   "row_count": 29,
+   "row_size": 40
+  },
+  "craftingspreecurrencies": {
+   "bytes": 581,
+   "sha256": "03a226bf864afb35",
+   "row_count": 13,
+   "row_size": 25
+  },
+  "craftingspreetype": {
+   "bytes": 4336,
+   "sha256": "bcafbb3ea476f2ad",
+   "row_count": 14,
+   "row_size": 69
+  },
+  "crossbowskillboltoverride": {
+   "bytes": 912,
+   "sha256": "0ab053a3bee76f28",
+   "row_count": 25,
+   "row_size": 36
+  },
+  "currencyconsumeeffects": {
+   "bytes": 1814,
+   "sha256": "5ac692884d823e1b",
+   "row_count": 49,
+   "row_size": 36
+  },
+  "currencyexchange": {
+   "bytes": 37420,
+   "sha256": "0670fb63c78f248c",
+   "row_count": 668,
+   "row_size": 56
+  },
+  "currencyexchangecategories": {
+   "bytes": 4110,
+   "sha256": "ba97ff25f378a7a3",
+   "row_count": 55,
+   "row_size": 16
+  },
+  "currencyitems": {
+   "bytes": 479447,
+   "sha256": "b7298ced9233ff7e",
+   "row_count": 1517,
+   "row_size": 209
+  },
+  "currencyperitemclassconditions": {
+   "bytes": 532,
+   "sha256": "ca3a715d5879a02a",
+   "row_count": 10,
+   "row_size": 52
+  },
+  "currencystashtablayout": {
+   "bytes": 7492,
+   "sha256": "e7afd0cfdc6524cb",
+   "row_count": 52,
+   "row_size": 69
+  },
+  "currencyuseeffects": {
+   "bytes": 742,
+   "sha256": "0d9db3050d3473d3",
+   "row_count": 4,
+   "row_size": 38
+  },
+  "currencyuseeffectsfromitem": {
+   "bytes": 740,
+   "sha256": "414b1a5064ec9d4f",
+   "row_count": 14,
+   "row_size": 52
+  },
+  "cursetypes": {
+   "bytes": 763,
+   "sha256": "33e7ae37265cdd28",
+   "row_count": 9,
+   "row_size": 57
+  },
+  "customleaguemonsterreplacements": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "customleagueroomreplacements": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "customsocketart": {
+   "bytes": 9044,
+   "sha256": "33bd1c8a6cbc87a1",
+   "row_count": 252,
+   "row_size": 24
+  },
+  "daemonspawningdata": {
+   "bytes": 832,
+   "sha256": "f6a0d5358bf2ed1d",
+   "row_count": 10,
+   "row_size": 40
+  },
+  "damagecalculationtypes": {
+   "bytes": 12038,
+   "sha256": "5d74a34ac134a1c4",
+   "row_count": 13,
+   "row_size": 688
+  },
+  "damageeffectvariations": {
+   "bytes": 60996,
+   "sha256": "6ba8e2d6398f5b3a",
+   "row_count": 291,
+   "row_size": 98
+  },
+  "damagehiteffects": {
+   "bytes": 7560,
+   "sha256": "013846734a93799e",
+   "row_count": 125,
+   "row_size": 44
+  },
+  "damageparticleeffects": {
+   "bytes": 1497,
+   "sha256": "f4e77d8d0dd53cb2",
+   "row_count": 33,
+   "row_size": 45
+  },
+  "damagewhenhiteffects": {
+   "bytes": 375,
+   "sha256": "e323bb0ee78f40d4",
+   "row_count": 11,
+   "row_size": 33
+  },
+  "dances": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "daressopitfights": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "defaultmonsterstats": {
+   "bytes": 9596,
+   "sha256": "2c5bb67cc6429478",
+   "row_count": 100,
+   "row_size": 88
+  },
+  "deliriumstashtablayout": {
+   "bytes": 8096,
+   "sha256": "55131a9f44c64afb",
+   "row_count": 60,
+   "row_size": 69
+  },
+  "delveazuriteshop": {
+   "bytes": 1159,
+   "sha256": "d5f1872f553307d9",
+   "row_count": 31,
+   "row_size": 37
+  },
+  "delvebiomes": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "delvecatchupdepths": {
+   "bytes": 812,
+   "sha256": "068e6622a2fca75a",
+   "row_count": 100,
+   "row_size": 8
+  },
+  "delvecraftingmodifierdescriptions": {
+   "bytes": 7826,
+   "sha256": "5306e4f9b964cd92",
+   "row_count": 80,
+   "row_size": 16
+  },
+  "delvecraftingmodifiers": {
+   "bytes": 148007,
+   "sha256": "ff6a38b257f4bb7d",
+   "row_count": 445,
+   "row_size": 235
+  },
+  "delvecraftingtags": {
+   "bytes": 706,
+   "sha256": "4ac238a39fa85c53",
+   "row_count": 16,
+   "row_size": 24
+  },
+  "delvedynamite": {
+   "bytes": 412,
+   "sha256": "283c3394bc9674d0",
+   "row_count": 4,
+   "row_size": 100
+  },
+  "delvefeatures": {
+   "bytes": 62510,
+   "sha256": "a10e7c0a9b0c20ef",
+   "row_count": 246,
+   "row_size": 180
+  },
+  "delveflares": {
+   "bytes": 140,
+   "sha256": "2185e295e869fb51",
+   "row_count": 2,
+   "row_size": 64
+  },
+  "delvelevelscaling": {
+   "bytes": 360012,
+   "sha256": "a458432519ab85ef",
+   "row_count": 6000,
+   "row_size": 60
+  },
+  "delvemonsterspawners": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "delveresourceperlevel": {
+   "bytes": 804,
+   "sha256": "e79cedbf2d31660b",
+   "row_count": 99,
+   "row_size": 8
+  },
+  "delverewardtierconstants": {
+   "bytes": 112,
+   "sha256": "8b9e4da393ebc7fb",
+   "row_count": 5,
+   "row_size": 20
+  },
+  "delverobotvariations": {
+   "bytes": 438,
+   "sha256": "a86ccaa135f39c65",
+   "row_count": 2,
+   "row_size": 64
+  },
+  "delverooms": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "delvestashtablayout": {
+   "bytes": 6341,
+   "sha256": "b3ffe43b348b6a4d",
+   "row_count": 35,
+   "row_size": 57
+  },
+  "delveupgrades": {
+   "bytes": 33176,
+   "sha256": "845f4af49d7e8543",
+   "row_count": 387,
+   "row_size": 68
+  },
+  "destructivedamageeffects": {
+   "bytes": 5773,
+   "sha256": "b24959f58ce44d48",
+   "row_count": 27,
+   "row_size": 93
+  },
+  "dialogueevent": {
+   "bytes": 2368,
+   "sha256": "149f12eec1a4c0ee",
+   "row_count": 44,
+   "row_size": 12
+  },
+  "displaycasetypes": {
+   "bytes": 2403,
+   "sha256": "8e1f86b35b585cb5",
+   "row_count": 5,
+   "row_size": 85
+  },
+  "displayminionmonstertype": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "divinationcardart": {
+   "bytes": 154,
+   "sha256": "fc1599c24478cf82",
+   "row_count": 1,
+   "row_size": 56
+  },
+  "divinationcardstashtablayout": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "doors": {
+   "bytes": 997,
+   "sha256": "acda8c120add58fe",
+   "row_count": 9,
+   "row_size": 9
+  },
+  "dropeffects": {
+   "bytes": 1462,
+   "sha256": "754596e8ab736808",
+   "row_count": 11,
+   "row_size": 16
+  },
+  "eclipsemods": {
+   "bytes": 8683,
+   "sha256": "7cbad0f6f62afed9",
+   "row_count": 77,
+   "row_size": 65
+  },
+  "effectdrivenskill": {
+   "bytes": 23953,
+   "sha256": "f2ea25b014ff504b",
+   "row_count": 167,
+   "row_size": 119
+  },
+  "effectivenesscostconstants": {
+   "bytes": 138,
+   "sha256": "768f19841d61f0d9",
+   "row_count": 3,
+   "row_size": 12
+  },
+  "einharmissions": {
+   "bytes": 524,
+   "sha256": "6ae929efbb8b89d5",
+   "row_count": 12,
+   "row_size": 36
+  },
+  "einharpackfallback": {
+   "bytes": 684,
+   "sha256": "d123dc724b4813c9",
+   "row_count": 21,
+   "row_size": 32
+  },
+  "elderbossarenas": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "elderguardians": {
+   "bytes": 554,
+   "sha256": "97a93fda33f4372d",
+   "row_count": 4,
+   "row_size": 16
+  },
+  "eldermapbossoverride": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "emote": {
+   "bytes": 716,
+   "sha256": "cce3f33ee32ed57f",
+   "row_count": 6,
+   "row_size": 59
+  },
+  "endgamecleansedmods": {
+   "bytes": 403,
+   "sha256": "19560943c07e3397",
+   "row_count": 11,
+   "row_size": 33
+  },
+  "endgamecorruptionmods": {
+   "bytes": 539,
+   "sha256": "e2c523f008395ced",
+   "row_count": 15,
+   "row_size": 33
+  },
+  "endgameextramapstatstodisplayonatlas": {
+   "bytes": 474,
+   "sha256": "1c8bee6cf31268d4",
+   "row_count": 1,
+   "row_size": 24
+  },
+  "endgamemapatlas": {
+   "bytes": 373154,
+   "sha256": "5fcd492f9d9744ad",
+   "row_count": 1242,
+   "row_size": 285
+  },
+  "endgamemapatlastowers": {
+   "bytes": 4880,
+   "sha256": "64721d0000d9f198",
+   "row_count": 5,
+   "row_size": 84
+  },
+  "endgamemapbiomegroundtypes": {
+   "bytes": 6076,
+   "sha256": "905f09bcdf21b2e2",
+   "row_count": 16,
+   "row_size": 56
+  },
+  "endgamemapbiomes": {
+   "bytes": 2492,
+   "sha256": "98d444248f8df9a0",
+   "row_count": 13,
+   "row_size": 160
+  },
+  "endgamemapconstants": {
+   "bytes": 1680,
+   "sha256": "ad6b78f4857129a9",
+   "row_count": 23,
+   "row_size": 24
+  },
+  "endgamemapcontent": {
+   "bytes": 21676,
+   "sha256": "412b74d87235abdd",
+   "row_count": 66,
+   "row_size": 93
+  },
+  "endgamemapcontentaddition": {
+   "bytes": 3102,
+   "sha256": "c5e62585f0d9db10",
+   "row_count": 13,
+   "row_size": 118
+  },
+  "endgamemapcontentframetype": {
+   "bytes": 956,
+   "sha256": "ce365e9965b8e755",
+   "row_count": 5,
+   "row_size": 16
+  },
+  "endgamemapcontentset": {
+   "bytes": 466,
+   "sha256": "d1851dcca65546c8",
+   "row_count": 6,
+   "row_size": 25
+  },
+  "endgamemapcontentvisualidentity": {
+   "bytes": 15481,
+   "sha256": "ff3c6bfa6ba5f3e4",
+   "row_count": 73,
+   "row_size": 43
+  },
+  "endgamemapcontentweightings": {
+   "bytes": 3072,
+   "sha256": "bc7d7bb7c24f98ec",
+   "row_count": 49,
+   "row_size": 52
+  },
+  "endgamemapdecorations": {
+   "bytes": 30992,
+   "sha256": "67554e8cb8a2d042",
+   "row_count": 138,
+   "row_size": 59
+  },
+  "endgamemaplocations": {
+   "bytes": 28584,
+   "sha256": "b43f7f7b6835ef1b",
+   "row_count": 243,
+   "row_size": 72
+  },
+  "endgamemapnodestats": {
+   "bytes": 714,
+   "sha256": "580ce66addc06925",
+   "row_count": 6,
+   "row_size": 117
+  },
+  "endgamemapobjectives": {
+   "bytes": 8386,
+   "sha256": "f1e75d7264420acf",
+   "row_count": 19,
+   "row_size": 48
+  },
+  "endgamemappinicons": {
+   "bytes": 3306,
+   "sha256": "965410804bb892da",
+   "row_count": 12,
+   "row_size": 24
+  },
+  "endgamemappins": {
+   "bytes": 13576,
+   "sha256": "31225c21cfc4b150",
+   "row_count": 64,
+   "row_size": 152
+  },
+  "endgamemaprevealtypes": {
+   "bytes": 2676,
+   "sha256": "056ffcc9787411db",
+   "row_count": 12,
+   "row_size": 24
+  },
+  "endgamemaps": {
+   "bytes": 61257,
+   "sha256": "67d64c69647e5369",
+   "row_count": 173,
+   "row_size": 239
+  },
+  "endgamemaptablets": {
+   "bytes": 1096,
+   "sha256": "c0c4338c449e1081",
+   "row_count": 8,
+   "row_size": 112
+  },
+  "endgamequicktravelhubs": {
+   "bytes": 4078,
+   "sha256": "a1981a03f069bf8a",
+   "row_count": 9,
+   "row_size": 116
+  },
+  "endgameregionactionbuttons": {
+   "bytes": 1080,
+   "sha256": "9d51c087be357e14",
+   "row_count": 4,
+   "row_size": 77
+  },
+  "endgameregionactionbuttonsrequiredquestflags": {
+   "bytes": 1169,
+   "sha256": "a87a1f46b91d6bbb",
+   "row_count": 13,
+   "row_size": 89
+  },
+  "endgameregionactioncurrencyitems": {
+   "bytes": 384,
+   "sha256": "9e9921d968ab909d",
+   "row_count": 4,
+   "row_size": 93
+  },
+  "endgamesplinterinfodisplay": {
+   "bytes": 530,
+   "sha256": "75da627977467ba6",
+   "row_count": 4,
+   "row_size": 28
+  },
+  "endgamesplinterrecipes": {
+   "bytes": 1212,
+   "sha256": "a32252311abbc0ed",
+   "row_count": 12,
+   "row_size": 100
+  },
+  "environmentfootprints": {
+   "bytes": 11230,
+   "sha256": "4624886354312e40",
+   "row_count": 180,
+   "row_size": 36
+  },
+  "environments": {
+   "bytes": 503106,
+   "sha256": "f22bc06b44c3db05",
+   "row_count": 1978,
+   "row_size": 117
+  },
+  "environmenttransitions": {
+   "bytes": 860,
+   "sha256": "d47a851b6e5b5f4b",
+   "row_count": 6,
+   "row_size": 64
+  },
+  "equipmentpreviewscene": {
+   "bytes": 846,
+   "sha256": "23854dc34c0fc9e4",
+   "row_count": 5,
+   "row_size": 32
+  },
+  "essencemods": {
+   "bytes": 19164,
+   "sha256": "47c5da099a03dc03",
+   "row_count": 177,
+   "row_size": 104
+  },
+  "essencereplacementtype": {
+   "bytes": 36,
+   "sha256": "c37ff49399e7caaa",
+   "row_count": 1,
+   "row_size": 8
+  },
+  "essences": {
+   "bytes": 16835,
+   "sha256": "80631e6df6ed33d6",
+   "row_count": 95,
+   "row_size": 161
+  },
+  "essencestashtablayout": {
+   "bytes": 14537,
+   "sha256": "40626dd73ed1cf50",
+   "row_count": 87,
+   "row_size": 65
+  },
+  "essencetargetitemcategories": {
+   "bytes": 8526,
+   "sha256": "95d1e59a4ec48de6",
+   "row_count": 50,
+   "row_size": 32
+  },
+  "essencetype": {
+   "bytes": 1139,
+   "sha256": "12bf35483d79f0c6",
+   "row_count": 25,
+   "row_size": 29
+  },
+  "eventcoins": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "evergreenachievements": {
+   "bytes": 1052,
+   "sha256": "069fdd8b801b0065",
+   "row_count": 42,
+   "row_size": 24
+  },
+  "executegeal": {
+   "bytes": 187807,
+   "sha256": "4203d140f6a5893c",
+   "row_count": 335,
+   "row_size": 223
+  },
+  "expandingpulse": {
+   "bytes": 5106,
+   "sha256": "d972c7cc66cf8fc7",
+   "row_count": 20,
+   "row_size": 69
+  },
+  "expedition2animatedperarea": {
+   "bytes": 8796,
+   "sha256": "3bf2c50c05622242",
+   "row_count": 183,
+   "row_size": 48
+  },
+  "expedition2craftingachievements": {
+   "bytes": 204,
+   "sha256": "fdcc37432cbae87e",
+   "row_count": 6,
+   "row_size": 32
+  },
+  "expedition2elementalmodconversions": {
+   "bytes": 10669,
+   "sha256": "50b807abd20cacf6",
+   "row_count": 93,
+   "row_size": 73
+  },
+  "expedition2heathremnantseenleaguequestflags": {
+   "bytes": 76,
+   "sha256": "ab479724240cfff9",
+   "row_count": 8,
+   "row_size": 8
+  },
+  "expedition2monsterfactions": {
+   "bytes": 970,
+   "sha256": "e940ac45b402556c",
+   "row_count": 11,
+   "row_size": 36
+  },
+  "expedition2olrothslegacyruneclient": {
+   "bytes": 2074,
+   "sha256": "ab29efa5cb3a9c21",
+   "row_count": 1,
+   "row_size": 40
+  },
+  "expedition2recipes": {
+   "bytes": 119172,
+   "sha256": "2df15b00fdfad298",
+   "row_count": 321,
+   "row_size": 186
+  },
+  "expedition2remnantrewardperarea": {
+   "bytes": 1312,
+   "sha256": "a6efe64fe9ec16e7",
+   "row_count": 25,
+   "row_size": 52
+  },
+  "expedition2runes": {
+   "bytes": 16850,
+   "sha256": "38efaa52a3b34eac",
+   "row_count": 34,
+   "row_size": 108
+  },
+  "expedition2runesweights": {
+   "bytes": 11779,
+   "sha256": "e86a4fb6d843e714",
+   "row_count": 175,
+   "row_size": 57
+  },
+  "expedition2shipnames": {
+   "bytes": 90,
+   "sha256": "e0d83a48179dc15f",
+   "row_count": 1,
+   "row_size": 12
+  },
+  "expedition2verisiumcrafts": {
+   "bytes": 115748,
+   "sha256": "984fe5c0b7c94718",
+   "row_count": 717,
+   "row_size": 132
+  },
+  "expedition2warpingrunestattotag": {
+   "bytes": 204,
+   "sha256": "c6b9ec50591eb2a8",
+   "row_count": 6,
+   "row_size": 32
+  },
+  "expeditionareas": {
+   "bytes": 1185,
+   "sha256": "a5a1c8a3f2971367",
+   "row_count": 17,
+   "row_size": 69
+  },
+  "expeditionbalanceperlevel": {
+   "bytes": 2841,
+   "sha256": "848840bbd02d8358",
+   "row_count": 41,
+   "row_size": 69
+  },
+  "expeditioncategory": {
+   "bytes": 782,
+   "sha256": "fefe7956b5955c1a",
+   "row_count": 5,
+   "row_size": 24
+  },
+  "expeditioncurrency": {
+   "bytes": 204,
+   "sha256": "66888deaf42ca195",
+   "row_count": 4,
+   "row_size": 48
+  },
+  "expeditiondeals": {
+   "bytes": 4338,
+   "sha256": "46d548462e3bef03",
+   "row_count": 39,
+   "row_size": 68
+  },
+  "expeditiondealsdialogue": {
+   "bytes": 1632,
+   "sha256": "75f6f0c20ab0fa7f",
+   "row_count": 45,
+   "row_size": 36
+  },
+  "expeditiondronetypes": {
+   "bytes": 100,
+   "sha256": "3a98046e28167199",
+   "row_count": 1,
+   "row_size": 56
+  },
+  "expeditionfactions": {
+   "bytes": 2016,
+   "sha256": "898f876659fe74b5",
+   "row_count": 5,
+   "row_size": 116
+  },
+  "expeditionmarkerscommon": {
+   "bytes": 2628,
+   "sha256": "e674de740f857b5c",
+   "row_count": 14,
+   "row_size": 16
+  },
+  "expeditionnpcs": {
+   "bytes": 1196,
+   "sha256": "eadbe723ba5513b4",
+   "row_count": 4,
+   "row_size": 200
+  },
+  "expeditionrelicmods": {
+   "bytes": 3236,
+   "sha256": "68bd3e754a7054cd",
+   "row_count": 62,
+   "row_size": 48
+  },
+  "expeditionrelics": {
+   "bytes": 5888,
+   "sha256": "24ce81aba0057a4c",
+   "row_count": 14,
+   "row_size": 110
+  },
+  "expeditionstashtablayout": {
+   "bytes": 2915,
+   "sha256": "b620236d0174c583",
+   "row_count": 31,
+   "row_size": 69
+  },
+  "expeditionterrainfeatures": {
+   "bytes": 2254,
+   "sha256": "beaf924e4650ac98",
+   "row_count": 14,
+   "row_size": 105
+  },
+  "experiencelevels": {
+   "bytes": 2612,
+   "sha256": "10b5cf3727453133",
+   "row_count": 100,
+   "row_size": 16
+  },
+  "extraterrainfeatures": {
+   "bytes": 9317,
+   "sha256": "93c3df4ee191bff3",
+   "row_count": 21,
+   "row_size": 101
+  },
+  "fadeoncorpseconsumeepks": {
+   "bytes": 52,
+   "sha256": "7ef7a7c77260424f",
+   "row_count": 2,
+   "row_size": 20
+  },
+  "fixedhideoutdoodadtypes": {
+   "bytes": 2746,
+   "sha256": "4da56d2a92ae2b57",
+   "row_count": 10,
+   "row_size": 81
+  },
+  "fixedmissions": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "flasks": {
+   "bytes": 3828,
+   "sha256": "3aecdbbb48323f2d",
+   "row_count": 31,
+   "row_size": 80
+  },
+  "flaskstashbasetypeordering": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "flatphysicaldamagevalues": {
+   "bytes": 1132,
+   "sha256": "f1bec172c2286a5b",
+   "row_count": 40,
+   "row_size": 28
+  },
+  "flavourtext": {
+   "bytes": 828460,
+   "sha256": "3a932eba9eb6429f",
+   "row_count": 3589,
+   "row_size": 18
+  },
+  "flavourtextdialogue": {
+   "bytes": 44,
+   "sha256": "a60cef6c50146108",
+   "row_count": 1,
+   "row_size": 32
+  },
+  "footprints": {
+   "bytes": 76470,
+   "sha256": "bf756a8a0155cec5",
+   "row_count": 115,
+   "row_size": 92
+  },
+  "footstepaudio": {
+   "bytes": 1896,
+   "sha256": "c556d3ff3a5da52b",
+   "row_count": 58,
+   "row_size": 12
+  },
+  "fragmentstashtablayout": {
+   "bytes": 3702,
+   "sha256": "2effcbf7520f3e8d",
+   "row_count": 22,
+   "row_size": 70
+  },
+  "fragmentstashtabsubstashgroup": {
+   "bytes": 3196,
+   "sha256": "99024ba819023668",
+   "row_count": 14,
+   "row_size": 33
+  },
+  "gameconstants": {
+   "bytes": 8626,
+   "sha256": "6d9a220c54e23644",
+   "row_count": 118,
+   "row_size": 16
+  },
+  "gamelogos": {
+   "bytes": 5990,
+   "sha256": "066a79ecbf64305f",
+   "row_count": 30,
+   "row_size": 24
+  },
+  "gameobjecttasks": {
+   "bytes": 14128,
+   "sha256": "0cc63e58058c56d2",
+   "row_count": 231,
+   "row_size": 12
+  },
+  "gameobjecttasksfromstats": {
+   "bytes": 1652,
+   "sha256": "22e7d43aa17437a3",
+   "row_count": 40,
+   "row_size": 41
+  },
+  "gamepadbutton": {
+   "bytes": 2266,
+   "sha256": "3efa583369f9f1f0",
+   "row_count": 21,
+   "row_size": 48
+  },
+  "gamepadbuttonbindaction": {
+   "bytes": 8347,
+   "sha256": "f639b400caa2f6ba",
+   "row_count": 27,
+   "row_size": 33
+  },
+  "gamepadbuttoncombination": {
+   "bytes": 3804,
+   "sha256": "69b669bcd8a0e1c4",
+   "row_count": 54,
+   "row_size": 44
+  },
+  "gamepaditemactiontypes": {
+   "bytes": 3708,
+   "sha256": "5d680b908b69d701",
+   "row_count": 61,
+   "row_size": 26
+  },
+  "gamepadthumbstick": {
+   "bytes": 120,
+   "sha256": "3aa4be637aab070f",
+   "row_count": 2,
+   "row_size": 16
+  },
+  "gamepadtype": {
+   "bytes": 726,
+   "sha256": "620df2e64b7be3f8",
+   "row_count": 5,
+   "row_size": 24
+  },
+  "gamestats": {
+   "bytes": 314,
+   "sha256": "2812e97f82524be4",
+   "row_count": 4,
+   "row_size": 16
+  },
+  "gemeffects": {
+   "bytes": 489820,
+   "sha256": "12803ea47fa89f4e",
+   "row_count": 1191,
+   "row_size": 142
+  },
+  "gemtags": {
+   "bytes": 6870,
+   "sha256": "6641c64435e4d0c2",
+   "row_count": 67,
+   "row_size": 64
+  },
+  "genericbuffauras": {
+   "bytes": 944,
+   "sha256": "0e45227df2a07c97",
+   "row_count": 24,
+   "row_size": 8
+  },
+  "genericleaguerewardtypes": {
+   "bytes": 886,
+   "sha256": "cd0cd1954e29c2da",
+   "row_count": 25,
+   "row_size": 16
+  },
+  "genericleaguerewardtypevisuals": {
+   "bytes": 5516,
+   "sha256": "a4665aa2fe1cd41f",
+   "row_count": 25,
+   "row_size": 68
+  },
+  "genericskillindicator": {
+   "bytes": 2992,
+   "sha256": "1b10aed0b1edfdc1",
+   "row_count": 13,
+   "row_size": 132
+  },
+  "geometryattack": {
+   "bytes": 957282,
+   "sha256": "c3d492e69aca2fbf",
+   "row_count": 2734,
+   "row_size": 338
+  },
+  "geometrychannel": {
+   "bytes": 9392,
+   "sha256": "368fa7222d61dd6f",
+   "row_count": 46,
+   "row_size": 130
+  },
+  "geometryprojectiles": {
+   "bytes": 17612,
+   "sha256": "3cd635573ab9b5d2",
+   "row_count": 176,
+   "row_size": 100
+  },
+  "geometrytrigger": {
+   "bytes": 188134,
+   "sha256": "0018c9c176ca64f4",
+   "row_count": 799,
+   "row_size": 234
+  },
+  "giftwrapartvariations": {
+   "bytes": 936,
+   "sha256": "9b9066c3accabcc7",
+   "row_count": 33,
+   "row_size": 28
+  },
+  "globalaudioconfig": {
+   "bytes": 542,
+   "sha256": "ef2979e2efcba1eb",
+   "row_count": 10,
+   "row_size": 13
+  },
+  "goldbasetypeprices": {
+   "bytes": 45872,
+   "sha256": "36ac519a2873b42e",
+   "row_count": 2293,
+   "row_size": 20
+  },
+  "goldinherentskillpricesperlevel": {
+   "bytes": 14412,
+   "sha256": "76341e6bd44bd9cb",
+   "row_count": 600,
+   "row_size": 24
+  },
+  "goldmodprices": {
+   "bytes": 218204,
+   "sha256": "1d6e7476079d5bc4",
+   "row_count": 3272,
+   "row_size": 64
+  },
+  "goldrespecprices": {
+   "bytes": 812,
+   "sha256": "1993b23fac765ee2",
+   "row_count": 100,
+   "row_size": 8
+  },
+  "goldvisualidentities": {
+   "bytes": 108,
+   "sha256": "7db0695c630a8dc6",
+   "row_count": 3,
+   "row_size": 32
+  },
+  "grantedeffectdisplayinforegrouping": {
+   "bytes": 140,
+   "sha256": "647880254d69a440",
+   "row_count": 2,
+   "row_size": 32
+  },
+  "grantedeffectlabels": {
+   "bytes": 12140,
+   "sha256": "fb15d2f4a437a673",
+   "row_count": 202,
+   "row_size": 19
+  },
+  "grantedeffectqualitystats": {
+   "bytes": 73276,
+   "sha256": "5114c4e9274bb058",
+   "row_count": 427,
+   "row_size": 144
+  },
+  "grantedeffects": {
+   "bytes": 3018591,
+   "sha256": "68cb34ef29e8127d",
+   "row_count": 8339,
+   "row_size": 297
+  },
+  "grantedeffectsperlevel": {
+   "bytes": 3968908,
+   "sha256": "0c118924e7ff43f7",
+   "row_count": 34169,
+   "row_size": 116
+  },
+  "grantedeffectstatsets": {
+   "bytes": 1866866,
+   "sha256": "12db431d61411d79",
+   "row_count": 8274,
+   "row_size": 101
+  },
+  "grantedeffectstatsetsperlevel": {
+   "bytes": 9457980,
+   "sha256": "3b194e365d3e743e",
+   "row_count": 41428,
+   "row_size": 185
+  },
+  "grantedskillsocketnumbers": {
+   "bytes": 44,
+   "sha256": "9e1f7831e404fa01",
+   "row_count": 4,
+   "row_size": 8
+  },
+  "graphicalitemexchange": {
+   "bytes": 218,
+   "sha256": "33c86a99362b9d60",
+   "row_count": 1,
+   "row_size": 76
+  },
+  "graphicalitemexchangeslot": {
+   "bytes": 688,
+   "sha256": "b3214759383c0013",
+   "row_count": 4,
+   "row_size": 103
+  },
+  "graphicalitemreceptacle": {
+   "bytes": 3359,
+   "sha256": "3fdf67b329fd0b08",
+   "row_count": 7,
+   "row_size": 147
+  },
+  "graphicalitemreceptacleadditionalbutton": {
+   "bytes": 109,
+   "sha256": "ef3d137f5d2585e4",
+   "row_count": 1,
+   "row_size": 89
+  },
+  "graphicalitemreceptacleslot": {
+   "bytes": 6240,
+   "sha256": "edd4f5ef26c2a82b",
+   "row_count": 16,
+   "row_size": 96
+  },
+  "groundeffects": {
+   "bytes": 163894,
+   "sha256": "55b57109f1e7e77a",
+   "row_count": 370,
+   "row_size": 235
+  },
+  "groundeffecttypes": {
+   "bytes": 4822,
+   "sha256": "8ed4defe1fba90e8",
+   "row_count": 53,
+   "row_size": 64
+  },
+  "hapticevents": {
+   "bytes": 31739,
+   "sha256": "6d4ecd1159b55ef5",
+   "row_count": 199,
+   "row_size": 41
+  },
+  "harbingers": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "hardmodeextracontentchances": {
+   "bytes": 2814,
+   "sha256": "23db993e7af7e775",
+   "row_count": 10,
+   "row_size": 72
+  },
+  "harvestcraftcostscalingbybasetype": {
+   "bytes": 192,
+   "sha256": "aaed6db4ecef4c6f",
+   "row_count": 5,
+   "row_size": 36
+  },
+  "harvestcraftfilters": {
+   "bytes": 472,
+   "sha256": "bcd75028e1888153",
+   "row_count": 4,
+   "row_size": 32
+  },
+  "harvestcraftoptionicons": {
+   "bytes": 1932,
+   "sha256": "476f023198dbc5fb",
+   "row_count": 15,
+   "row_size": 16
+  },
+  "harvestcraftoptions": {
+   "bytes": 51606,
+   "sha256": "5c98a4ac1b7d39d3",
+   "row_count": 69,
+   "row_size": 108
+  },
+  "harvestcrafttiers": {
+   "bytes": 1188,
+   "sha256": "3034d6701536725a",
+   "row_count": 4,
+   "row_size": 24
+  },
+  "harvestinfrastructure": {
+   "bytes": 510,
+   "sha256": "ab6d897312ba7ce9",
+   "row_count": 4,
+   "row_size": 28
+  },
+  "harvestlifescalingperlevel": {
+   "bytes": 812,
+   "sha256": "ee55de3f9cbcf75f",
+   "row_count": 100,
+   "row_size": 8
+  },
+  "harvestperlevelvalues": {
+   "bytes": 3612,
+   "sha256": "4974d6524262ed72",
+   "row_count": 100,
+   "row_size": 36
+  },
+  "harvestseeditems": {
+   "bytes": 120,
+   "sha256": "66d58d9719a954d8",
+   "row_count": 3,
+   "row_size": 36
+  },
+  "harvestseeds": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "heistareaformationlayout": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "heistareas": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "heistbalanceperlevel": {
+   "bytes": 13956,
+   "sha256": "74e0d04c472a6425",
+   "row_count": 83,
+   "row_size": 168
+  },
+  "heistchestrewardtypes": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "heistchests": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "heistchokepointformation": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "heistconstants": {
+   "bytes": 482,
+   "sha256": "0a34b1091110e6c2",
+   "row_count": 6,
+   "row_size": 12
+  },
+  "heistcontracts": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "heistdoodadnpcs": {
+   "bytes": 388,
+   "sha256": "1bc9e55d94f467ed",
+   "row_count": 2,
+   "row_size": 92
+  },
+  "heistdoors": {
+   "bytes": 3606,
+   "sha256": "544b13c3c57bea3c",
+   "row_count": 20,
+   "row_size": 108
+  },
+  "heistequipment": {
+   "bytes": 2172,
+   "sha256": "f6bdba1c4c5b2920",
+   "row_count": 60,
+   "row_size": 36
+  },
+  "heistgeneration": {
+   "bytes": 13956,
+   "sha256": "4d45be1e55cd0a1a",
+   "row_count": 166,
+   "row_size": 84
+  },
+  "heistintroareas": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "heistjobs": {
+   "bytes": 7454,
+   "sha256": "e11a9114f565bfc7",
+   "row_count": 9,
+   "row_size": 144
+  },
+  "heistjobsexperienceperlevel": {
+   "bytes": 1992,
+   "sha256": "559a49c5ea8eef16",
+   "row_count": 45,
+   "row_size": 44
+  },
+  "heistlocktype": {
+   "bytes": 1250,
+   "sha256": "5977d285ad5df84a",
+   "row_count": 16,
+   "row_size": 32
+  },
+  "heistnpcauras": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "heistnpcblueprinttypes": {
+   "bytes": 92,
+   "sha256": "505a532ff3785e94",
+   "row_count": 4,
+   "row_size": 20
+  },
+  "heistnpcdialogue": {
+   "bytes": 29240,
+   "sha256": "5e626429cc3a6ed2",
+   "row_count": 155,
+   "row_size": 68
+  },
+  "heistnpcs": {
+   "bytes": 9456,
+   "sha256": "5d427858cb263a5d",
+   "row_count": 11,
+   "row_size": 236
+  },
+  "heistnpcstats": {
+   "bytes": 2712,
+   "sha256": "f100554b3168b028",
+   "row_count": 135,
+   "row_size": 20
+  },
+  "heistobjectives": {
+   "bytes": 2960,
+   "sha256": "3d6c182bb710a832",
+   "row_count": 80,
+   "row_size": 28
+  },
+  "heistobjectivevaluedescriptions": {
+   "bytes": 194,
+   "sha256": "445f3aaf86ee2d71",
+   "row_count": 5,
+   "row_size": 16
+  },
+  "heistpatrolpacks": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "heistquestcontracts": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "heistrevealingnpcs": {
+   "bytes": 402,
+   "sha256": "b58d1637fc0751e9",
+   "row_count": 2,
+   "row_size": 44
+  },
+  "heistrooms": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "heiststoragelayout": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "heistvaluescaling": {
+   "bytes": 656,
+   "sha256": "a50b8124382e7fe6",
+   "row_count": 7,
+   "row_size": 16
+  },
+  "hellscapeaoreplacements": {
+   "bytes": 42112,
+   "sha256": "4e06242c5d7c8fc4",
+   "row_count": 142,
+   "row_size": 20
+  },
+  "hellscapeareapacks": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "hellscapeexperiencelevels": {
+   "bytes": 516,
+   "sha256": "cccdd7bdd2aba8ec",
+   "row_count": 63,
+   "row_size": 8
+  },
+  "hellscapefactions": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "hellscapeimmunemonsters": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "hellscapeitemmodificationtiers": {
+   "bytes": 181,
+   "sha256": "cf9cbadc0f57a121",
+   "row_count": 13,
+   "row_size": 13
+  },
+  "hellscapelifescalingperlevel": {
+   "bytes": 812,
+   "sha256": "ee55de3f9cbcf75f",
+   "row_count": 100,
+   "row_size": 8
+  },
+  "hellscapemodificationinventorylayout": {
+   "bytes": 531,
+   "sha256": "256a21e77a04e1ba",
+   "row_count": 5,
+   "row_size": 81
+  },
+  "hellscapemods": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "hellscapemonsterpacks": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "hellscapepassives": {
+   "bytes": 7046,
+   "sha256": "b1f1bb950e80f4e9",
+   "row_count": 15,
+   "row_size": 108
+  },
+  "hellscapepassivetree": {
+   "bytes": 452,
+   "sha256": "910d23e136e975dc",
+   "row_count": 5,
+   "row_size": 28
+  },
+  "hideoutcraftingbenchdoodads": {
+   "bytes": 108,
+   "sha256": "d8f5239ee8c3405c",
+   "row_count": 3,
+   "row_size": 32
+  },
+  "hideoutcraftingbenchinterfacevisuals": {
+   "bytes": 1176,
+   "sha256": "d49870e61514a9a8",
+   "row_count": 2,
+   "row_size": 48
+  },
+  "hideoutdoodadcategory": {
+   "bytes": 5264,
+   "sha256": "ee913df92e69a891",
+   "row_count": 133,
+   "row_size": 16
+  },
+  "hideoutdoodads": {
+   "bytes": 1828944,
+   "sha256": "54a1aa0693db809e",
+   "row_count": 1685,
+   "row_size": 172
+  },
+  "hideoutdoodadtags": {
+   "bytes": 2610,
+   "sha256": "dfc552ddcfdb5e97",
+   "row_count": 38,
+   "row_size": 48
+  },
+  "hideoutnpcs": {
+   "bytes": 1261,
+   "sha256": "ee53f9381f0904a9",
+   "row_count": 9,
+   "row_size": 121
+  },
+  "hideoutrarity": {
+   "bytes": 226,
+   "sha256": "da004fa209e61acc",
+   "row_count": 5,
+   "row_size": 16
+  },
+  "hideoutresistpenalties": {
+   "bytes": 316,
+   "sha256": "a2c9f4736ea3ab72",
+   "row_count": 10,
+   "row_size": 12
+  },
+  "hideouts": {
+   "bytes": 26223,
+   "sha256": "40e7d819cec750f5",
+   "row_count": 77,
+   "row_size": 93
+  },
+  "hideoutsalvagebenchdoodads": {
+   "bytes": 76,
+   "sha256": "4811aee6b0e7ab4d",
+   "row_count": 2,
+   "row_size": 32
+  },
+  "hideoutsalvagebenchinterfacevisuals": {
+   "bytes": 1000,
+   "sha256": "1d3e0706e6a50e3f",
+   "row_count": 2,
+   "row_size": 48
+  },
+  "hideoutstashdoodads": {
+   "bytes": 506,
+   "sha256": "32be60a9e0c56913",
+   "row_count": 26,
+   "row_size": 19
+  },
+  "hideoutwaypointdoodads": {
+   "bytes": 254,
+   "sha256": "28f98ee6b3a54561",
+   "row_count": 6,
+   "row_size": 32
+  },
+  "hudenergyshieldvisuals": {
+   "bytes": 2470,
+   "sha256": "419501ce4bd271f6",
+   "row_count": 4,
+   "row_size": 93
+  },
+  "hudlifevisuals": {
+   "bytes": 3092,
+   "sha256": "d71b8027d85cc60c",
+   "row_count": 3,
+   "row_size": 132
+  },
+  "hudvisualsfromstat": {
+   "bytes": 156,
+   "sha256": "8e7f43449ab85ca7",
+   "row_count": 3,
+   "row_size": 48
+  },
+  "impactsounddata": {
+   "bytes": 2834,
+   "sha256": "6f25ea317ec81c42",
+   "row_count": 23,
+   "row_size": 32
+  },
+  "incubatorbaserequiredkillsperlevel": {
+   "bytes": 812,
+   "sha256": "929a646ce95dabe1",
+   "row_count": 100,
+   "row_size": 8
+  },
+  "incubators": {
+   "bytes": 6017,
+   "sha256": "f9dfa38afe3f286b",
+   "row_count": 61,
+   "row_size": 81
+  },
+  "incursion2corruptioncurrencies": {
+   "bytes": 655,
+   "sha256": "573e585fa29a477e",
+   "row_count": 3,
+   "row_size": 33
+  },
+  "incursion2crafting": {
+   "bytes": 11810,
+   "sha256": "dd54da2b87242b65",
+   "row_count": 23,
+   "row_size": 86
+  },
+  "incursion2encountertileperarea": {
+   "bytes": 8740,
+   "sha256": "2693d249d92f3e10",
+   "row_count": 144,
+   "row_size": 24
+  },
+  "incursion2medallions": {
+   "bytes": 8136,
+   "sha256": "1a05850a50028afc",
+   "row_count": 10,
+   "row_size": 93
+  },
+  "incursion2mutateduniquemodsclient": {
+   "bytes": 3936,
+   "sha256": "c315fb3cc0f60d71",
+   "row_count": 1,
+   "row_size": 24
+  },
+  "incursion2roomperlevel": {
+   "bytes": 29080,
+   "sha256": "08aea8838b4faf69",
+   "row_count": 81,
+   "row_size": 92
+  },
+  "incursion2rooms": {
+   "bytes": 9157,
+   "sha256": "0c4c3bd22105bed9",
+   "row_count": 37,
+   "row_size": 95
+  },
+  "incursion2templelevelpercharacterlevel": {
+   "bytes": 1212,
+   "sha256": "5710b4555482e264",
+   "row_count": 100,
+   "row_size": 12
+  },
+  "incursionuniqueupgradecomponents": {
+   "bytes": 364,
+   "sha256": "b8416ac9b0359647",
+   "row_count": 11,
+   "row_size": 32
+  },
+  "indexablesupportgems": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "indicatorconditions": {
+   "bytes": 2106,
+   "sha256": "d9f9e8e2e386d1d9",
+   "row_count": 12,
+   "row_size": 92
+  },
+  "influenceexalts": {
+   "bytes": 132,
+   "sha256": "ae853c8720db5095",
+   "row_count": 6,
+   "row_size": 20
+  },
+  "influencemodupgrades": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "influencetags": {
+   "bytes": 4764,
+   "sha256": "24d891c0cb47b28a",
+   "row_count": 132,
+   "row_size": 36
+  },
+  "interpolatebuffeffect": {
+   "bytes": 70,
+   "sha256": "4dead2c15eb1e080",
+   "row_count": 2,
+   "row_size": 29
+  },
+  "invasionmonsterrestrictions": {
+   "bytes": 1854,
+   "sha256": "ddffac9a54b034f0",
+   "row_count": 11,
+   "row_size": 56
+  },
+  "invasionmonstersperarea": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "inventories": {
+   "bytes": 11157,
+   "sha256": "8051ccb93dd67c2e",
+   "row_count": 119,
+   "row_size": 59
+  },
+  "islandcompleteflags": {
+   "bytes": 364,
+   "sha256": "1d9de0d1542ef538",
+   "row_count": 11,
+   "row_size": 32
+  },
+  "itemclasscategories": {
+   "bytes": 5770,
+   "sha256": "2d0dda06ade190d8",
+   "row_count": 75,
+   "row_size": 32
+  },
+  "itemclasses": {
+   "bytes": 23384,
+   "sha256": "7c38529fcd7f8b25",
+   "row_count": 117,
+   "row_size": 150
+  },
+  "itemconditions": {
+   "bytes": 2425,
+   "sha256": "16deca564448f356",
+   "row_count": 17,
+   "row_size": 89
+  },
+  "itemdisenchantvalues": {
+   "bytes": 120,
+   "sha256": "3b6f5c71ba145001",
+   "row_count": 3,
+   "row_size": 36
+  },
+  "itemexperienceperlevel": {
+   "bytes": 10512,
+   "sha256": "46d0aecab81733fb",
+   "row_count": 375,
+   "row_size": 28
+  },
+  "itemexperiencetypes": {
+   "bytes": 2260,
+   "sha256": "128c6e262b72dbb4",
+   "row_count": 48,
+   "row_size": 8
+  },
+  "itemframetype": {
+   "bytes": 6213,
+   "sha256": "e83845d960030db2",
+   "row_count": 17,
+   "row_size": 123
+  },
+  "iteminherentskills": {
+   "bytes": 13128,
+   "sha256": "c1b19e3faef74c6d",
+   "row_count": 252,
+   "row_size": 33
+  },
+  "itemisedvisualeffect": {
+   "bytes": 1495444,
+   "sha256": "5c21f3c08b09145f",
+   "row_count": 4580,
+   "row_size": 283
+  },
+  "itemisedvisualeffectexclusivetypes": {
+   "bytes": 166,
+   "sha256": "4f23d41630aa17de",
+   "row_count": 4,
+   "row_size": 8
+  },
+  "itemnotecode": {
+   "bytes": 1296,
+   "sha256": "0b4469f225f1f4ee",
+   "row_count": 24,
+   "row_size": 24
+  },
+  "itemspirit": {
+   "bytes": 332,
+   "sha256": "c42c9fd38dcff045",
+   "row_count": 16,
+   "row_size": 20
+  },
+  "itemstances": {
+   "bytes": 762,
+   "sha256": "46284095a703d085",
+   "row_count": 20,
+   "row_size": 17
+  },
+  "itemtoggleable": {
+   "bytes": 1024,
+   "sha256": "3254cb4068126b49",
+   "row_count": 42,
+   "row_size": 24
+  },
+  "itemvisualeffect": {
+   "bytes": 431822,
+   "sha256": "e4670841bd067504",
+   "row_count": 354,
+   "row_size": 180
+  },
+  "itemvisualheldbodymodel": {
+   "bytes": 10516,
+   "sha256": "577af3470c68d189",
+   "row_count": 10,
+   "row_size": 240
+  },
+  "itemvisualheldmodeloverridebyitemaffiliatedattributes": {
+   "bytes": 1952,
+   "sha256": "501bf22098269add",
+   "row_count": 5,
+   "row_size": 88
+  },
+  "itemvisualidentity": {
+   "bytes": 22472409,
+   "sha256": "8f3392259175ba4f",
+   "row_count": 17147,
+   "row_size": 967
+  },
+  "itemvisualreplacement": {
+   "bytes": 10236,
+   "sha256": "39f5e7c0c7372e0f",
+   "row_count": 213,
+   "row_size": 48
+  },
+  "itemvisualsreplacedwithstat": {
+   "bytes": 876,
+   "sha256": "af1bf933ea56a371",
+   "row_count": 18,
+   "row_size": 48
+  },
+  "jobassassinationspawnergroups": {
+   "bytes": 44,
+   "sha256": "d5657f67801113ab",
+   "row_count": 1,
+   "row_size": 32
+  },
+  "jobraidbrackets": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "kalguurangemlevelcurrency": {
+   "bytes": 412,
+   "sha256": "2317319a2ed9b081",
+   "row_count": 20,
+   "row_size": 20
+  },
+  "kalguuransupportgemlimitperlevel": {
+   "bytes": 60,
+   "sha256": "fbfaaccb9d35e2fb",
+   "row_count": 6,
+   "row_size": 8
+  },
+  "keywordpopupitemreference": {
+   "bytes": 27778,
+   "sha256": "6ba83d96c2b11bd0",
+   "row_count": 212,
+   "row_size": 93
+  },
+  "keywordpopupmodreference": {
+   "bytes": 4966,
+   "sha256": "49d18292c7d3c358",
+   "row_count": 37,
+   "row_size": 32
+  },
+  "keywordpopups": {
+   "bytes": 464306,
+   "sha256": "2be01e1fb6f4f265",
+   "row_count": 978,
+   "row_size": 72
+  },
+  "killstreakthresholds": {
+   "bytes": 480,
+   "sha256": "192998e7f9f5905e",
+   "row_count": 13,
+   "row_size": 36
+  },
+  "kioskmodecharactertutorials": {
+   "bytes": 20546,
+   "sha256": "2be3790363a91cca",
+   "row_count": 5,
+   "row_size": 48
+  },
+  "kiraclevels": {
+   "bytes": 140,
+   "sha256": "d2fae5fdd9e6937b",
+   "row_count": 16,
+   "row_size": 8
+  },
+  "lakebosslifescalingperlevel": {
+   "bytes": 812,
+   "sha256": "ee55de3f9cbcf75f",
+   "row_count": 100,
+   "row_size": 8
+  },
+  "leaderboardmapdevice": {
+   "bytes": 3660,
+   "sha256": "a4e4e30f2a2cb968",
+   "row_count": 3,
+   "row_size": 100
+  },
+  "leaderboardmapdevicelabel": {
+   "bytes": 1068,
+   "sha256": "05b5bd680a9cad07",
+   "row_count": 12,
+   "row_size": 88
+  },
+  "leaguecategorytodisplayname": {
+   "bytes": 112,
+   "sha256": "426dcc055890ee0e",
+   "row_count": 5,
+   "row_size": 20
+  },
+  "leagueflag": {
+   "bytes": 36670,
+   "sha256": "4f7b386d2898792e",
+   "row_count": 154,
+   "row_size": 43
+  },
+  "leagueinfo": {
+   "bytes": 326240,
+   "sha256": "c6f95474720fb15a",
+   "row_count": 250,
+   "row_size": 99
+  },
+  "leagueinfopanelversions": {
+   "bytes": 490,
+   "sha256": "4a31085275125408",
+   "row_count": 18,
+   "row_size": 8
+  },
+  "leaguenames": {
+   "bytes": 484,
+   "sha256": "cb7239bc90ba0ac7",
+   "row_count": 6,
+   "row_size": 24
+  },
+  "leagueprogressquestflags": {
+   "bytes": 99,
+   "sha256": "9e7aa99c0e5a14c7",
+   "row_count": 1,
+   "row_size": 41
+  },
+  "leaguestaticrewards": {
+   "bytes": 3628,
+   "sha256": "91187638a1d83cb5",
+   "row_count": 43,
+   "row_size": 72
+  },
+  "legacyatlasinfluenceoutcomes": {
+   "bytes": 8836,
+   "sha256": "e1ab46985fefcd18",
+   "row_count": 60,
+   "row_size": 56
+  },
+  "legionbalanceperlevel": {
+   "bytes": 1468,
+   "sha256": "0801b72471409148",
+   "row_count": 28,
+   "row_size": 52
+  },
+  "legionchestcounts": {
+   "bytes": 7852,
+   "sha256": "ecf51f94a4cd34a0",
+   "row_count": 140,
+   "row_size": 56
+  },
+  "legionchesttypes": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "legionfactions": {
+   "bytes": 1912,
+   "sha256": "e059e5a70e24b654",
+   "row_count": 5,
+   "row_size": 204
+  },
+  "legionmonstercounts": {
+   "bytes": 14572,
+   "sha256": "461fd95096db6e49",
+   "row_count": 260,
+   "row_size": 56
+  },
+  "legionmonstervarieties": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "legionranks": {
+   "bytes": 2652,
+   "sha256": "3b52d5adb93aa924",
+   "row_count": 60,
+   "row_size": 44
+  },
+  "legionrewardtypevisuals": {
+   "bytes": 2274,
+   "sha256": "61ef0bc54a9834ba",
+   "row_count": 25,
+   "row_size": 56
+  },
+  "levelrelativeplayerscaling": {
+   "bytes": 3212,
+   "sha256": "c2760c57e052a11b",
+   "row_count": 100,
+   "row_size": 32
+  },
+  "levelupsoundeffect": {
+   "bytes": 122,
+   "sha256": "03238a5b80b44c89",
+   "row_count": 2,
+   "row_size": 40
+  },
+  "liquidemotionoutcomes": {
+   "bytes": 3964,
+   "sha256": "9694e3c6d4c0f8a1",
+   "row_count": 26,
+   "row_size": 152
+  },
+  "loggedtriggerstats": {
+   "bytes": 44,
+   "sha256": "05674474533bd728",
+   "row_count": 2,
+   "row_size": 16
+  },
+  "loginareas": {
+   "bytes": 350,
+   "sha256": "07a93963c0c45ff8",
+   "row_count": 6,
+   "row_size": 40
+  },
+  "loreweaveexchangelayout": {
+   "bytes": 1672,
+   "sha256": "4eef6a322ae0f926",
+   "row_count": 60,
+   "row_size": 20
+  },
+  "mapambushvariations": {
+   "bytes": 240,
+   "sha256": "775013c62d843ce1",
+   "row_count": 3,
+   "row_size": 60
+  },
+  "mapcompletionachievements": {
+   "bytes": 41624,
+   "sha256": "cbea19371ed6e59a",
+   "row_count": 220,
+   "row_size": 105
+  },
+  "mapconditions": {
+   "bytes": 21894,
+   "sha256": "f107f70b50080cb6",
+   "row_count": 102,
+   "row_size": 132
+  },
+  "mapconnections": {
+   "bytes": 12688,
+   "sha256": "2df998b1602c224e",
+   "row_count": 111,
+   "row_size": 112
+  },
+  "mapcreationinformation": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "mapcurrencyinventorylayout": {
+   "bytes": 84,
+   "sha256": "08c6b5bf7388931f",
+   "row_count": 3,
+   "row_size": 24
+  },
+  "mapdevicerecipes": {
+   "bytes": 2710,
+   "sha256": "6e974851dfa3d15e",
+   "row_count": 14,
+   "row_size": 118
+  },
+  "mapdevices": {
+   "bytes": 19246,
+   "sha256": "c916024dc9f281c9",
+   "row_count": 68,
+   "row_size": 110
+  },
+  "mapfragmentmods": {
+   "bytes": 9052,
+   "sha256": "884f61ae2f8ed88f",
+   "row_count": 120,
+   "row_size": 58
+  },
+  "mapinhabitants": {
+   "bytes": 284,
+   "sha256": "c082149498472840",
+   "row_count": 1,
+   "row_size": 48
+  },
+  "mappins": {
+   "bytes": 272642,
+   "sha256": "65f840525322d7c9",
+   "row_count": 558,
+   "row_size": 202
+  },
+  "maps": {
+   "bytes": 1344,
+   "sha256": "b81a4cbd83de5ce4",
+   "row_count": 16,
+   "row_size": 83
+  },
+  "mapseries": {
+   "bytes": 9714,
+   "sha256": "baf987d41c3d3221",
+   "row_count": 20,
+   "row_size": 72
+  },
+  "mapseriestiers": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "mapstashspecialtypeentries": {
+   "bytes": 2640,
+   "sha256": "72318a2c35ad954a",
+   "row_count": 12,
+   "row_size": 58
+  },
+  "mapstashuniquemapinfo": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "mapstatconditions": {
+   "bytes": 9522,
+   "sha256": "6c9f12448e45e140",
+   "row_count": 131,
+   "row_size": 34
+  },
+  "maptierachievements": {
+   "bytes": 2906,
+   "sha256": "3b42b41db794746c",
+   "row_count": 29,
+   "row_size": 40
+  },
+  "maptiers": {
+   "bytes": 268,
+   "sha256": "e825896dacb5310c",
+   "row_count": 16,
+   "row_size": 16
+  },
+  "marktypes": {
+   "bytes": 418,
+   "sha256": "28bb0acaea0da840",
+   "row_count": 6,
+   "row_size": 40
+  },
+  "mavendialog": {
+   "bytes": 8091,
+   "sha256": "265943b0bda93365",
+   "row_count": 53,
+   "row_size": 105
+  },
+  "mavenfights": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "mavenjewelradiuskeystones": {
+   "bytes": 540,
+   "sha256": "e57d0bfbeb1437e1",
+   "row_count": 33,
+   "row_size": 16
+  },
+  "melee": {
+   "bytes": 48910,
+   "sha256": "a235cee2ad72d3fa",
+   "row_count": 220,
+   "row_size": 205
+  },
+  "meleetrails": {
+   "bytes": 55814,
+   "sha256": "2a5fc0af15fb6a08",
+   "row_count": 257,
+   "row_size": 50
+  },
+  "memorylinetype": {
+   "bytes": 4262,
+   "sha256": "339c3891421fc684",
+   "row_count": 19,
+   "row_size": 110
+  },
+  "metamorphosisstashtablayout": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "microtransactionafkeffects": {
+   "bytes": 1348,
+   "sha256": "6a61a31c0e4d25ac",
+   "row_count": 6,
+   "row_size": 114
+  },
+  "microtransactionappliedinventoryitemartvariations": {
+   "bytes": 2148,
+   "sha256": "809cd4369b021de3",
+   "row_count": 3,
+   "row_size": 80
+  },
+  "microtransactioncategory": {
+   "bytes": 6880,
+   "sha256": "ef39e8c59da6d6e5",
+   "row_count": 43,
+   "row_size": 64
+  },
+  "microtransactioncharacterportraitvariations": {
+   "bytes": 156,
+   "sha256": "11cc116c541ad7ca",
+   "row_count": 9,
+   "row_size": 16
+  },
+  "microtransactionchargevariations": {
+   "bytes": 3144,
+   "sha256": "a01eaac304ad66c6",
+   "row_count": 27,
+   "row_size": 116
+  },
+  "microtransactioncombineformula": {
+   "bytes": 52505,
+   "sha256": "2559bf4107c05912",
+   "row_count": 303,
+   "row_size": 69
+  },
+  "microtransactionconditionalapparitionevents": {
+   "bytes": 3839,
+   "sha256": "21c9bd36cb80a12e",
+   "row_count": 43,
+   "row_size": 89
+  },
+  "microtransactionconditionalapparitions": {
+   "bytes": 1678,
+   "sha256": "e95bacac661d9160",
+   "row_count": 11,
+   "row_size": 82
+  },
+  "microtransactioncounters": {
+   "bytes": 586,
+   "sha256": "b81a11ef68b8cd9d",
+   "row_count": 2,
+   "row_size": 24
+  },
+  "microtransactioncursorvariations": {
+   "bytes": 182,
+   "sha256": "65fa76ab4e53a9ac",
+   "row_count": 5,
+   "row_size": 34
+  },
+  "microtransactionequippediconvariations": {
+   "bytes": 298,
+   "sha256": "27c8df0c45f57dce",
+   "row_count": 1,
+   "row_size": 48
+  },
+  "microtransactionfireworksvariations": {
+   "bytes": 1837,
+   "sha256": "366405e68ebf753c",
+   "row_count": 11,
+   "row_size": 25
+  },
+  "microtransactionjewelvariations": {
+   "bytes": 2628,
+   "sha256": "bc2a43fd556d2110",
+   "row_count": 9,
+   "row_size": 64
+  },
+  "microtransactionlevelupeffects": {
+   "bytes": 6040,
+   "sha256": "e551268446a43c08",
+   "row_count": 17,
+   "row_size": 112
+  },
+  "microtransactionobjecteffects": {
+   "bytes": 20326,
+   "sha256": "59a37204249cd7a9",
+   "row_count": 60,
+   "row_size": 141
+  },
+  "microtransactiononkillbeams": {
+   "bytes": 288,
+   "sha256": "e97a409ec9a13c8b",
+   "row_count": 2,
+   "row_size": 65
+  },
+  "microtransactiononkillconditions": {
+   "bytes": 2074,
+   "sha256": "da257dd5b154fbb2",
+   "row_count": 10,
+   "row_size": 114
+  },
+  "microtransactiononkilleffects": {
+   "bytes": 12662,
+   "sha256": "492e658bc662d38b",
+   "row_count": 65,
+   "row_size": 128
+  },
+  "microtransactiononopenchesteffects": {
+   "bytes": 226,
+   "sha256": "e5013d7662d977db",
+   "row_count": 3,
+   "row_size": 48
+  },
+  "microtransactionperiodiccharactereffectvariations": {
+   "bytes": 44300,
+   "sha256": "0e0392244c1a8d9b",
+   "row_count": 200,
+   "row_size": 36
+  },
+  "microtransactionportalvariations": {
+   "bytes": 130984,
+   "sha256": "a38bc3cc70224fbf",
+   "row_count": 282,
+   "row_size": 114
+  },
+  "microtransactionraritydisplay": {
+   "bytes": 1522,
+   "sha256": "9803faf7c4d21474",
+   "row_count": 5,
+   "row_size": 40
+  },
+  "microtransactionrecycleoutcomes": {
+   "bytes": 8452,
+   "sha256": "b1a19125109c1c95",
+   "row_count": 422,
+   "row_size": 20
+  },
+  "microtransactionrecyclesalvagevalues": {
+   "bytes": 82404,
+   "sha256": "2ac95ba8383a9954",
+   "row_count": 3433,
+   "row_size": 24
+  },
+  "microtransactionreviveeffects": {
+   "bytes": 165,
+   "sha256": "fd9a4d945889fbcb",
+   "row_count": 3,
+   "row_size": 13
+  },
+  "microtransactionshapeshiftskins": {
+   "bytes": 60,
+   "sha256": "38e4d8fb7a0ed226",
+   "row_count": 1,
+   "row_size": 48
+  },
+  "microtransactionskillgemeffectslottypes": {
+   "bytes": 166,
+   "sha256": "37c751046d493f47",
+   "row_count": 2,
+   "row_size": 20
+  },
+  "microtransactionslot": {
+   "bytes": 9588,
+   "sha256": "55e34e4c21df8036",
+   "row_count": 60,
+   "row_size": 86
+  },
+  "microtransactionslotadditionaldefaultoptions": {
+   "bytes": 404,
+   "sha256": "875a3f3c71537721",
+   "row_count": 2,
+   "row_size": 24
+  },
+  "microtransactionslotfromshapeshiftform": {
+   "bytes": 92,
+   "sha256": "1070bb32b6533202",
+   "row_count": 4,
+   "row_size": 20
+  },
+  "microtransactionslotfromweaponset": {
+   "bytes": 156,
+   "sha256": "ed3b097ae358a74e",
+   "row_count": 9,
+   "row_size": 16
+  },
+  "microtransactionsocialframevariations": {
+   "bytes": 11624,
+   "sha256": "8e203674ad68e525",
+   "row_count": 405,
+   "row_size": 26
+  },
+  "microtransactiontrackingmapfragmenttypes": {
+   "bytes": 232,
+   "sha256": "dd6ee212995726a4",
+   "row_count": 11,
+   "row_size": 20
+  },
+  "minimapicons": {
+   "bytes": 99250,
+   "sha256": "d49678a792b3ef25",
+   "row_count": 1047,
+   "row_size": 38
+  },
+  "minioncommands": {
+   "bytes": 140,
+   "sha256": "481df3cee060e6a2",
+   "row_count": 2,
+   "row_size": 64
+  },
+  "miniongemlevelscaling": {
+   "bytes": 332,
+   "sha256": "8cc93b694637f6ca",
+   "row_count": 40,
+   "row_size": 8
+  },
+  "minionstats": {
+   "bytes": 35174,
+   "sha256": "d8a7549f97115f12",
+   "row_count": 397,
+   "row_size": 66
+  },
+  "miniontype": {
+   "bytes": 12351,
+   "sha256": "8d40b2adf7d997fa",
+   "row_count": 109,
+   "row_size": 77
+  },
+  "miniqueststates": {
+   "bytes": 4340,
+   "sha256": "510c1c311bf98b1c",
+   "row_count": 23,
+   "row_size": 60
+  },
+  "miscanimated": {
+   "bytes": 2773132,
+   "sha256": "36fb8b31996352de",
+   "row_count": 11113,
+   "row_size": 44
+  },
+  "miscanimatedartvariations": {
+   "bytes": 298158,
+   "sha256": "5e9fc0225c6f76f1",
+   "row_count": 3564,
+   "row_size": 48
+  },
+  "miscbeams": {
+   "bytes": 93134,
+   "sha256": "c018d06bb7570147",
+   "row_count": 940,
+   "row_size": 48
+  },
+  "miscbeamsartvariations": {
+   "bytes": 20052,
+   "sha256": "d29ecd88d14e81c1",
+   "row_count": 246,
+   "row_size": 48
+  },
+  "misccooldowns": {
+   "bytes": 5681,
+   "sha256": "5700d6ad83bb794e",
+   "row_count": 103,
+   "row_size": 17
+  },
+  "misceffectpacks": {
+   "bytes": 379730,
+   "sha256": "a038315f19e42ac6",
+   "row_count": 1447,
+   "row_size": 54
+  },
+  "misceffectpacksartvariations": {
+   "bytes": 54964,
+   "sha256": "576e337e7e6d9001",
+   "row_count": 809,
+   "row_size": 28
+  },
+  "miscobjects": {
+   "bytes": 257622,
+   "sha256": "2d7f938532a45f75",
+   "row_count": 1143,
+   "row_size": 44
+  },
+  "miscobjectsartvariations": {
+   "bytes": 9952,
+   "sha256": "2ca604e4e4f028bf",
+   "row_count": 121,
+   "row_size": 48
+  },
+  "miscparticles": {
+   "bytes": 1944,
+   "sha256": "fbd8917fe11ff846",
+   "row_count": 8,
+   "row_size": 36
+  },
+  "miscparticlesartvariations": {
+   "bytes": 890,
+   "sha256": "ee95b7f20bbe3154",
+   "row_count": 16,
+   "row_size": 28
+  },
+  "miscprojectilemod": {
+   "bytes": 2464,
+   "sha256": "4be87b866697eec6",
+   "row_count": 12,
+   "row_size": 72
+  },
+  "miscprojectilemodartvariations": {
+   "bytes": 1256,
+   "sha256": "8680bd6b6e4a2b8c",
+   "row_count": 12,
+   "row_size": 48
+  },
+  "missiontilemap": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "missiontimertypes": {
+   "bytes": 4466,
+   "sha256": "f1fb5b975ba4bb9c",
+   "row_count": 18,
+   "row_size": 96
+  },
+  "missiontransitiontiles": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "mobileactoneatlasquestprogression": {
+   "bytes": 714,
+   "sha256": "5c5f17c5c60b023d",
+   "row_count": 9,
+   "row_size": 56
+  },
+  "mobileascendancythresholds": {
+   "bytes": 148,
+   "sha256": "63ef5b10ad3d9137",
+   "row_count": 4,
+   "row_size": 28
+  },
+  "mobileatlaseldermemories": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "mobileatlasinventorylayout": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "mobilecharactercreation": {
+   "bytes": 1056,
+   "sha256": "e2df7a0e2a1724ab",
+   "row_count": 12,
+   "row_size": 24
+  },
+  "mobilequestaudio": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "mobileskillgemlayout": {
+   "bytes": 1598,
+   "sha256": "136509d84e30811c",
+   "row_count": 9,
+   "row_size": 80
+  },
+  "mobileskillgemlayoutpages": {
+   "bytes": 596,
+   "sha256": "75529c6f30710c23",
+   "row_count": 3,
+   "row_size": 24
+  },
+  "mobiletutorial": {
+   "bytes": 12456,
+   "sha256": "31f8fb80190ed66e",
+   "row_count": 51,
+   "row_size": 32
+  },
+  "mobiletutorialgroup": {
+   "bytes": 814,
+   "sha256": "5874bb8ab22cc7d0",
+   "row_count": 15,
+   "row_size": 26
+  },
+  "modeffectstats": {
+   "bytes": 2168,
+   "sha256": "4408c289b9767612",
+   "row_count": 38,
+   "row_size": 42
+  },
+  "modequivalencies": {
+   "bytes": 612,
+   "sha256": "69a467c8d2674f1a",
+   "row_count": 8,
+   "row_size": 57
+  },
+  "modfamily": {
+   "bytes": 405114,
+   "sha256": "640fd265d5dd95cc",
+   "row_count": 6060,
+   "row_size": 8
+  },
+  "modgrantedskills": {
+   "bytes": 2060,
+   "sha256": "882fe2d08030c4d1",
+   "row_count": 64,
+   "row_size": 32
+  },
+  "mods": {
+   "bytes": 13627212,
+   "sha256": "d92c53e99cf17d83",
+   "row_count": 16788,
+   "row_size": 677
+  },
+  "modsellpricetypes": {
+   "bytes": 1536,
+   "sha256": "7377a86a46dbeb0a",
+   "row_count": 35,
+   "row_size": 8
+  },
+  "modtype": {
+   "bytes": 1589695,
+   "sha256": "d7ad5302032458f4",
+   "row_count": 12431,
+   "row_size": 41
+  },
+  "monsteraggroaudio": {
+   "bytes": 68330,
+   "sha256": "06156be336840710",
+   "row_count": 90,
+   "row_size": 48
+  },
+  "monsterarmours": {
+   "bytes": 199452,
+   "sha256": "5e86bdd4161689a0",
+   "row_count": 215,
+   "row_size": 16
+  },
+  "monsterbonuses": {
+   "bytes": 18370,
+   "sha256": "2626a34189e68f68",
+   "row_count": 104,
+   "row_size": 88
+  },
+  "monstercategories": {
+   "bytes": 1066,
+   "sha256": "f2e1fd7b632698b8",
+   "row_count": 6,
+   "row_size": 36
+  },
+  "monsterconditionaleffectpacks": {
+   "bytes": 2080,
+   "sha256": "cad98578b44a93b8",
+   "row_count": 14,
+   "row_size": 76
+  },
+  "monsterconditions": {
+   "bytes": 20190,
+   "sha256": "661a1df8c3dff8bc",
+   "row_count": 111,
+   "row_size": 138
+  },
+  "monsterdeathachievements": {
+   "bytes": 1706,
+   "sha256": "42e7f7f5dd64e7cf",
+   "row_count": 6,
+   "row_size": 221
+  },
+  "monsterdeathconditions": {
+   "bytes": 10348,
+   "sha256": "981307f7d6c03a4e",
+   "row_count": 54,
+   "row_size": 148
+  },
+  "monsterencounterskillgroups": {
+   "bytes": 182,
+   "sha256": "6018989f37e7193b",
+   "row_count": 2,
+   "row_size": 24
+  },
+  "monstergroupentries": {
+   "bytes": 3750,
+   "sha256": "c6a03b0459f862f9",
+   "row_count": 97,
+   "row_size": 28
+  },
+  "monsterheightbrackets": {
+   "bytes": 970,
+   "sha256": "2b447cba7c1ef43d",
+   "row_count": 9,
+   "row_size": 84
+  },
+  "monsterheights": {
+   "bytes": 119516,
+   "sha256": "28080b376a18dc35",
+   "row_count": 2716,
+   "row_size": 44
+  },
+  "monstermapbossdifficulty": {
+   "bytes": 9372,
+   "sha256": "ccb0112f3b394c1d",
+   "row_count": 90,
+   "row_size": 104
+  },
+  "monstermapdifficulty": {
+   "bytes": 2112,
+   "sha256": "311b40cf5c837e81",
+   "row_count": 25,
+   "row_size": 84
+  },
+  "monstermortar": {
+   "bytes": 39284,
+   "sha256": "e4a8b000cca4d5a4",
+   "row_count": 288,
+   "row_size": 136
+  },
+  "monsterpackcounts": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "monsterpackentries": {
+   "bytes": 136737,
+   "sha256": "0b9126af0bbb9de0",
+   "row_count": 2077,
+   "row_size": 53
+  },
+  "monsterpacks": {
+   "bytes": 382054,
+   "sha256": "c71bf670482e3506",
+   "row_count": 1112,
+   "row_size": 227
+  },
+  "monsterprojectileattack": {
+   "bytes": 9381,
+   "sha256": "1081bb1b6c0b501d",
+   "row_count": 347,
+   "row_size": 27
+  },
+  "monsterprojectilespell": {
+   "bytes": 22356,
+   "sha256": "75d3f0ec43f2975c",
+   "row_count": 532,
+   "row_size": 42
+  },
+  "monsterresistances": {
+   "bytes": 12356,
+   "sha256": "835de53bf98e568f",
+   "row_count": 22,
+   "row_size": 520
+  },
+  "monstersegments": {
+   "bytes": 21888,
+   "sha256": "b82da21db714bc29",
+   "row_count": 65,
+   "row_size": 16
+  },
+  "monstershapeshift": {
+   "bytes": 77608,
+   "sha256": "58c84dd4d4a826e3",
+   "row_count": 12,
+   "row_size": 180
+  },
+  "monsterspawnergroups": {
+   "bytes": 2524,
+   "sha256": "4f39a7be556e6f1d",
+   "row_count": 16,
+   "row_size": 8
+  },
+  "monsterspawnergroupsperlevel": {
+   "bytes": 2412,
+   "sha256": "85d55e23e456e4c1",
+   "row_count": 75,
+   "row_size": 32
+  },
+  "monsterspawneroverrides": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "monstertypes": {
+   "bytes": 173112,
+   "sha256": "a25a6428bd33e387",
+   "row_count": 1570,
+   "row_size": 50
+  },
+  "monstervarieties": {
+   "bytes": 4662724,
+   "sha256": "9033cbb54f87b6ed",
+   "row_count": 2723,
+   "row_size": 1030
+  },
+  "monstervarietiesartvariations": {
+   "bytes": 4920,
+   "sha256": "e68361cf1a59d056",
+   "row_count": 73,
+   "row_size": 28
+  },
+  "mousecursorsizesettings": {
+   "bytes": 116,
+   "sha256": "0fc9796ce51b26a1",
+   "row_count": 3,
+   "row_size": 20
+  },
+  "movedaemon": {
+   "bytes": 12688,
+   "sha256": "86d526596446cdc9",
+   "row_count": 88,
+   "row_size": 144
+  },
+  "mtxpreviewcameras": {
+   "bytes": 1118,
+   "sha256": "13ee82725ed5846a",
+   "row_count": 18,
+   "row_size": 40
+  },
+  "mtxsetbonus": {
+   "bytes": 1920,
+   "sha256": "5b0a4c8cc0d9c4a9",
+   "row_count": 9,
+   "row_size": 88
+  },
+  "mtxtypegamespecific": {
+   "bytes": 1258056,
+   "sha256": "e0e73a031973880d",
+   "row_count": 7584,
+   "row_size": 69
+  },
+  "mtxtypes": {
+   "bytes": 4111942,
+   "sha256": "fe9dbe53df328061",
+   "row_count": 8069,
+   "row_size": 180
+  },
+  "multipartachievementareas": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "multipartachievementconditions": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "multipartachievements": {
+   "bytes": 104,
+   "sha256": "5d56729bad678285",
+   "row_count": 1,
+   "row_size": 38
+  },
+  "music": {
+   "bytes": 178022,
+   "sha256": "87f7ee8c6628033c",
+   "row_count": 852,
+   "row_size": 66
+  },
+  "musiccategories": {
+   "bytes": 549,
+   "sha256": "7f7cbc5d241a4488",
+   "row_count": 11,
+   "row_size": 21
+  },
+  "mysteryboxes": {
+   "bytes": 18742,
+   "sha256": "05dd554c87196dcc",
+   "row_count": 96,
+   "row_size": 57
+  },
+  "nearbymonsterconditions": {
+   "bytes": 1634,
+   "sha256": "6f1e0514953e457b",
+   "row_count": 13,
+   "row_size": 58
+  },
+  "nettiers": {
+   "bytes": 212,
+   "sha256": "38fa1e0e4fe1c1b7",
+   "row_count": 10,
+   "row_size": 20
+  },
+  "notifications": {
+   "bytes": 5334,
+   "sha256": "b50ded637ebe1f70",
+   "row_count": 40,
+   "row_size": 36
+  },
+  "npcaudio": {
+   "bytes": 772878,
+   "sha256": "a267d5db9ccad0c8",
+   "row_count": 442,
+   "row_size": 108
+  },
+  "npcconversations": {
+   "bytes": 60552,
+   "sha256": "01bbe50f2ba58756",
+   "row_count": 306,
+   "row_size": 60
+  },
+  "npcdialoguecutscene": {
+   "bytes": 1786,
+   "sha256": "aa3e49284d6016d9",
+   "row_count": 9,
+   "row_size": 38
+  },
+  "npcdialoguecutscenesequences": {
+   "bytes": 13214,
+   "sha256": "b405be9360f80179",
+   "row_count": 54,
+   "row_size": 58
+  },
+  "npcdialoguestyles": {
+   "bytes": 11219,
+   "sha256": "0a3f7bf1543a46f8",
+   "row_count": 9,
+   "row_size": 193
+  },
+  "npcfollowervariations": {
+   "bytes": 1878,
+   "sha256": "1c2106374c4fe720",
+   "row_count": 13,
+   "row_size": 138
+  },
+  "npcmaster": {
+   "bytes": 2362,
+   "sha256": "4e45b7adf9630ea8",
+   "row_count": 7,
+   "row_size": 172
+  },
+  "npcportraitaooverrides": {
+   "bytes": 852,
+   "sha256": "753af8bf82b39fca",
+   "row_count": 6,
+   "row_size": 24
+  },
+  "npcportraits": {
+   "bytes": 19240,
+   "sha256": "f58192daef84468c",
+   "row_count": 102,
+   "row_size": 34
+  },
+  "npcs": {
+   "bytes": 333299,
+   "sha256": "93b483e6c0527021",
+   "row_count": 973,
+   "row_size": 191
+  },
+  "npcshop": {
+   "bytes": 11606,
+   "sha256": "3a1055d74f60e216",
+   "row_count": 54,
+   "row_size": 181
+  },
+  "npcshopgamblervisualidentity": {
+   "bytes": 5324,
+   "sha256": "57c6b462e84f69ba",
+   "row_count": 52,
+   "row_size": 32
+  },
+  "npcshops": {
+   "bytes": 3080,
+   "sha256": "946188c57492409c",
+   "row_count": 52,
+   "row_size": 28
+  },
+  "npctalk": {
+   "bytes": 1151759,
+   "sha256": "13dd233e8d6f42fb",
+   "row_count": 2199,
+   "row_size": 423
+  },
+  "npctalkcategory": {
+   "bytes": 1464,
+   "sha256": "9cb6d55e9c34bb43",
+   "row_count": 38,
+   "row_size": 11
+  },
+  "npctalkconsolequickactions": {
+   "bytes": 1034,
+   "sha256": "3d4bedb74b13dac8",
+   "row_count": 14,
+   "row_size": 40
+  },
+  "npctalkdialogue": {
+   "bytes": 90272,
+   "sha256": "02325783f86d676c",
+   "row_count": 947,
+   "row_size": 44
+  },
+  "npctalkdialoguesteps": {
+   "bytes": 414200,
+   "sha256": "3b2eb5a7d7e0fd0c",
+   "row_count": 4155,
+   "row_size": 52
+  },
+  "npctalkdialoguetextaudio": {
+   "bytes": 7558998,
+   "sha256": "6247fca3e8c1a0b3",
+   "row_count": 12396,
+   "row_size": 256
+  },
+  "npctalkmobilegroup": {
+   "bytes": 2616,
+   "sha256": "5288cab5dfd0aa2b",
+   "row_count": 21,
+   "row_size": 24
+  },
+  "npctalkvideo": {
+   "bytes": 797,
+   "sha256": "55e7e49137967b90",
+   "row_count": 5,
+   "row_size": 23
+  },
+  "npctextaudio": {
+   "bytes": 11757887,
+   "sha256": "75f62fa1bb467362",
+   "row_count": 24891,
+   "row_size": 143
+  },
+  "npctype": {
+   "bytes": 846,
+   "sha256": "a9dbcf882ca111fd",
+   "row_count": 34,
+   "row_size": 8
+  },
+  "npcvendordialogue": {
+   "bytes": 28462,
+   "sha256": "35fd2c70927e0fd9",
+   "row_count": 182,
+   "row_size": 64
+  },
+  "npcvendordialogueconditions": {
+   "bytes": 5448,
+   "sha256": "1502982b00ad8b54",
+   "row_count": 47,
+   "row_size": 80
+  },
+  "ongoingbuffvariations": {
+   "bytes": 1382,
+   "sha256": "7cc7e3bfe83c4f54",
+   "row_count": 10,
+   "row_size": 97
+  },
+  "ongoingtriggervariations": {
+   "bytes": 2004,
+   "sha256": "5bb8d84ab61c6809",
+   "row_count": 24,
+   "row_size": 65
+  },
+  "onkillachievements": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "origin": {
+   "bytes": 188,
+   "sha256": "275b3b9eaa26bc9f",
+   "row_count": 3,
+   "row_size": 16
+  },
+  "packformation": {
+   "bytes": 2764,
+   "sha256": "1740624b0d120b3c",
+   "row_count": 29,
+   "row_size": 52
+  },
+  "pantheonpanellayout": {
+   "bytes": 7616,
+   "sha256": "eaf3c7bef649ea4f",
+   "row_count": 16,
+   "row_size": 274
+  },
+  "pantheonsouls": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "passivejewelart": {
+   "bytes": 2392,
+   "sha256": "990b539a366d3059",
+   "row_count": 9,
+   "row_size": 48
+  },
+  "passivejewelnodemodifyingstats": {
+   "bytes": 228,
+   "sha256": "0ca7c7b2479e0066",
+   "row_count": 6,
+   "row_size": 36
+  },
+  "passivejewelradii": {
+   "bytes": 330,
+   "sha256": "75faa4aea89de010",
+   "row_count": 8,
+   "row_size": 20
+  },
+  "passivejewelradiiart": {
+   "bytes": 5353,
+   "sha256": "22749ee86632612d",
+   "row_count": 11,
+   "row_size": 81
+  },
+  "passivejewelslots": {
+   "bytes": 2523,
+   "sha256": "91cb3dbea97ce3dc",
+   "row_count": 31,
+   "row_size": 81
+  },
+  "passivejeweltransformations": {
+   "bytes": 844,
+   "sha256": "24d01a43be9944e6",
+   "row_count": 16,
+   "row_size": 52
+  },
+  "passivejeweltransformationtypes": {
+   "bytes": 60,
+   "sha256": "65a5054d6d5b7e77",
+   "row_count": 3,
+   "row_size": 16
+  },
+  "passivejeweluniqueart": {
+   "bytes": 2436,
+   "sha256": "4cc2981252ac544a",
+   "row_count": 11,
+   "row_size": 68
+  },
+  "passivekeystonelist": {
+   "bytes": 2972,
+   "sha256": "2fe027424f978462",
+   "row_count": 33,
+   "row_size": 24
+  },
+  "passiveoverridelimits": {
+   "bytes": 628,
+   "sha256": "e37a69023b9ac4d2",
+   "row_count": 7,
+   "row_size": 16
+  },
+  "passiveskillfiltergroups": {
+   "bytes": 604,
+   "sha256": "5208d9dc324102a0",
+   "row_count": 12,
+   "row_size": 16
+  },
+  "passiveskillfilteroptions": {
+   "bytes": 18592,
+   "sha256": "2cfbe5de072818d3",
+   "row_count": 175,
+   "row_size": 64
+  },
+  "passiveskillmasteryeffects": {
+   "bytes": 30556,
+   "sha256": "7fe9a18e98be2921",
+   "row_count": 332,
+   "row_size": 54
+  },
+  "passiveskillmasterygroups": {
+   "bytes": 15035,
+   "sha256": "681d784d91733c6b",
+   "row_count": 81,
+   "row_size": 73
+  },
+  "passiveskilloverrides": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "passiveskilloverridetypes": {
+   "bytes": 55,
+   "sha256": "2ac92832cb8b6b23",
+   "row_count": 1,
+   "row_size": 25
+  },
+  "passiveskills": {
+   "bytes": 5480779,
+   "sha256": "0993b29f63fd7543",
+   "row_count": 9703,
+   "row_size": 487
+  },
+  "passiveskillstatcategories": {
+   "bytes": 824,
+   "sha256": "dd7867acd000682a",
+   "row_count": 20,
+   "row_size": 16
+  },
+  "passiveskilltreeconnectionart": {
+   "bytes": 6468,
+   "sha256": "d0fb5c6ad1ba12d9",
+   "row_count": 10,
+   "row_size": 64
+  },
+  "passiveskilltreemasteryart": {
+   "bytes": 35192,
+   "sha256": "134f9804a4a1fe88",
+   "row_count": 82,
+   "row_size": 32
+  },
+  "passiveskilltreenodeframeart": {
+   "bytes": 26874,
+   "sha256": "e2a2bb18fe3e0650",
+   "row_count": 45,
+   "row_size": 48
+  },
+  "passiveskilltrees": {
+   "bytes": 1174,
+   "sha256": "00d7cc55401ccbe2",
+   "row_count": 5,
+   "row_size": 120
+  },
+  "passiveskilltreetutorial": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "passiveskilltreeuiart": {
+   "bytes": 3527,
+   "sha256": "0325bd827dbeae13",
+   "row_count": 9,
+   "row_size": 177
+  },
+  "passiveskillvariants": {
+   "bytes": 7404,
+   "sha256": "1de7a4b59a4294b1",
+   "row_count": 231,
+   "row_size": 32
+  },
+  "passiveskillvarianttypes": {
+   "bytes": 4390,
+   "sha256": "334a3fa16ba2912b",
+   "row_count": 79,
+   "row_size": 10
+  },
+  "passivetreedecorators": {
+   "bytes": 2016,
+   "sha256": "61c33321f065a73d",
+   "row_count": 11,
+   "row_size": 72
+  },
+  "passivetreeexpansionjewels": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "passivetreeexpansionjewelsizes": {
+   "bytes": 80,
+   "sha256": "d3798a5ce2546d76",
+   "row_count": 3,
+   "row_size": 8
+  },
+  "passivetreeexpansionskills": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "passivetreeexpansionspecialskills": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "pcbangrewardmicros": {
+   "bytes": 112,
+   "sha256": "93a4cacba28a9eef",
+   "row_count": 5,
+   "row_size": 20
+  },
+  "pet": {
+   "bytes": 109726,
+   "sha256": "aa26ab44f82dc9ba",
+   "row_count": 476,
+   "row_size": 132
+  },
+  "playerbuffsfrommapstats": {
+   "bytes": 60,
+   "sha256": "2781f278e145a131",
+   "row_count": 1,
+   "row_size": 32
+  },
+  "playerconditions": {
+   "bytes": 9296,
+   "sha256": "d29454cadee1ab33",
+   "row_count": 68,
+   "row_size": 83
+  },
+  "playerminionintrinsicstats": {
+   "bytes": 92,
+   "sha256": "cadde3bf00f24c85",
+   "row_count": 4,
+   "row_size": 20
+  },
+  "playertradewhisperformats": {
+   "bytes": 1004,
+   "sha256": "f8b38743f4c859bb",
+   "row_count": 4,
+   "row_size": 18
+  },
+  "portalaudio": {
+   "bytes": 844,
+   "sha256": "5c8e8a06e4b58559",
+   "row_count": 16,
+   "row_size": 52
+  },
+  "portalaudioevents": {
+   "bytes": 490,
+   "sha256": "da222a92c6d4dd22",
+   "row_count": 11,
+   "row_size": 12
+  },
+  "preloadfromstats": {
+   "bytes": 4080,
+   "sha256": "3691ab2c1fa787b1",
+   "row_count": 33,
+   "row_size": 100
+  },
+  "preloadgroups": {
+   "bytes": 2054,
+   "sha256": "e7e53b8861f0e440",
+   "row_count": 71,
+   "row_size": 8
+  },
+  "primalavatarvarieties": {
+   "bytes": 306,
+   "sha256": "1f3e27e8e3a1ae84",
+   "row_count": 1,
+   "row_size": 76
+  },
+  "primordialbosslifescalingperlevel": {
+   "bytes": 44,
+   "sha256": "a63e7f1f32d19939",
+   "row_count": 4,
+   "row_size": 8
+  },
+  "projectileoverrides": {
+   "bytes": 21004,
+   "sha256": "8daa01f033e04d2f",
+   "row_count": 62,
+   "row_size": 72
+  },
+  "projectiles": {
+   "bytes": 1360592,
+   "sha256": "602f657b5449a1a7",
+   "row_count": 2063,
+   "row_size": 368
+  },
+  "projectilesartvariations": {
+   "bytes": 43124,
+   "sha256": "b99a6f66537644d0",
+   "row_count": 562,
+   "row_size": 48
+  },
+  "pvptypes": {
+   "bytes": 180,
+   "sha256": "9a6b8b345cb6924e",
+   "row_count": 4,
+   "row_size": 24
+  },
+  "quest": {
+   "bytes": 31213,
+   "sha256": "90cfc81c22b21da3",
+   "row_count": 127,
+   "row_size": 119
+  },
+  "questachievements": {
+   "bytes": 2783,
+   "sha256": "40b5caaf6a3bbd1e",
+   "row_count": 17,
+   "row_size": 73
+  },
+  "questflags": {
+   "bytes": 372608,
+   "sha256": "ee2fff51b0328bc1",
+   "row_count": 5707,
+   "row_size": 12
+  },
+  "questflagvisuals": {
+   "bytes": 116,
+   "sha256": "c8a696474298df2d",
+   "row_count": 2,
+   "row_size": 52
+  },
+  "questitemnpcaudio": {
+   "bytes": 92,
+   "sha256": "5559758f844c8f1e",
+   "row_count": 1,
+   "row_size": 64
+  },
+  "questitems": {
+   "bytes": 43478,
+   "sha256": "270fe14523a9e0d7",
+   "row_count": 221,
+   "row_size": 194
+  },
+  "questrewardoffers": {
+   "bytes": 24032,
+   "sha256": "3bb68ea0128c5d09",
+   "row_count": 142,
+   "row_size": 118
+  },
+  "questrewards": {
+   "bytes": 37261,
+   "sha256": "d84e2a96bc84c729",
+   "row_count": 195,
+   "row_size": 191
+  },
+  "questrewardtype": {
+   "bytes": 8892,
+   "sha256": "3b9d6365986c5464",
+   "row_count": 38,
+   "row_size": 64
+  },
+  "queststates": {
+   "bytes": 549384,
+   "sha256": "b1135ff351f7cd1e",
+   "row_count": 1477,
+   "row_size": 208
+  },
+  "queststaticrewards": {
+   "bytes": 16271,
+   "sha256": "6661e81eeb142789",
+   "row_count": 131,
+   "row_size": 109
+  },
+  "questtrackergroup": {
+   "bytes": 174,
+   "sha256": "05225776c4d81fb8",
+   "row_count": 2,
+   "row_size": 32
+  },
+  "questtype": {
+   "bytes": 382,
+   "sha256": "559bb8005d43ba4a",
+   "row_count": 7,
+   "row_size": 24
+  },
+  "racerewardtomicro": {
+   "bytes": 228,
+   "sha256": "8defe8141e3d78e2",
+   "row_count": 6,
+   "row_size": 36
+  },
+  "races": {
+   "bytes": 2782,
+   "sha256": "9874ce8ea77f72c9",
+   "row_count": 10,
+   "row_size": 100
+  },
+  "racetimes": {
+   "bytes": 20788,
+   "sha256": "b63471374d48bec9",
+   "row_count": 742,
+   "row_size": 28
+  },
+  "rarity": {
+   "bytes": 326,
+   "sha256": "470f3e116a4aaf69",
+   "row_count": 4,
+   "row_size": 40
+  },
+  "realms": {
+   "bytes": 9254,
+   "sha256": "548afed8537de909",
+   "row_count": 34,
+   "row_size": 102
+  },
+  "recheckactiveskillenabledstats": {
+   "bytes": 732,
+   "sha256": "1b181e1ebc80ade6",
+   "row_count": 45,
+   "row_size": 16
+  },
+  "recipeunlockdisplay": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "recipeunlockobjects": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "recombinableclasses": {
+   "bytes": 1092,
+   "sha256": "d829b28936453d4a",
+   "row_count": 30,
+   "row_size": 36
+  },
+  "relicinventorylayout": {
+   "bytes": 622,
+   "sha256": "e617703822771b76",
+   "row_count": 18,
+   "row_size": 20
+  },
+  "relicitemeffectvariations": {
+   "bytes": 878,
+   "sha256": "78b72cdb5620f4ac",
+   "row_count": 7,
+   "row_size": 24
+  },
+  "remindertext": {
+   "bytes": 250,
+   "sha256": "42a1c5b661a42731",
+   "row_count": 2,
+   "row_size": 24
+  },
+  "reservationskillsaudio": {
+   "bytes": 312,
+   "sha256": "f5509dfbe0cf5cd2",
+   "row_count": 1,
+   "row_size": 32
+  },
+  "resistancepenaltyperarealevel": {
+   "bytes": 812,
+   "sha256": "1c5a86767cc2e35b",
+   "row_count": 100,
+   "row_size": 8
+  },
+  "ritualatlaslinemods": {
+   "bytes": 3496,
+   "sha256": "e7433420047d49eb",
+   "row_count": 67,
+   "row_size": 52
+  },
+  "ritualatlaslinequestmaps": {
+   "bytes": 335,
+   "sha256": "5acdf11226171d2c",
+   "row_count": 19,
+   "row_size": 17
+  },
+  "ritualbalanceperlevel": {
+   "bytes": 5656,
+   "sha256": "ee9e19c23f1d8bec",
+   "row_count": 83,
+   "row_size": 68
+  },
+  "ritualconstants": {
+   "bytes": 826,
+   "sha256": "dcd7b7a907c83f55",
+   "row_count": 11,
+   "row_size": 12
+  },
+  "ritualrunetypes": {
+   "bytes": 5860,
+   "sha256": "22de677f4dec01d7",
+   "row_count": 12,
+   "row_size": 281
+  },
+  "ritualsetkillachievements": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "ritualspawnpatterns": {
+   "bytes": 395,
+   "sha256": "98144032e2c3f91c",
+   "row_count": 5,
+   "row_size": 29
+  },
+  "ritualstashtablayout": {
+   "bytes": 8018,
+   "sha256": "04e7a83a550fcda8",
+   "row_count": 40,
+   "row_size": 73
+  },
+  "rogueexilelifescalingperlevel": {
+   "bytes": 812,
+   "sha256": "3a616bbf3543f80f",
+   "row_count": 100,
+   "row_size": 8
+  },
+  "rogueexilemodbonuses": {
+   "bytes": 29604,
+   "sha256": "10523c4768e9bb49",
+   "row_count": 456,
+   "row_size": 48
+  },
+  "rogueexiles": {
+   "bytes": 3668,
+   "sha256": "47fef00229903cfb",
+   "row_count": 14,
+   "row_size": 256
+  },
+  "rulesets": {
+   "bytes": 8820,
+   "sha256": "a801f0c26404eeb5",
+   "row_count": 99,
+   "row_size": 50
+  },
+  "safehousebyocrafting": {
+   "bytes": 2716,
+   "sha256": "fbbefd31f6d4f722",
+   "row_count": 52,
+   "row_size": 52
+  },
+  "salvageboxes": {
+   "bytes": 94,
+   "sha256": "71c575cf24a7189f",
+   "row_count": 1,
+   "row_size": 32
+  },
+  "sanctumairlocks": {
+   "bytes": 884,
+   "sha256": "d060f39cfc5a58b3",
+   "row_count": 12,
+   "row_size": 68
+  },
+  "sanctumbalanceperlevel": {
+   "bytes": 1612,
+   "sha256": "d38d6947b16b1294",
+   "row_count": 100,
+   "row_size": 16
+  },
+  "sanctumdefenceicons": {
+   "bytes": 1580,
+   "sha256": "292b82d0dcd545bc",
+   "row_count": 3,
+   "row_size": 64
+  },
+  "sanctumfloors": {
+   "bytes": 1544,
+   "sha256": "11b764940c18ee18",
+   "row_count": 4,
+   "row_size": 100
+  },
+  "sanctumfodderlifescalingperlevel": {
+   "bytes": 740,
+   "sha256": "31ce73907f95bda0",
+   "row_count": 91,
+   "row_size": 8
+  },
+  "sanctumlifescalingperlevel": {
+   "bytes": 452,
+   "sha256": "70f54be2f69ab99a",
+   "row_count": 55,
+   "row_size": 8
+  },
+  "sanctumpersistenteffectcategories": {
+   "bytes": 2176,
+   "sha256": "fa271062ebb0ca0b",
+   "row_count": 6,
+   "row_size": 51
+  },
+  "sanctumpersistenteffects": {
+   "bytes": 71930,
+   "sha256": "bf7beb74cfd36249",
+   "row_count": 117,
+   "row_size": 172
+  },
+  "sanctumrewardobjects": {
+   "bytes": 376,
+   "sha256": "6b1ca328fdcddb2e",
+   "row_count": 6,
+   "row_size": 29
+  },
+  "sanctumrooms": {
+   "bytes": 57282,
+   "sha256": "d654dfc88610f2d4",
+   "row_count": 204,
+   "row_size": 76
+  },
+  "sanctumroomtypes": {
+   "bytes": 8074,
+   "sha256": "4efb3cedd6967b73",
+   "row_count": 26,
+   "row_size": 101
+  },
+  "sanctumselectiondisplayoverride": {
+   "bytes": 5204,
+   "sha256": "0dd74b515b78c583",
+   "row_count": 22,
+   "row_size": 48
+  },
+  "scarabs": {
+   "bytes": 1548,
+   "sha256": "4ad1ba21691f3114",
+   "row_count": 64,
+   "row_size": 24
+  },
+  "scoutingreports": {
+   "bytes": 516,
+   "sha256": "eef9162b731d0245",
+   "row_count": 9,
+   "row_size": 28
+  },
+  "sentineldroneinventorylayout": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "sentinelpassives": {
+   "bytes": 7990,
+   "sha256": "dec19ec43ce685ad",
+   "row_count": 72,
+   "row_size": 88
+  },
+  "sentinelpassivestats": {
+   "bytes": 1452,
+   "sha256": "2cfb1a15e4f4cc03",
+   "row_count": 40,
+   "row_size": 36
+  },
+  "sentinelpassivetypes": {
+   "bytes": 5456,
+   "sha256": "6bf239b1add4a429",
+   "row_count": 17,
+   "row_size": 44
+  },
+  "sentinelstoragelayout": {
+   "bytes": 1425,
+   "sha256": "c523283438313845",
+   "row_count": 7,
+   "row_size": 93
+  },
+  "sessionquestflags": {
+   "bytes": 6828,
+   "sha256": "d0759b39a7cecb8a",
+   "row_count": 426,
+   "row_size": 16
+  },
+  "shaperguardians": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "shapeshiftartvariations": {
+   "bytes": 2235,
+   "sha256": "a69a7ab552599ac2",
+   "row_count": 19,
+   "row_size": 117
+  },
+  "shapeshiftbonemappings": {
+   "bytes": 23056,
+   "sha256": "bc8f956661d5847d",
+   "row_count": 87,
+   "row_size": 56
+  },
+  "shapeshiftbonesizes": {
+   "bytes": 26446,
+   "sha256": "77cc5cc862f25305",
+   "row_count": 476,
+   "row_size": 28
+  },
+  "shapeshiftformclones": {
+   "bytes": 1152,
+   "sha256": "f2e91374d4717acb",
+   "row_count": 4,
+   "row_size": 48
+  },
+  "shapeshiftforms": {
+   "bytes": 2995,
+   "sha256": "5d6c69d01d798d85",
+   "row_count": 7,
+   "row_size": 185
+  },
+  "shapeshifttransformdata": {
+   "bytes": 2696,
+   "sha256": "1ed8f6b2aadd2d9d",
+   "row_count": 42,
+   "row_size": 63
+  },
+  "shapeshiftvisualidentity": {
+   "bytes": 2414,
+   "sha256": "97d2f4bc013b2344",
+   "row_count": 14,
+   "row_size": 16
+  },
+  "shieldtypes": {
+   "bytes": 4072,
+   "sha256": "5e2541bd5db2bb6b",
+   "row_count": 203,
+   "row_size": 20
+  },
+  "shopitemrecommendation": {
+   "bytes": 33757,
+   "sha256": "527fcdb75d10db2d",
+   "row_count": 145,
+   "row_size": 131
+  },
+  "shopitemtostashid": {
+   "bytes": 2028,
+   "sha256": "36317fce50e41f1b",
+   "row_count": 36,
+   "row_size": 20
+  },
+  "shoptag": {
+   "bytes": 102199,
+   "sha256": "846379e31c7cfd7a",
+   "row_count": 935,
+   "row_size": 51
+  },
+  "shrines": {
+   "bytes": 23112,
+   "sha256": "2c13256af029c426",
+   "row_count": 72,
+   "row_size": 290
+  },
+  "shrinesounds": {
+   "bytes": 2976,
+   "sha256": "7d023c4ecaa80982",
+   "row_count": 13,
+   "row_size": 24
+  },
+  "shrinevarieties": {
+   "bytes": 1590,
+   "sha256": "848bfa1ee33ebab1",
+   "row_count": 11,
+   "row_size": 40
+  },
+  "shrinevisualartvariations": {
+   "bytes": 228,
+   "sha256": "272e08168651ce66",
+   "row_count": 6,
+   "row_size": 36
+  },
+  "sigildisplay": {
+   "bytes": 2214,
+   "sha256": "dfdebcc268d31cac",
+   "row_count": 5,
+   "row_size": 72
+  },
+  "singlegroundlaser": {
+   "bytes": 2716,
+   "sha256": "ccb254951bc6b80a",
+   "row_count": 21,
+   "row_size": 112
+  },
+  "skillartvariations": {
+   "bytes": 320044,
+   "sha256": "1e2df020959d09d0",
+   "row_count": 728,
+   "row_size": 284
+  },
+  "skillcraftingdata": {
+   "bytes": 5432,
+   "sha256": "dc068a5ebf0402b6",
+   "row_count": 12,
+   "row_size": 56
+  },
+  "skillevents": {
+   "bytes": 998,
+   "sha256": "2aca52b8867ec601",
+   "row_count": 15,
+   "row_size": 28
+  },
+  "skillgemgoldpriceperlevel": {
+   "bytes": 196,
+   "sha256": "bed7f50a8a1b2fb0",
+   "row_count": 23,
+   "row_size": 8
+  },
+  "skillgemgoldpriceperquality": {
+   "bytes": 340,
+   "sha256": "709b4ca984bb874d",
+   "row_count": 41,
+   "row_size": 8
+  },
+  "skillgeminfo": {
+   "bytes": 156450,
+   "sha256": "ce0a679cc92af8ee",
+   "row_count": 204,
+   "row_size": 64
+  },
+  "skillgemlevelupeffects": {
+   "bytes": 230,
+   "sha256": "fc19c8fe3e8f3030",
+   "row_count": 2,
+   "row_size": 72
+  },
+  "skillgems": {
+   "bytes": 396738,
+   "sha256": "65d46844f0084862",
+   "row_count": 1188,
+   "row_size": 250
+  },
+  "skillgemsearchterms": {
+   "bytes": 1368,
+   "sha256": "4dd5a08104151164",
+   "row_count": 34,
+   "row_size": 16
+  },
+  "skillgemsforuniquestat": {
+   "bytes": 11062,
+   "sha256": "c959f28b4aac6050",
+   "row_count": 244,
+   "row_size": 29
+  },
+  "skillgemsupports": {
+   "bytes": 92380,
+   "sha256": "d4dd20e0e9b6be64",
+   "row_count": 407,
+   "row_size": 32
+  },
+  "skillminevariations": {
+   "bytes": 444,
+   "sha256": "c935471aea1801f8",
+   "row_count": 18,
+   "row_size": 24
+  },
+  "skillmorphdisplay": {
+   "bytes": 1166,
+   "sha256": "27c204386c162efa",
+   "row_count": 4,
+   "row_size": 107
+  },
+  "skillsurgeeffects": {
+   "bytes": 2658,
+   "sha256": "9f3dd42a1bf08dfa",
+   "row_count": 14,
+   "row_size": 111
+  },
+  "skilltotemvariations": {
+   "bytes": 348,
+   "sha256": "37c5ecfa7772a0f5",
+   "row_count": 14,
+   "row_size": 24
+  },
+  "skilltrapvariations": {
+   "bytes": 2456,
+   "sha256": "2e27aadcaabbd6bb",
+   "row_count": 21,
+   "row_size": 28
+  },
+  "skillweaponeffects": {
+   "bytes": 3046,
+   "sha256": "9a066d73622d3b8b",
+   "row_count": 40,
+   "row_size": 33
+  },
+  "skillweaponeffectsartvariations": {
+   "bytes": 180,
+   "sha256": "509cc99e9e7bf152",
+   "row_count": 2,
+   "row_size": 32
+  },
+  "socketablestashtablayout": {
+   "bytes": 34314,
+   "sha256": "9f952eaf8dad1fdf",
+   "row_count": 206,
+   "row_size": 81
+  },
+  "socketablestashtabsubgroup": {
+   "bytes": 1751,
+   "sha256": "68b3fb22105c4efb",
+   "row_count": 5,
+   "row_size": 33
+  },
+  "socketaudioevents": {
+   "bytes": 44,
+   "sha256": "0c6293652a669d21",
+   "row_count": 1,
+   "row_size": 32
+  },
+  "socketnotches": {
+   "bytes": 1130,
+   "sha256": "f01d3148e31622b0",
+   "row_count": 3,
+   "row_size": 40
+  },
+  "soulcorelimits": {
+   "bytes": 364,
+   "sha256": "6d90e881c8664117",
+   "row_count": 4,
+   "row_size": 21
+  },
+  "soulcores": {
+   "bytes": 28627,
+   "sha256": "e1eac487473b37b4",
+   "row_count": 295,
+   "row_size": 97
+  },
+  "soulcorestatcategories": {
+   "bytes": 3088,
+   "sha256": "11df03ef9d29c6b9",
+   "row_count": 30,
+   "row_size": 36
+  },
+  "soulcorestats": {
+   "bytes": 66580,
+   "sha256": "94f2e6a08895f431",
+   "row_count": 507,
+   "row_size": 96
+  },
+  "soulcoretypes": {
+   "bytes": 552,
+   "sha256": "94e406067aa181d5",
+   "row_count": 5,
+   "row_size": 48
+  },
+  "soundeffects": {
+   "bytes": 354576,
+   "sha256": "727d02c81a71b38f",
+   "row_count": 1450,
+   "row_size": 33
+  },
+  "spawnadditionalchestsorclusters": {
+   "bytes": 684,
+   "sha256": "72aab030db692e14",
+   "row_count": 14,
+   "row_size": 48
+  },
+  "spawnobject": {
+   "bytes": 19260,
+   "sha256": "90913482279dc187",
+   "row_count": 171,
+   "row_size": 86
+  },
+  "specialrooms": {
+   "bytes": 154,
+   "sha256": "9e2e9040594844a5",
+   "row_count": 1,
+   "row_size": 16
+  },
+  "specialtiles": {
+   "bytes": 616,
+   "sha256": "c509cad8e2647a9a",
+   "row_count": 4,
+   "row_size": 16
+  },
+  "spectreoverrides": {
+   "bytes": 9900,
+   "sha256": "0de43814c6d6e280",
+   "row_count": 206,
+   "row_size": 48
+  },
+  "standalonebosses": {
+   "bytes": 4030,
+   "sha256": "daef8a87f86872bb",
+   "row_count": 74,
+   "row_size": 53
+  },
+  "standaloneoverride": {
+   "bytes": 8295,
+   "sha256": "f2599b6bfcd3dfe3",
+   "row_count": 251,
+   "row_size": 33
+  },
+  "startingpassiveskills": {
+   "bytes": 462,
+   "sha256": "7d75c62f7c74b220",
+   "row_count": 6,
+   "row_size": 24
+  },
+  "stashavailabilities": {
+   "bytes": 1398,
+   "sha256": "42e0989ac9e103d0",
+   "row_count": 9,
+   "row_size": 16
+  },
+  "stashtabaffinities": {
+   "bytes": 1126,
+   "sha256": "5629b0a5bedffd95",
+   "row_count": 13,
+   "row_size": 48
+  },
+  "stashtabaffinitybybaseitemtype": {
+   "bytes": 1548,
+   "sha256": "d2b7f270dd4be10c",
+   "row_count": 32,
+   "row_size": 32
+  },
+  "stashtabaffinitybyitemclasscategory": {
+   "bytes": 396,
+   "sha256": "43309279d4120d10",
+   "row_count": 12,
+   "row_size": 32
+  },
+  "stashtabaffinityid": {
+   "bytes": 684,
+   "sha256": "6cf3d9ff86609e5e",
+   "row_count": 22,
+   "row_size": 8
+  },
+  "stashtabinventoryslotstyle": {
+   "bytes": 610,
+   "sha256": "c9f1b93e206b2af2",
+   "row_count": 4,
+   "row_size": 40
+  },
+  "stashtype": {
+   "bytes": 6042,
+   "sha256": "0d67704b57a9c4be",
+   "row_count": 24,
+   "row_size": 48
+  },
+  "statconvertaltattackcontainer": {
+   "bytes": 1612,
+   "sha256": "4f342061fcfb2ccb",
+   "row_count": 32,
+   "row_size": 48
+  },
+  "statdescriptionfunctions": {
+   "bytes": 7686,
+   "sha256": "ad05231bd54802a9",
+   "row_count": 71,
+   "row_size": 16
+  },
+  "statistictrackingmapdevicelabels": {
+   "bytes": 48,
+   "sha256": "5ab8249bc8635699",
+   "row_count": 1,
+   "row_size": 36
+  },
+  "statistictrackingmapdevices": {
+   "bytes": 550,
+   "sha256": "2907ed2bdadca145",
+   "row_count": 1,
+   "row_size": 68
+  },
+  "statistictrackingmicrotransactioncountertype": {
+   "bytes": 186,
+   "sha256": "161800f58b75b331",
+   "row_count": 2,
+   "row_size": 24
+  },
+  "statistictrackingmicrotransactiononenteringarea": {
+   "bytes": 112,
+   "sha256": "0bc99471336d4e4e",
+   "row_count": 5,
+   "row_size": 20
+  },
+  "statistictrackingmicrotransactions": {
+   "bytes": 708,
+   "sha256": "d43b66e5cb4da94b",
+   "row_count": 29,
+   "row_size": 24
+  },
+  "statistictrackingmicrotransactionsonkill": {
+   "bytes": 252,
+   "sha256": "48b502cdcd941d64",
+   "row_count": 12,
+   "row_size": 20
+  },
+  "statistictrackingmicrotransactionsstatistics": {
+   "bytes": 26646,
+   "sha256": "e61227e9dbdbff68",
+   "row_count": 208,
+   "row_size": 91
+  },
+  "stats": {
+   "bytes": 5229356,
+   "sha256": "2b8ab41f516a08e7",
+   "row_count": 27013,
+   "row_size": 106
+  },
+  "statsaffectinggeneration": {
+   "bytes": 1734,
+   "sha256": "fc37533e8700e2f0",
+   "row_count": 82,
+   "row_size": 21
+  },
+  "statsfromskillstats": {
+   "bytes": 474,
+   "sha256": "60d7e463ee9b014d",
+   "row_count": 14,
+   "row_size": 33
+  },
+  "statvisuals": {
+   "bytes": 3499,
+   "sha256": "36deb969c4f669d1",
+   "row_count": 15,
+   "row_size": 33
+  },
+  "strongboxes": {
+   "bytes": 5512,
+   "sha256": "f42978ae884b0d15",
+   "row_count": 50,
+   "row_size": 94
+  },
+  "strongboxpacks": {
+   "bytes": 1740,
+   "sha256": "d6787cb915ce1c8a",
+   "row_count": 72,
+   "row_size": 24
+  },
+  "strongboxvarieties": {
+   "bytes": 8952,
+   "sha256": "f29b3c497bc48c49",
+   "row_count": 102,
+   "row_size": 40
+  },
+  "suicideexplosion": {
+   "bytes": 2667,
+   "sha256": "60c0c96d01b861d5",
+   "row_count": 59,
+   "row_size": 45
+  },
+  "summonedspecificbarrels": {
+   "bytes": 602,
+   "sha256": "4427ecaaa8b8dc01",
+   "row_count": 5,
+   "row_size": 80
+  },
+  "summonedspecificmonsters": {
+   "bytes": 19260,
+   "sha256": "5fbbf7f07db62970",
+   "row_count": 170,
+   "row_size": 106
+  },
+  "summonedspecificmonstersondeath": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "supportgemfamily": {
+   "bytes": 24330,
+   "sha256": "b0ec5f0938ad7beb",
+   "row_count": 389,
+   "row_size": 16
+  },
+  "supportgems": {
+   "bytes": 110296,
+   "sha256": "5b1e306f2944855a",
+   "row_count": 637,
+   "row_size": 94
+  },
+  "supportgemsocketedvisualidentity": {
+   "bytes": 26846,
+   "sha256": "12f295df7438579f",
+   "row_count": 87,
+   "row_size": 24
+  },
+  "surgeeffectpackartvariations": {
+   "bytes": 209,
+   "sha256": "6bf55bd7e8cc4ff8",
+   "row_count": 3,
+   "row_size": 37
+  },
+  "surgeeffects": {
+   "bytes": 20010,
+   "sha256": "0622a4b66eacaeeb",
+   "row_count": 167,
+   "row_size": 72
+  },
+  "surgetypes": {
+   "bytes": 12802,
+   "sha256": "58ff1434065efeba",
+   "row_count": 138,
+   "row_size": 28
+  },
+  "tablecharge": {
+   "bytes": 9011,
+   "sha256": "bc37afa9123341fe",
+   "row_count": 55,
+   "row_size": 161
+  },
+  "tablemonsterspawners": {
+   "bytes": 125002,
+   "sha256": "e375c6daa8617dfe",
+   "row_count": 296,
+   "row_size": 166
+  },
+  "tacticiantotembuffs": {
+   "bytes": 236,
+   "sha256": "5234440d8e30cedf",
+   "row_count": 7,
+   "row_size": 32
+  },
+  "tags": {
+   "bytes": 106466,
+   "sha256": "42c4e91ecfcc6f35",
+   "row_count": 1325,
+   "row_size": 44
+  },
+  "talismanmonstermods": {
+   "bytes": 44,
+   "sha256": "b01f03644cab42cd",
+   "row_count": 1,
+   "row_size": 32
+  },
+  "talismanpacks": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "talismans": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "talkingpetaudioevents": {
+   "bytes": 7450,
+   "sha256": "fbc6433bbe437eaa",
+   "row_count": 73,
+   "row_size": 60
+  },
+  "talkingpetnpcaudio": {
+   "bytes": 14606,
+   "sha256": "d66475e33752cec3",
+   "row_count": 162,
+   "row_size": 73
+  },
+  "talkingpets": {
+   "bytes": 732,
+   "sha256": "c83f4b90758773b0",
+   "row_count": 9,
+   "row_size": 32
+  },
+  "tempesttypes": {
+   "bytes": 408,
+   "sha256": "986f54994b138a4d",
+   "row_count": 2,
+   "row_size": 158
+  },
+  "tencentautolootpetcurrencies": {
+   "bytes": 1577,
+   "sha256": "5bd699e8f3c12113",
+   "row_count": 45,
+   "row_size": 33
+  },
+  "tencentautolootpetcurrenciesexcludable": {
+   "bytes": 156,
+   "sha256": "f6edfde327b70060",
+   "row_count": 9,
+   "row_size": 16
+  },
+  "tencentcharacterpanelstatslistener": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "terrainplugins": {
+   "bytes": 894,
+   "sha256": "498990adb2ef0009",
+   "row_count": 17,
+   "row_size": 14
+  },
+  "threetoonerecipes": {
+   "bytes": 15384,
+   "sha256": "73bf1dde5f165c84",
+   "row_count": 176,
+   "row_size": 76
+  },
+  "tieredcurrency": {
+   "bytes": 412,
+   "sha256": "c558554464e75ef2",
+   "row_count": 10,
+   "row_size": 40
+  },
+  "tieredmicrotransactions": {
+   "bytes": 28685,
+   "sha256": "90ed4564227e2a4d",
+   "row_count": 163,
+   "row_size": 167
+  },
+  "tieredmicrotransactionsvisuals": {
+   "bytes": 1066,
+   "sha256": "e011d6bd969cbcee",
+   "row_count": 18,
+   "row_size": 48
+  },
+  "timetrackingmapdeviceinterfaceartvariation": {
+   "bytes": 1176,
+   "sha256": "b5432e2c5f1d8adc",
+   "row_count": 6,
+   "row_size": 72
+  },
+  "tips": {
+   "bytes": 28492,
+   "sha256": "c636b41def08ca08",
+   "row_count": 81,
+   "row_size": 60
+  },
+  "topologies": {
+   "bytes": 318718,
+   "sha256": "b01b1b901f333999",
+   "row_count": 1359,
+   "row_size": 68
+  },
+  "tormentmodcolours": {
+   "bytes": 1680,
+   "sha256": "04c518657656a5b0",
+   "row_count": 38,
+   "row_size": 32
+  },
+  "tormentspirits": {
+   "bytes": 11632,
+   "sha256": "85d8cff3189cc534",
+   "row_count": 22,
+   "row_size": 384
+  },
+  "totemdefendervarieties": {
+   "bytes": 92,
+   "sha256": "bbebe7b993b3cb25",
+   "row_count": 4,
+   "row_size": 20
+  },
+  "touchinteractiontype": {
+   "bytes": 2120,
+   "sha256": "801bd1c2a7c787d9",
+   "row_count": 8,
+   "row_size": 32
+  },
+  "traptools": {
+   "bytes": 324,
+   "sha256": "6f998d25919e06d3",
+   "row_count": 13,
+   "row_size": 24
+  },
+  "treasurehuntermissions": {
+   "bytes": 1661,
+   "sha256": "9e5de580dce60806",
+   "row_count": 9,
+   "row_size": 133
+  },
+  "triggerbeam": {
+   "bytes": 16494,
+   "sha256": "28d295740437aab4",
+   "row_count": 102,
+   "row_size": 125
+  },
+  "triggeredaudioeventvolumeoverrides": {
+   "bytes": 2492,
+   "sha256": "a2c31445a68206dd",
+   "row_count": 14,
+   "row_size": 32
+  },
+  "triggerspawners": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "triggerstats": {
+   "bytes": 3512,
+   "sha256": "5d825a2791522eca",
+   "row_count": 175,
+   "row_size": 20
+  },
+  "trythenewleagueversions": {
+   "bytes": 1316,
+   "sha256": "bc3edc1cc0e930f8",
+   "row_count": 20,
+   "row_size": 16
+  },
+  "tutorial": {
+   "bytes": 20570,
+   "sha256": "01ebeb8b6f3dab9c",
+   "row_count": 106,
+   "row_size": 96
+  },
+  "tutorialleaguequestflags": {
+   "bytes": 32,
+   "sha256": "12bf9e68087ff039",
+   "row_count": 5,
+   "row_size": 4
+  },
+  "uitalktext": {
+   "bytes": 38950,
+   "sha256": "f2c5dfa49d05aaed",
+   "row_count": 98,
+   "row_size": 45
+  },
+  "ultimatumencountertypes": {
+   "bytes": 710,
+   "sha256": "aa079790bdd58fb0",
+   "row_count": 7,
+   "row_size": 50
+  },
+  "ultimatummodifiers": {
+   "bytes": 30861,
+   "sha256": "82370f1a2d93a4ae",
+   "row_count": 51,
+   "row_size": 233
+  },
+  "ultimatummodifiertypes": {
+   "bytes": 329,
+   "sha256": "4b8a481b51bec4a2",
+   "row_count": 7,
+   "row_size": 9
+  },
+  "ultimatummonsterpackfamily": {
+   "bytes": 266,
+   "sha256": "934929d5c620cab5",
+   "row_count": 6,
+   "row_size": 12
+  },
+  "ultimatumrooms": {
+   "bytes": 1897,
+   "sha256": "a364302857ec0544",
+   "row_count": 9,
+   "row_size": 65
+  },
+  "ultimatumtriallength": {
+   "bytes": 36,
+   "sha256": "d45122287a01bd42",
+   "row_count": 3,
+   "row_size": 8
+  },
+  "ultimatumtrialmasteraudio": {
+   "bytes": 1496,
+   "sha256": "1cbcd0761f4153de",
+   "row_count": 32,
+   "row_size": 44
+  },
+  "ultimatumwagertypes": {
+   "bytes": 3478,
+   "sha256": "4dcdd45a08f4097f",
+   "row_count": 20,
+   "row_size": 38
+  },
+  "uncutgems": {
+   "bytes": 872,
+   "sha256": "ab389da19a7bae97",
+   "row_count": 43,
+   "row_size": 20
+  },
+  "uncutgemtiers": {
+   "bytes": 1524,
+   "sha256": "aee4d0f898a90e84",
+   "row_count": 42,
+   "row_size": 36
+  },
+  "uniquechests": {
+   "bytes": 15468,
+   "sha256": "6a0c4622cc1e5bbf",
+   "row_count": 48,
+   "row_size": 178
+  },
+  "uniquegoldprices": {
+   "bytes": 11632,
+   "sha256": "aa7af97857f9c5ec",
+   "row_count": 581,
+   "row_size": 20
+  },
+  "uniquejewellimits": {
+   "bytes": 252,
+   "sha256": "82e3c61d362a69e4",
+   "row_count": 12,
+   "row_size": 20
+  },
+  "uniquemageslegacy": {
+   "bytes": 1980,
+   "sha256": "1726716e00056ca8",
+   "row_count": 14,
+   "row_size": 48
+  },
+  "uniquemaps": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "uniquemapskillbooks": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "uniqueorigins": {
+   "bytes": 4044,
+   "sha256": "c74e36e67f50bf8b",
+   "row_count": 126,
+   "row_size": 32
+  },
+  "uniquestashlayout": {
+   "bytes": 37279,
+   "sha256": "0c93771c2cd3788f",
+   "row_count": 449,
+   "row_size": 83
+  },
+  "uniquestashtypes": {
+   "bytes": 7560,
+   "sha256": "d7e64875dcccffe9",
+   "row_count": 34,
+   "row_size": 53
+  },
+  "utilityflaskbuffs": {
+   "bytes": 856,
+   "sha256": "bb0fe57633654137",
+   "row_count": 13,
+   "row_size": 64
+  },
+  "virtualstatcontextflags": {
+   "bytes": 1560,
+   "sha256": "ae97d4fc0e4369e5",
+   "row_count": 42,
+   "row_size": 12
+  },
+  "visualpinproperties": {
+   "bytes": 2049,
+   "sha256": "a4154872eb674a3c",
+   "row_count": 17,
+   "row_size": 83
+  },
+  "warbandsgraph": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "warbandsmapgraph": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "warbandspackmonsters": {
+   "bytes": 12,
+   "sha256": "dcee8ef773abb449",
+   "geometry": "no-magic-or-empty",
+   "row_count": 0
+  },
+  "warbandspacknumbers": {
+   "bytes": 3234,
+   "sha256": "4d75176b3f684f7f",
+   "row_count": 45,
+   "row_size": 48
+  },
+  "waystonestashtabsubgroups": {
+   "bytes": 664,
+   "sha256": "6caa2d42f4aa0e63",
+   "row_count": 16,
+   "row_size": 32
+  },
+  "weaponbufforbstype": {
+   "bytes": 1058,
+   "sha256": "4f984e9fba05f01a",
+   "row_count": 16,
+   "row_size": 62
+  },
+  "weaponclasses": {
+   "bytes": 552,
+   "sha256": "fc9ae56f4235babd",
+   "row_count": 15,
+   "row_size": 36
+  },
+  "weaponimpactsounddata": {
+   "bytes": 496,
+   "sha256": "44b197ad10247eef",
+   "row_count": 8,
+   "row_size": 40
+  },
+  "weaponsoundtypes": {
+   "bytes": 2094,
+   "sha256": "522fc5e0c294879c",
+   "row_count": 28,
+   "row_size": 16
+  },
+  "weapontypes": {
+   "bytes": 22748,
+   "sha256": "d76ad55539a7062d",
+   "row_count": 406,
+   "row_size": 56
+  },
+  "wieldableclasses": {
+   "bytes": 11380,
+   "sha256": "4abd502205dc0ec1",
+   "row_count": 28,
+   "row_size": 406
+  },
+  "windowcursors": {
+   "bytes": 4052,
+   "sha256": "13ccc5bf37f4c723",
+   "row_count": 12,
+   "row_size": 53
+  },
+  "words": {
+   "bytes": 442408,
+   "sha256": "eca17c6c83e5c626",
+   "row_count": 3245,
+   "row_size": 64
+  },
+  "worldarealeaguechances": {
+   "bytes": 14044,
+   "sha256": "f30ce5a97071a297",
+   "row_count": 109,
+   "row_size": 112
+  },
+  "worldareas": {
+   "bytes": 436590,
+   "sha256": "d988dddfd0025fd1",
+   "row_count": 440,
+   "row_size": 768
+  },
+  "worlddescriptionbutton": {
+   "bytes": 3220,
+   "sha256": "2cf40b5e0ef1564e",
+   "row_count": 8,
+   "row_size": 65
+  },
+  "worldmaplegends": {
+   "bytes": 11696,
+   "sha256": "7c566264f6b50942",
+   "row_count": 38,
+   "row_size": 57
+  },
+  "worldmapquicktravelbuttons": {
+   "bytes": 2397,
+   "sha256": "c8b6377ab20da55c",
+   "row_count": 9,
+   "row_size": 65
+  },
+  "worldobjectdisplayedapplicableitems": {
+   "bytes": 244,
+   "sha256": "d5660692d66b5b4f",
+   "row_count": 2,
+   "row_size": 24
+  },
+  "worldpopupicontypes": {
+   "bytes": 1298,
+   "sha256": "ef86960e74e80477",
+   "row_count": 7,
+   "row_size": 50
+  },
+  "worldscreenmappindialogue": {
+   "bytes": 2400,
+   "sha256": "8eb1da3f0ce26bf2",
+   "row_count": 29,
+   "row_size": 36
+  }
+ }
+}
