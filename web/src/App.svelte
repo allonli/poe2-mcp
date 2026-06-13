@@ -12,6 +12,7 @@
 
   import Home from './routes/Home.svelte';
   import Calculator from './routes/Calculator.svelte';
+  import Interactions from './routes/Interactions.svelte';
 
   // Load data on mount
   onMount(async () => {
@@ -48,6 +49,7 @@
     <nav>
       <a href="#/" class:active={route === '/'}>Home</a>
       <a href="#/calculator" class:active={route === '/calculator'}>Undying Hate Calculator</a>
+      <a href="#/interactions" class:active={route === '/interactions'}>Interaction Explorer</a>
     </nav>
     <h1>PoE2 Tools</h1>
   </header>
@@ -69,6 +71,8 @@
         <Home />
       {:else if route === '/calculator'}
         <Calculator />
+      {:else if route === '/interactions'}
+        <Interactions />
       {:else}
         <div class="not-found">
           <h2>404 - Page Not Found</h2>
