@@ -1,0 +1,109 @@
+# Auto-build the Claude Desktop .mcpb bundle on every merge to main and publish
+# it as a rolling GitHub Release asset (issue #185 follow-up).
+#
+# The bundle's runtime data is the curated canonical set distributed as
+# poe2-data.zip via the data-release pipeline (see scripts/publish_data_release.py
+# + src/data/data_distributor.py). CI fetches that asset, assembles the bundle
+# with scripts/build_mcpb_bundle.py, and publishes a rolling release asset.
+#
+# Until a release exposing poe2-data.zip exists, the job stays GREEN and simply
+# emits a notice (no data => nothing to build) instead of failing red on every
+# merge. Once the maintainer publishes a data release, builds activate
+# automatically. The --require-canonical guard ensures a partial/corrupt data
+# fetch fails loudly rather than shipping a degraded bundle.
+name: Build MCPB Bundle
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'launch.py'
+      - 'config.yaml'
+      - 'requirements.txt'
+      - 'data/game/**'
+      - 'mcpb_bundle/manifest.json'
+      - 'scripts/build_mcpb_bundle.py'
+      - 'scripts/pack_mcpb.py'
+      - 'scripts/publish_data_release.py'
+      - '.github/workflows/build-mcpb.yml'
+  workflow_dispatch:  # manual rebuild
+
+permissions:
+  contents: write  # create/update the rolling release + upload the asset
+
+concurrency:
+  group: build-mcpb
+  cancel-in-progress: true
+
+env:
+  ROLLING_TAG: mcpb-latest
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # The gitignored canonical game-data JSON (poe2_mods_extracted.json, etc.)
+      # is not in the repo — pull it from the newest release exposing poe2-data.zip.
+      # ready=true only when the data actually lands, so downstream steps can skip
+      # cleanly (green) when no data release exists yet.
+      - name: Fetch canonical data bundle
+        id: data
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          DATA_TAG=$(gh api "repos/${GITHUB_REPOSITORY}/releases" --paginate \
+            --jq 'map(select(any(.assets[]?; .name=="poe2-data.zip"))) | sort_by(.created_at) | last | .tag_name' \
+            2>/dev/null || true)
+          if [ -n "${DATA_TAG:-}" ] && [ "${DATA_TAG}" != "null" ]; then
+            echo "Downloading poe2-data.zip from release ${DATA_TAG}"
+            gh release download "${DATA_TAG}" -p poe2-data.zip -D /tmp --clobber
+            python -c "import zipfile; zipfile.ZipFile('/tmp/poe2-data.zip').extractall('data')"
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+            echo "Canonical data extracted into data/"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: No data release (skip build)
+        if: steps.data.outputs.ready != 'true'
+        run: |
+          echo "::notice::No release exposes poe2-data.zip yet — skipping .mcpb build. Publish a data release with 'python scripts/publish_data_release.py' to activate auto-builds."
+
+      - name: Assemble + pack bundle (guarded)
+        if: steps.data.outputs.ready == 'true'
+        run: python scripts/build_mcpb_bundle.py --require-canonical
+
+      - name: Locate artifact
+        id: artifact
+        if: steps.data.outputs.ready == 'true'
+        run: |
+          set -euo pipefail
+          MCPB=$(ls poe2-mcp-*.mcpb | head -1)
+          echo "path=${MCPB}" >> "$GITHUB_OUTPUT"
+          echo "Built ${MCPB} ($(du -h "${MCPB}" | cut -f1))"
+
+      - name: Publish to rolling release
+        if: steps.data.outputs.ready == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if ! gh release view "${ROLLING_TAG}" >/dev/null 2>&1; then
+            gh release create "${ROLLING_TAG}" \
+              --prerelease \
+              --title "MCPB latest build (main)" \
+              --notes "Automatically built .mcpb from the latest \`main\`. Updated on every merge. For a stable build use a tagged release." \
+              --target main
+          fi
+          gh release upload "${ROLLING_TAG}" "${{ steps.artifact.outputs.path }}" --clobber
+          echo "Uploaded ${{ steps.artifact.outputs.path }} to release ${ROLLING_TAG}"
