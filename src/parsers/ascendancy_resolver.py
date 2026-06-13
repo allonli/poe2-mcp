@@ -142,6 +142,32 @@ class AscendancyResolver:
             except Exception as e:
                 logger.error(f"Failed to load fresh ascendancies.json: {e}")
 
+        # Node data (campaign C5, closes #137 row 1b): the .datc64 extraction
+        # carries NO ascendancy node data (verified — see #137), so per-node
+        # name/stats come from data/game/ascendancies/nodes.json, generated
+        # from the PoB2 community 0.5 tree under the established psg+pob
+        # precedent. Merged into notable_nodes so every existing consumer
+        # (get_ascendancy_info, node indices) picks them up unchanged.
+        nodes_path = self.data_dir / "game" / "ascendancies" / "nodes.json"
+        if loaded_fresh and nodes_path.exists():
+            try:
+                with open(nodes_path, 'r', encoding='utf-8') as f:
+                    node_data = json.load(f)
+                merged = 0
+                ascs = self._all_ascendancies.get("ascendancies", {})
+                for asc_name, nodes in node_data.get("ascendancy_nodes", {}).items():
+                    if asc_name in ascs:
+                        ascs[asc_name]["notable_nodes"] = nodes
+                        ascs[asc_name]["node_source"] = "pob_0_5_tree"
+                        merged += 1
+                logger.info(
+                    f"Merged node data for {merged} ascendancies from nodes.json "
+                    f"({node_data.get('metadata', {}).get('node_count', '?')} nodes, "
+                    f"source: PoB 0_5 tree per psg+pob precedent)"
+                )
+            except Exception as e:
+                logger.error(f"Failed to load ascendancy nodes.json: {e}")
+
         # Legacy fallback (Jan 2026, marked incomplete in its own metadata).
         # Loaded only if the fresh dataset is unavailable, to keep the
         # resolver functional during transition or test contexts that mock

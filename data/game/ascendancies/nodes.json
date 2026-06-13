@@ -1,0 +1,3160 @@
+{
+ "metadata": {
+  "source": "PathOfBuilding-PoE2 community repo, src/TreeData/0_5/tree.json",
+  "source_ref": "origin/dev @ 623f6dde0 (2026-06-13)",
+  "provenance": "pob-community ORACLE data used as canonical per the psg+pob precedent: the 0.5 .datc64 extraction carries NO ascendancy node data (verified, see #137) - this is the only local source. Node ids are real graph ids.",
+  "generated_at": "2026-06-12T22:48:02.317771+00:00",
+  "ascendancy_count": 22,
+  "node_count": 429
+ },
+ "ascendancy_nodes": {
+  "Pathfinder": {
+   "16": {
+    "name": "Life Flask Charges",
+    "kind": "small",
+    "stats": [
+     "20% increased Life Flask Charges gained"
+    ]
+   },
+   "40": {
+    "name": "Sustainable Practices",
+    "kind": "notable",
+    "stats": [
+     "50% of Evasion Rating also grants Elemental Damage reduction"
+    ]
+   },
+   "1583": {
+    "name": "Pathfinder",
+    "kind": "start",
+    "stats": []
+   },
+   "9710": {
+    "name": "Bleeding Concoction",
+    "kind": "small",
+    "stats": [
+     "Grants Skill: Bleeding Concoction"
+    ]
+   },
+   "9798": {
+    "name": "Skill Speed",
+    "kind": "small",
+    "stats": [
+     "4% increased Skill Speed"
+    ]
+   },
+   "12183": {
+    "name": "Passive Points",
+    "kind": "small",
+    "stats": [
+     "Grants 1 Passive Skill Point"
+    ]
+   },
+   "12795": {
+    "name": "Path of the Sorceress",
+    "kind": "small",
+    "stats": [
+     "Can Allocate Passive Skills from the Sorceress's starting point",
+     "Grants 4 Passive Skill Point"
+    ]
+   },
+   "14508": {
+    "name": "Poison Effect",
+    "kind": "small",
+    "stats": [
+     "12% increased Magnitude of Poison you inflict"
+    ]
+   },
+   "16433": {
+    "name": "Path Seeker",
+    "kind": "notable",
+    "stats": []
+   },
+   "18940": {
+    "name": "Shattering Concoction",
+    "kind": "small",
+    "stats": [
+     "Grants Skill: Shattering Concoction"
+    ]
+   },
+   "24868": {
+    "name": "Relentless Pursuit",
+    "kind": "notable",
+    "stats": [
+     "Your speed is unaffected by Slows"
+    ]
+   },
+   "29074": {
+    "name": "Overwhelming Toxicity",
+    "kind": "notable",
+    "stats": [
+     "Double the number of your Poisons that targets can be affected by at the same time",
+     "50% less Poison Duration"
+    ]
+   },
+   "33736": {
+    "name": "Skill Speed",
+    "kind": "small",
+    "stats": [
+     "4% increased Skill Speed"
+    ]
+   },
+   "36676": {
+    "name": "Passive Points",
+    "kind": "small",
+    "stats": [
+     "Grants 1 Passive Skill Point"
+    ]
+   },
+   "38004": {
+    "name": "Explosive Concoction",
+    "kind": "small",
+    "stats": [
+     "Grants Skill: Explosive Concoction"
+    ]
+   },
+   "39292": {
+    "name": "Evasion",
+    "kind": "small",
+    "stats": [
+     "20% increased Evasion Rating"
+    ]
+   },
+   "41619": {
+    "name": "Enduring Elixirs",
+    "kind": "notable",
+    "stats": [
+     "Life Flask Effects are not removed when Unreserved Life is Filled",
+     "Life Flask Effects do not Queue"
+    ]
+   },
+   "46454": {
+    "name": "Traveller's Wisdom",
+    "kind": "notable",
+    "stats": [
+     "Attribute Passive Skills can instead grant 5% increased Damage",
+     "Attribute Passive Skills can instead grant 5% increased Armour, Evasion and Energy Shield",
+     "Attribute Passive Skills can instead grant 5% increased Cost Efficiency"
+    ]
+   },
+   "49503": {
+    "name": "Mana Flask Charges",
+    "kind": "small",
+    "stats": [
+     "20% increased Mana Flask Charges gained"
+    ]
+   },
+   "56618": {
+    "name": "Fulminating Concoction",
+    "kind": "small",
+    "stats": [
+     "Grants Skill: Fulminating Concoction"
+    ]
+   },
+   "57141": {
+    "name": "Brew Concoction",
+    "kind": "notable",
+    "stats": []
+   },
+   "57253": {
+    "name": "Path of the Warrior",
+    "kind": "small",
+    "stats": [
+     "Can Allocate Passive Skills from the Warrior's starting point",
+     "Grants 4 Passive Skill Point"
+    ]
+   },
+   "58379": {
+    "name": "Acidic Concoction",
+    "kind": "small",
+    "stats": [
+     "Grants Skill: Acidic Concoction"
+    ]
+   },
+   "61991": {
+    "name": "Running Assault",
+    "kind": "notable",
+    "stats": [
+     "Cannot be Heavy Stunned while Sprinting",
+     "30% less Movement Speed Penalty from using Skills while moving"
+    ]
+   }
+  },
+  "Deadeye": {
+   "30": {
+    "name": "Gathering Winds",
+    "kind": "notable",
+    "stats": [
+     "Gain Tailwind on Skill use",
+     "Lose all Tailwind when Hit"
+    ]
+   },
+   "3987": {
+    "name": "Skill Speed",
+    "kind": "small",
+    "stats": [
+     "4% increased Skill Speed"
+    ]
+   },
+   "5817": {
+    "name": "Mirage Deadeye",
+    "kind": "notable",
+    "stats": [
+     "Grants Skill: Mirage Deadeye"
+    ]
+   },
+   "12033": {
+    "name": "Endless Munitions",
+    "kind": "notable",
+    "stats": [
+     "Skills fire an additional Projectile"
+    ]
+   },
+   "23508": {
+    "name": "Thrilling Chase",
+    "kind": "notable",
+    "stats": [
+     "Benefits from consuming Frenzy Charges for your Skills have 50% chance to be doubled"
+    ]
+   },
+   "24226": {
+    "name": "Bullseye",
+    "kind": "notable",
+    "stats": [
+     "Apply 10 Critical Weakness to Enemies when Consuming a Mark on them"
+    ]
+   },
+   "24295": {
+    "name": "Frenzy Charge Duration",
+    "kind": "small",
+    "stats": [
+     "25% increased Frenzy Charge Duration"
+    ]
+   },
+   "29871": {
+    "name": "Mark Effect",
+    "kind": "small",
+    "stats": [
+     "12% increased Effect of your Mark Skills"
+    ]
+   },
+   "35801": {
+    "name": "Frenzy Charge Duration",
+    "kind": "small",
+    "stats": [
+     "25% increased Frenzy Charge Duration"
+    ]
+   },
+   "37336": {
+    "name": "Avidity",
+    "kind": "notable",
+    "stats": [
+     "50% chance when you gain a Frenzy Charge to gain an additional Frenzy Charge"
+    ]
+   },
+   "39723": {
+    "name": "Projectile Damage",
+    "kind": "small",
+    "stats": [
+     "12% increased Projectile Damage"
+    ]
+   },
+   "41875": {
+    "name": "Point Blank",
+    "kind": "small",
+    "stats": [
+     "Projectiles deal 20% more Hit damage to targets in the first 3.5 metres of their movement, scaling down with distance travelled to reach 0% after 7 metres"
+    ]
+   },
+   "42416": {
+    "name": "Projectile Proximity Specialisation",
+    "kind": "notable",
+    "stats": []
+   },
+   "46854": {
+    "name": "Projectile Speed",
+    "kind": "small",
+    "stats": [
+     "10% increased Projectile Speed"
+    ]
+   },
+   "46990": {
+    "name": "Deadeye",
+    "kind": "start",
+    "stats": []
+   },
+   "49165": {
+    "name": "Mark Effect",
+    "kind": "small",
+    "stats": [
+     "12% increased Effect of your Mark Skills"
+    ]
+   },
+   "59542": {
+    "name": "Far Shot",
+    "kind": "small",
+    "stats": [
+     "Projectiles deal 0% more Hit damage to targets in the first 3.5 metres of their movement, scaling up with distance travelled to reach 20% after 7 metres"
+    ]
+   },
+   "59913": {
+    "name": "Called Shots",
+    "kind": "notable",
+    "stats": [
+     "Grants Skill: Called Shots"
+    ]
+   },
+   "61461": {
+    "name": "Projectile Speed",
+    "kind": "small",
+    "stats": [
+     "10% increased Projectile Speed"
+    ]
+   }
+  },
+  "Lich": {
+   "59": {
+    "name": "Incessant Cacophony",
+    "kind": "notable",
+    "stats": [
+     "Curses you inflict have infinite Duration",
+     "You can apply an additional Curse"
+    ]
+   },
+   "2516": {
+    "name": "Price of Power",
+    "kind": "notable",
+    "stats": [
+     "Spells consume a Power Charge if able to deal 40% more Damage"
+    ]
+   },
+   "2877": {
+    "name": "Blackened Heart",
+    "kind": "notable",
+    "stats": [
+     "4% increased Magnitude of Unholy Might Buffs you grant per 100 maximum Mana"
+    ]
+   },
+   "2995": {
+    "name": "Energy Shield if Consumed Power Charge",
+    "kind": "small",
+    "stats": [
+     "30% increased maximum Energy Shield if you've consumed a Power Charge Recently"
+    ]
+   },
+   "8611": {
+    "name": "Curse Area",
+    "kind": "small",
+    "stats": [
+     "15% increased Area of Effect of Curses"
+    ]
+   },
+   "17788": {
+    "name": "Crystalline Phylactery",
+    "kind": "notable",
+    "stats": [
+     "Can Socket a non-Unique Basic Jewel into the Phylactery",
+     "100% increased Effect of bonuses gained from Socketed Jewel",
+     "50% more Mana Cost of Skills if you have no Energy Shield"
+    ]
+   },
+   "20772": {
+    "name": "Mana",
+    "kind": "small",
+    "stats": [
+     "3% increased maximum Mana"
+    ]
+   },
+   "23352": {
+    "name": "Rupture the Soul",
+    "kind": "notable",
+    "stats": [
+     "Cursed Enemies killed by you, or by Allies in your Presence, have a 33% chance to explode, dealing a quarter of their maximum Life as Chaos damage"
+    ]
+   },
+   "23710": {
+    "name": "Lich",
+    "kind": "start",
+    "stats": []
+   },
+   "26085": {
+    "name": "Necromantic Conduit",
+    "kind": "notable",
+    "stats": [
+     "While you are not on Low Mana, you and Allies in your Presence have Unholy Might",
+     "Lose 5% of maximum Mana per Second"
+    ]
+   },
+   "28431": {
+    "name": "Eternal Life",
+    "kind": "notable",
+    "stats": [
+     "Your Life cannot change while you have Energy Shield"
+    ]
+   },
+   "33141": {
+    "name": "Life",
+    "kind": "small",
+    "stats": [
+     "3% increased maximum Life"
+    ]
+   },
+   "33570": {
+    "name": "Soulless Form",
+    "kind": "notable",
+    "stats": [
+     "10% of Damage taken bypasses Energy Shield",
+     "No inherent Mana Regeneration",
+     "Regenerate Mana equal to 6% of maximum Life per second"
+    ]
+   },
+   "36696": {
+    "name": "Life",
+    "kind": "small",
+    "stats": [
+     "3% increased maximum Life"
+    ]
+   },
+   "39241": {
+    "name": "Energy Shield",
+    "kind": "small",
+    "stats": [
+     "20% increased maximum Energy Shield"
+    ]
+   },
+   "51142": {
+    "name": "Mana",
+    "kind": "small",
+    "stats": [
+     "3% increased maximum Mana"
+    ]
+   },
+   "58751": {
+    "name": "Energy Shield",
+    "kind": "small",
+    "stats": [
+     "20% increased maximum Energy Shield"
+    ]
+   },
+   "58932": {
+    "name": "Eldritch Empowerment",
+    "kind": "notable",
+    "stats": [
+     "Sacrificing Energy Shield does not interrupt Recharge",
+     "Sacrifice 5% of maximum Energy Shield when you Cast a Spell",
+     "Spells for which this Sacrifice was fully made deal 30% more Damage"
+    ]
+   },
+   "62797": {
+    "name": "Curse Area",
+    "kind": "small",
+    "stats": [
+     "15% increased Area of Effect of Curses"
+    ]
+   }
+  },
+  "Acolyte of Chayula": {
+   "74": {
+    "name": "Acolyte of Chayula",
+    "kind": "start",
+    "stats": []
+   },
+   "664": {
+    "name": "Choice of Power",
+    "kind": "small",
+    "stats": [
+     "Remnants you create have 50% increased effect",
+     "Remnants can be collected from 50% further away",
+     "All Flames of Chayula that you manifest are Purple"
+    ]
+   },
+   "1347": {
+    "name": "Skill Speed",
+    "kind": "small",
+    "stats": [
+     "4% increased Skill Speed"
+    ]
+   },
+   "3781": {
+    "name": "Unravelling",
+    "kind": "notable",
+    "stats": [
+     "Grants Unravelling"
+    ]
+   },
+   "11771": {
+    "name": "Skill Speed",
+    "kind": "small",
+    "stats": [
+     "4% increased Skill Speed"
+    ]
+   },
+   "17923": {
+    "name": "Volatility",
+    "kind": "small",
+    "stats": [
+     "10% chance to gain Volatility on Kill"
+    ]
+   },
+   "18826": {
+    "name": "Inner Turmoil",
+    "kind": "notable",
+    "stats": [
+     "Gain 1 Volatility on inflicting an Elemental Ailment",
+     "Take no Damage from Volatility"
+    ]
+   },
+   "24475": {
+    "name": "Chaos Resistance",
+    "kind": "small",
+    "stats": [
+     "+7% to Chaos Resistance"
+    ]
+   },
+   "25779": {
+    "name": "Darkness",
+    "kind": "small",
+    "stats": [
+     "10% increased maximum Darkness"
+    ]
+   },
+   "25781": {
+    "name": "Sap of Nightmares",
+    "kind": "notable",
+    "stats": [
+     "Leech recovers based on Chaos Damage as well as Physical Damage"
+    ]
+   },
+   "25885": {
+    "name": "Damage as Chaos",
+    "kind": "small",
+    "stats": [
+     "Gain 4% of Damage as Extra Chaos Damage"
+    ]
+   },
+   "26283": {
+    "name": "Choice of Mana",
+    "kind": "small",
+    "stats": [
+     "Remnants you create have 50% increased effect",
+     "Remnants can be collected from 50% further away",
+     "All Flames of Chayula that you manifest are Blue"
+    ]
+   },
+   "31116": {
+    "name": "Grasp of the Void",
+    "kind": "notable",
+    "stats": [
+     "Grants Skill: Void Illusion"
+    ]
+   },
+   "32771": {
+    "name": "Darkness",
+    "kind": "small",
+    "stats": [
+     "10% increased maximum Darkness"
+    ]
+   },
+   "34567": {
+    "name": "Archon of Chayula",
+    "kind": "notable",
+    "stats": [
+     "Grants Skill: Archon of Chayula"
+    ]
+   },
+   "34817": {
+    "name": "Deepening Shadows",
+    "kind": "notable",
+    "stats": [
+     "1% increased maximum Darkness per 1% Chaos Resistance"
+    ]
+   },
+   "36788": {
+    "name": "Leech",
+    "kind": "small",
+    "stats": [
+     "11% increased amount of Life Leeched",
+     "11% increased amount of Mana Leeched"
+    ]
+   },
+   "41076": {
+    "name": "Embrace the Darkness",
+    "kind": "notable",
+    "stats": [
+     "You have no Spirit",
+     "Base Maximum Darkness is 100",
+     "Damage taken is Reserved from Darkness before being taken from Life or Energy Shield",
+     "Darkness Reservation lasts for 5 seconds",
+     "+10 to Maximum Darkness per Level"
+    ]
+   },
+   "47344": {
+    "name": "Chaos Damage",
+    "kind": "small",
+    "stats": [
+     "11% increased Chaos Damage"
+    ]
+   },
+   "50098": {
+    "name": "Waking Dream",
+    "kind": "notable",
+    "stats": [
+     "Grants Skill: Into the Breach"
+    ]
+   },
+   "52395": {
+    "name": "Lucid Dreaming",
+    "kind": "notable",
+    "stats": []
+   },
+   "56331": {
+    "name": "Choice of Life",
+    "kind": "small",
+    "stats": [
+     "Remnants you create have 50% increased effect",
+     "Remnants can be collected from 50% further away",
+     "All Flames of Chayula that you manifest are Red"
+    ]
+   },
+   "59759": {
+    "name": "Chayula's Gift",
+    "kind": "notable",
+    "stats": [
+     "+10% to Maximum Chaos Resistance",
+     "Chaos Resistance is doubled"
+    ]
+   },
+   "60251": {
+    "name": "Chaos Damage",
+    "kind": "small",
+    "stats": [
+     "11% increased Chaos Damage"
+    ]
+   }
+  },
+  "Smith of Kitava": {
+   "110": {
+    "name": "Internal Layer",
+    "kind": "notable",
+    "stats": [
+     "Body Armour grants Hits against you have 100% reduced Critical Damage Bonus"
+    ]
+   },
+   "5386": {
+    "name": "Fire Damage",
+    "kind": "small",
+    "stats": [
+     "20% increased Fire Damage"
+    ]
+   },
+   "5852": {
+    "name": "Smith of Kitava",
+    "kind": "start",
+    "stats": []
+   },
+   "8525": {
+    "name": "Leather Bindings",
+    "kind": "notable",
+    "stats": [
+     "Body Armour grants regenerate 3% of maximum Life per second"
+    ]
+   },
+   "9988": {
+    "name": "Smith's Masterwork",
+    "kind": "notable",
+    "stats": [
+     "Can only use a Normal Body Armour",
+     "+200 to Armour for each Connected Notable Passive Skill Allocated"
+    ]
+   },
+   "9997": {
+    "name": "Molten Symbol",
+    "kind": "notable",
+    "stats": [
+     "Body Armour grants 25% of Physical Damage from Hits taken as Fire Damage"
+    ]
+   },
+   "13772": {
+    "name": "Flowing Metal",
+    "kind": "notable",
+    "stats": [
+     "Body Armour grants +50% of Armour also applies to Elemental Damage"
+    ]
+   },
+   "14960": {
+    "name": "Fire Resistance",
+    "kind": "small",
+    "stats": [
+     "+8% to Fire Resistance"
+    ]
+   },
+   "16276": {
+    "name": "Kitavan Imprint",
+    "kind": "notable",
+    "stats": [
+     "Body Armour grants 60% increased Glory generation"
+    ]
+   },
+   "20195": {
+    "name": "Spiked Plates",
+    "kind": "notable",
+    "stats": [
+     "Body Armour grants 100% increased Thorns damage"
+    ]
+   },
+   "20895": {
+    "name": "Strength",
+    "kind": "small",
+    "stats": [
+     "5% increased Strength"
+    ]
+   },
+   "22541": {
+    "name": "Heat of the Forge",
+    "kind": "notable",
+    "stats": [
+     "Grants Skill: Fire Spell on Hit"
+    ]
+   },
+   "22908": {
+    "name": "Tribute to Utula",
+    "kind": "notable",
+    "stats": [
+     "Body Armour grants 30% increased Spirit"
+    ]
+   },
+   "25438": {
+    "name": "Heatproofing",
+    "kind": "notable",
+    "stats": [
+     "Body Armour grants Unaffected by Damaging Ailments"
+    ]
+   },
+   "47184": {
+    "name": "Living Weapon",
+    "kind": "notable",
+    "stats": [
+     "Grants Skill: Manifest Weapon"
+    ]
+   },
+   "47236": {
+    "name": "Melee Damage",
+    "kind": "small",
+    "stats": [
+     "20% increased Melee Damage"
+    ]
+   },
+   "48537": {
+    "name": "Forged in Flame",
+    "kind": "notable",
+    "stats": [
+     "Modifiers to Maximum Fire Resistance also grant Maximum Cold and Lightning Resistance"
+    ]
+   },
+   "49340": {
+    "name": "Support Straps",
+    "kind": "notable",
+    "stats": [
+     "Body Armour grants 20% increased Strength"
+    ]
+   },
+   "57959": {
+    "name": "Coal Stoker",
+    "kind": "notable",
+    "stats": [
+     "Modifiers to Fire Resistance also grant Cold and Lightning Resistance at 50% of their value"
+    ]
+   },
+   "60298": {
+    "name": "Against the Anvil",
+    "kind": "notable",
+    "stats": [
+     "Grants Skill: Temper Weapon"
+    ]
+   },
+   "60913": {
+    "name": "Kitavan Engraving",
+    "kind": "notable",
+    "stats": [
+     "Body Armour grants 15% increased maximum Life"
+    ]
+   },
+   "61039": {
+    "name": "Tantalum Alloy",
+    "kind": "notable",
+    "stats": [
+     "Body Armour grants +75% to Fire Resistance"
+    ]
+   },
+   "63401": {
+    "name": "Fire Resistance",
+    "kind": "small",
+    "stats": [
+     "+8% to Fire Resistance"
+    ]
+   },
+   "64962": {
+    "name": "Dedication to Kitava",
+    "kind": "notable",
+    "stats": [
+     "Body Armour grants +100% of Armour also applies to Chaos Damage"
+    ]
+   }
+  },
+  "Oracle": {
+   "378": {
+    "name": "Critical Hit Chance",
+    "kind": "small",
+    "stats": [
+     "12% increased Critical Hit Chance"
+    ]
+   },
+   "4197": {
+    "name": "Converging Paths",
+    "kind": "notable",
+    "stats": [
+     "Grants Skill: Moment of Vulnerability"
+    ]
+   },
+   "5571": {
+    "name": "The Unseen Path",
+    "kind": "notable",
+    "stats": [
+     "Walk the Paths Not Taken"
+    ]
+   },
+   "11335": {
+    "name": "Passive Point",
+    "kind": "small",
+    "stats": [
+     "Grants 1 Passive Skill Point"
+    ]
+   },
+   "15275": {
+    "name": "Totem Cast and Attack Speed",
+    "kind": "small",
+    "stats": [
+     "Spells Cast by Totems have 5% increased Cast Speed",
+     "Attacks used by Totems have 5% increased Attack Speed"
+    ]
+   },
+   "21284": {
+    "name": "Life and Mana Regeneration Rate",
+    "kind": "small",
+    "stats": [
+     "8% increased Life Regeneration rate",
+     "8% increased Mana Regeneration Rate"
+    ]
+   },
+   "25092": {
+    "name": "Critical Damage Bonus on You",
+    "kind": "small",
+    "stats": [
+     "Hits against you have 12% reduced Critical Damage Bonus"
+    ]
+   },
+   "30904": {
+    "name": "Harmony Within",
+    "kind": "notable",
+    "stats": [
+     "Hit damage is taken from Mana before Life if your current Mana is higher than your current Life",
+     "15% less maximum Life",
+     "15% less maximum Mana"
+    ]
+   },
+   "32905": {
+    "name": "Entwined Realities",
+    "kind": "notable",
+    "stats": [
+     "Non-Keystone Passive Skills in Medium Radius of allocated Keystone Passive Skills can be allocated without being connected to your tree"
+    ]
+   },
+   "34313": {
+    "name": "The Lesser Harm",
+    "kind": "notable",
+    "stats": [
+     "Enemy Critical Hit Chance against you is Unlucky",
+     "Damage of Enemies Hitting you is Unlucky"
+    ]
+   },
+   "37782": {
+    "name": "Fateful Vision",
+    "kind": "notable",
+    "stats": [
+     "Grants Skill: Align Fate"
+    ]
+   },
+   "39659": {
+    "name": "Spell Damage",
+    "kind": "small",
+    "stats": [
+     "12% increased Spell Damage"
+    ]
+   },
+   "42761": {
+    "name": "Oracle",
+    "kind": "start",
+    "stats": []
+   },
+   "47190": {
+    "name": "Passive Point",
+    "kind": "small",
+    "stats": [
+     "Grants 1 Passive Skill Point"
+    ]
+   },
+   "52374": {
+    "name": "Unnamed Heartwood",
+    "kind": "notable",
+    "stats": [
+     "+1 to maximum number of Summoned Totems",
+     "Totems die 6 seconds after their Life is reduced to 0"
+    ]
+   },
+   "55135": {
+    "name": "Forced Outcome",
+    "kind": "notable",
+    "stats": [
+     "Inevitable Critical Hits"
+    ]
+   },
+   "56505": {
+    "name": "Immobilisation Buildup",
+    "kind": "small",
+    "stats": [
+     "20% increased Immobilisation buildup"
+    ]
+   }
+  },
+  "Amazon": {
+   "528": {
+    "name": "Accuracy",
+    "kind": "small",
+    "stats": [
+     "12% increased Accuracy Rating"
+    ]
+   },
+   "2702": {
+    "name": "Life Leech",
+    "kind": "small",
+    "stats": [
+     "12% increased amount of Life Leeched"
+    ]
+   },
+   "3065": {
+    "name": "Mystic Harvest",
+    "kind": "notable",
+    "stats": [
+     "Life Leech recovers based on your Elemental damage as well as Physical damage"
+    ]
+   },
+   "5563": {
+    "name": "Flask Recovery",
+    "kind": "small",
+    "stats": [
+     "15% increased Life and Mana Recovery from Flasks"
+    ]
+   },
+   "6109": {
+    "name": "Evasion",
+    "kind": "small",
+    "stats": [
+     "20% increased Evasion Rating"
+    ]
+   },
+   "7979": {
+    "name": "Elemental Surge",
+    "kind": "notable",
+    "stats": [
+     "When you Consume a Charge, Trigger Elemental Surge to gain 3 Lightning Surges",
+     "Grants Skill: Elemental Surge"
+    ]
+   },
+   "9294": {
+    "name": "Critical Strike",
+    "kind": "notable",
+    "stats": [
+     "Chance to Hit with Attacks can exceed 100%",
+     "Gain additional Critical Hit Chance equal to 25% of excess chance to Hit with Attacks"
+    ]
+   },
+   "19233": {
+    "name": "Elemental Damage",
+    "kind": "small",
+    "stats": [
+     "12% increased Elemental Damage"
+    ]
+   },
+   "35033": {
+    "name": "Skill Speed",
+    "kind": "small",
+    "stats": [
+     "4% increased Skill Speed"
+    ]
+   },
+   "35187": {
+    "name": "In for the Kill",
+    "kind": "notable",
+    "stats": [
+     "20% increased Movement Speed while an enemy with an Open Weakness is in your Presence",
+     "40% increased Skill Speed while an enemy with an Open Weakness is in your Presence"
+    ]
+   },
+   "41008": {
+    "name": "Penetrate",
+    "kind": "notable",
+    "stats": [
+     "Attacks using your Weapons have Added Physical Damage equal",
+     "to 25% of the Accuracy Rating on the Weapon"
+    ]
+   },
+   "41736": {
+    "name": "Amazon",
+    "kind": "start",
+    "stats": []
+   },
+   "42441": {
+    "name": "Surging Avatar",
+    "kind": "notable",
+    "stats": [
+     "When you Consume a Charge, Trigger Elemental Surge to gain 2 Fire Surges",
+     "When you Consume a Charge, Trigger Elemental Surge to gain 2 Cold Surges",
+     "Gain 1 fewer Lightning Surge from Triggering Elemental Surge"
+    ]
+   },
+   "43095": {
+    "name": "Skill Speed",
+    "kind": "small",
+    "stats": [
+     "4% increased Skill Speed"
+    ]
+   },
+   "46071": {
+    "name": "Accuracy",
+    "kind": "small",
+    "stats": [
+     "12% increased Accuracy Rating"
+    ]
+   },
+   "47312": {
+    "name": "Azmeri Brew",
+    "kind": "notable",
+    "stats": [
+     "Life Flasks also recover Mana",
+     "Mana Flasks also recover Life"
+    ]
+   },
+   "55796": {
+    "name": "Predatory Instinct",
+    "kind": "notable",
+    "stats": [
+     "Reveal Weaknesses against Rare and Unique enemies",
+     "50% more damage against enemies with an Open Weakness"
+    ]
+   },
+   "60662": {
+    "name": "Elemental Damage",
+    "kind": "small",
+    "stats": [
+     "12% increased Elemental Damage"
+    ]
+   },
+   "63254": {
+    "name": "Stalking Panther",
+    "kind": "notable",
+    "stats": [
+     "Evasion Rating from Equipped Helmet, Gloves and Boots is doubled",
+     "Evasion Rating from Equipped Body Armour is halved"
+    ]
+   }
+  },
+  "Tactician": {
+   "762": {
+    "name": "Minion Damage",
+    "kind": "small",
+    "stats": [
+     "Minions deal 20% increased Damage"
+    ]
+   },
+   "1988": {
+    "name": "Unleash Hell!",
+    "kind": "notable",
+    "stats": [
+     "Grants Skill: Supporting Fire"
+    ]
+   },
+   "4086": {
+    "name": "Strategic Embankments",
+    "kind": "notable",
+    "stats": [
+     "Totems you place grant Embankment Auras"
+    ]
+   },
+   "4245": {
+    "name": "Pin Buildup",
+    "kind": "small",
+    "stats": [
+     "20% increased Pin Buildup"
+    ]
+   },
+   "10371": {
+    "name": "Whoever Pays Best",
+    "kind": "notable",
+    "stats": [
+     "Banners gain 5 Glory per second",
+     "There is no Limit on the number of Banners you can place"
+    ]
+   },
+   "12054": {
+    "name": "Totem Damage",
+    "kind": "small",
+    "stats": [
+     "20% increased Totem Damage"
+    ]
+   },
+   "15044": {
+    "name": "A Solid Plan",
+    "kind": "notable",
+    "stats": [
+     "Persistent Buffs have 50% less Reservation"
+    ]
+   },
+   "16249": {
+    "name": "Watch How I Do It",
+    "kind": "notable",
+    "stats": [
+     "Allies in your Presence gain added Attack Damage equal",
+     "to 25% of your main hand Weapon's damage"
+    ]
+   },
+   "24696": {
+    "name": "Totem Damage",
+    "kind": "small",
+    "stats": [
+     "20% increased Totem Damage"
+    ]
+   },
+   "29162": {
+    "name": "Spirit",
+    "kind": "small",
+    "stats": [
+     "8% increased Spirit"
+    ]
+   },
+   "30151": {
+    "name": "Armour and Evasion",
+    "kind": "small",
+    "stats": [
+     "15% increased Armour and Evasion Rating"
+    ]
+   },
+   "32560": {
+    "name": "Presence Area",
+    "kind": "small",
+    "stats": [
+     "20% increased Presence Area of Effect"
+    ]
+   },
+   "32637": {
+    "name": "Stay Light, Use Cover",
+    "kind": "notable",
+    "stats": [
+     "Defend with 200% of Armour",
+     "Enemies have an Accuracy Penalty against you based on Distance",
+     "Maximum Chance to Evade is 50%",
+     "Maximum Physical Damage Reduction is 50%"
+    ]
+   },
+   "36252": {
+    "name": "Tactician",
+    "kind": "start",
+    "stats": []
+   },
+   "37523": {
+    "name": "Cannons, Ready!",
+    "kind": "notable",
+    "stats": [
+     "+1 to maximum number of Summoned Totems",
+     "Skills used by Totems have 30% more Skill Speed",
+     "Totems only use Skills when you fire an Attack Projectile"
+    ]
+   },
+   "42845": {
+    "name": "Banner Area",
+    "kind": "small",
+    "stats": [
+     "Banner Skills have 16% increased Area of Effect"
+    ]
+   },
+   "44371": {
+    "name": "Polish That Gear",
+    "kind": "notable",
+    "stats": [
+     "Gain Deflection Rating equal to 20% of Armour",
+     "Gain 100% of Evasion Rating as extra Ailment Threshold"
+    ]
+   },
+   "44746": {
+    "name": "Suppressing Fire",
+    "kind": "notable",
+    "stats": [
+     "40% more Immobilisation buildup"
+    ]
+   },
+   "46522": {
+    "name": "Pin Buildup",
+    "kind": "small",
+    "stats": [
+     "20% increased Pin Buildup"
+    ]
+   },
+   "54838": {
+    "name": "Right Where We Want Them",
+    "kind": "notable",
+    "stats": [
+     "Projectile Damage builds Pin",
+     "Pinned enemies cannot perform actions"
+    ]
+   },
+   "54892": {
+    "name": "Armour and Evasion",
+    "kind": "small",
+    "stats": [
+     "15% increased Armour and Evasion Rating"
+    ]
+   }
+  },
+  "Spirit Walker": {
+   "765": {
+    "name": "The Catha's Balance",
+    "kind": "notable",
+    "stats": [
+     "Companions gain added Attack damage equal to 60% of your main hand Weapon's damage"
+    ]
+   },
+   "4367": {
+    "name": "The Mhacha's Gift",
+    "kind": "notable",
+    "stats": [
+     "Dodging can expend up to 2 Owl Feathers, granting Primal Bounty 100% more",
+     "Empowerment effect per additional Feather expended",
+     "Gain Owl Feathers 50% faster"
+    ]
+   },
+   "5733": {
+    "name": "Spirit",
+    "kind": "small",
+    "stats": [
+     "+10 to Spirit"
+    ]
+   },
+   "21519": {
+    "name": "Shared Companion Damage",
+    "kind": "small",
+    "stats": [
+     "Companions deal 10% increased Damage",
+     "10% increased Damage while your Companion is in your Presence"
+    ]
+   },
+   "26294": {
+    "name": "Movement Speed",
+    "kind": "small",
+    "stats": [
+     "2% increased Movement Speed"
+    ]
+   },
+   "27773": {
+    "name": "The M\u00f3rrigan's Guidance",
+    "kind": "notable",
+    "stats": [
+     "Gain a Vivid Wisp when Vivid Stampede ends",
+     "Stags deal 20% more damage per leap",
+     "Stags have 20% more Shock Magnitude per leap"
+    ]
+   },
+   "28254": {
+    "name": "Sacred Unity",
+    "kind": "notable",
+    "stats": [
+     "Bear Spirit gains Embrace of the Wild",
+     "Vivid Stags leap towards enemies",
+     "Central Projectile of Owl Feather-Empowered Skills leaves a trail of Soaring Ground"
+    ]
+   },
+   "37769": {
+    "name": "Shared Companion Damage",
+    "kind": "small",
+    "stats": [
+     "Companions deal 10% increased Damage",
+     "10% increased Damage while your Companion is in your Presence"
+    ]
+   },
+   "39887": {
+    "name": "The Natural Order",
+    "kind": "notable",
+    "stats": [
+     "Tame Beast can capture Unique Beasts",
+     "Can have up to one Unique Tamed Beast summoned",
+     "Unique Tamed Beasts have 30% increased movement speed",
+     "Unique Tamed Beasts are Possessed by random Azmeri Spirits, changing every 20 seconds"
+    ]
+   },
+   "41085": {
+    "name": "Critical Chance",
+    "kind": "small",
+    "stats": [
+     "12% increased Critical Hit Chance"
+    ]
+   },
+   "41401": {
+    "name": "Vivid Stampede",
+    "kind": "notable",
+    "stats": [
+     "Gain a Vivid Wisp for every 10 metres you move, up to a maximum of 3",
+     "Expend all Vivid Wisps to trigger Vivid Stampede when you Attack",
+     "Grants Skill: Vivid Stampede"
+    ]
+   },
+   "45228": {
+    "name": "Companion Life and Area",
+    "kind": "small",
+    "stats": [
+     "Companions have 10% increased Area of Effect",
+     "Companions have 15% increased maximum Life"
+    ]
+   },
+   "46070": {
+    "name": "Primal Bounty",
+    "kind": "notable",
+    "stats": [
+     "Gain a Primal Owl Feather every 4 seconds, up to a maximum of 3",
+     "Expend an Owl Feather when you Dodge to trigger Primal Bounty",
+     "Grants Skill: Primal Bounty"
+    ]
+   },
+   "56489": {
+    "name": "Idolatry",
+    "kind": "notable",
+    "stats": [
+     "Companions deal 10% increased damage per Idol in your Equipment",
+     "2% increased Reservation Efficiency of Skills per Idol in your Equipment",
+     "-4% to all Elemental Resistances per non-Idol Augment in your Equipment"
+    ]
+   },
+   "62424": {
+    "name": "Critical Chance",
+    "kind": "small",
+    "stats": [
+     "12% increased Critical Hit Chance"
+    ]
+   },
+   "62702": {
+    "name": "Movement Speed",
+    "kind": "small",
+    "stats": [
+     "2% increased Movement Speed"
+    ]
+   },
+   "62743": {
+    "name": "Wild Protector",
+    "kind": "notable",
+    "stats": [
+     "Grants Skill: Wild Protector"
+    ]
+   },
+   "63493": {
+    "name": "Spirit Walker",
+    "kind": "start",
+    "stats": []
+   }
+  },
+  "Infernalist": {
+   "770": {
+    "name": "Mana",
+    "kind": "small",
+    "stats": [
+     "3% increased maximum Mana"
+    ]
+   },
+   "7793": {
+    "name": "Life",
+    "kind": "small",
+    "stats": [
+     "3% increased maximum Life"
+    ]
+   },
+   "8854": {
+    "name": "Life",
+    "kind": "small",
+    "stats": [
+     "3% increased maximum Life"
+    ]
+   },
+   "10694": {
+    "name": "Seething Body",
+    "kind": "notable",
+    "stats": [
+     "Gain Elemental Archon when you cast a Spell while on High Infernal Flame",
+     "Elemental Archon does not expire while on High Infernal Flame",
+     "Lose Elemental Archon on reaching maximum Infernal Flame"
+    ]
+   },
+   "13174": {
+    "name": "Pyromantic Pact",
+    "kind": "notable",
+    "stats": [
+     "Maximum Mana is replaced by twice as much Maximum Infernal Flame",
+     "Gain Infernal Flame instead of spending Mana for Skill costs",
+     "Take maximum Life and Energy Shield as Fire Damage when Infernal Flame reaches maximum",
+     "Lose all Infernal Flame on reaching maximum Infernal Flame",
+     "25% of Infernal Flame lost per second if none was gained in the past 2 seconds"
+    ]
+   },
+   "17754": {
+    "name": "Loyal Hellhound",
+    "kind": "notable",
+    "stats": [
+     "Grants Skill: Summon Infernal Hound"
+    ]
+   },
+   "18158": {
+    "name": "Bringer of Flame",
+    "kind": "notable",
+    "stats": [
+     "All Damage from you and Allies in your Presence",
+     "contributes to Flammability and Ignite Magnitudes"
+    ]
+   },
+   "18348": {
+    "name": "Altered Flesh",
+    "kind": "notable",
+    "stats": [
+     "20% of Physical Damage taken as Chaos Damage",
+     "20% of Lightning Damage taken as Fire Damage",
+     "20% of Cold Damage taken as Fire Damage"
+    ]
+   },
+   "19482": {
+    "name": "Life",
+    "kind": "small",
+    "stats": [
+     "3% increased maximum Life"
+    ]
+   },
+   "23880": {
+    "name": "Mana",
+    "kind": "small",
+    "stats": [
+     "3% increased maximum Mana"
+    ]
+   },
+   "24039": {
+    "name": "Beidat's Hand",
+    "kind": "notable",
+    "stats": [
+     "Reserves 25% of Life",
+     "+1 to Maximum Energy Shield per 8 Maximum Life"
+    ]
+   },
+   "24135": {
+    "name": "Critical Chance",
+    "kind": "small",
+    "stats": [
+     "12% increased Critical Hit Chance"
+    ]
+   },
+   "25239": {
+    "name": "Demonic Possession",
+    "kind": "notable",
+    "stats": [
+     "Grants Skill: Demon Form"
+    ]
+   },
+   "32699": {
+    "name": "Infernalist",
+    "kind": "start",
+    "stats": []
+   },
+   "34419": {
+    "name": "Grinning Immolation",
+    "kind": "notable",
+    "stats": [
+     "Become Ignited when you deal a Critical Hit, taking 15% of your maximum Life and Energy Shield as Fire Damage per second",
+     "50% more Critical Damage Bonus"
+    ]
+   },
+   "36564": {
+    "name": "Beidat's Gaze",
+    "kind": "notable",
+    "stats": [
+     "Reserves 25% of Life",
+     "+1 to Maximum Mana per 6 Maximum Life"
+    ]
+   },
+   "39470": {
+    "name": "Minion Life",
+    "kind": "small",
+    "stats": [
+     "Minions have 12% increased maximum Life"
+    ]
+   },
+   "46016": {
+    "name": "Life",
+    "kind": "small",
+    "stats": [
+     "3% increased maximum Life"
+    ]
+   },
+   "46644": {
+    "name": "Beidat's Will",
+    "kind": "notable",
+    "stats": [
+     "Reserves 25% of Life",
+     "+1 to Maximum Spirit per 25 Maximum Life"
+    ]
+   },
+   "61267": {
+    "name": "Mastered Darkness",
+    "kind": "notable",
+    "stats": [
+     "Demonflame has no maximum"
+    ]
+   },
+   "63484": {
+    "name": "Flammability Magnitude",
+    "kind": "small",
+    "stats": [
+     "40% increased Flammability Magnitude"
+    ]
+   },
+   "63894": {
+    "name": "Spell Damage",
+    "kind": "small",
+    "stats": [
+     "12% increased Spell Damage"
+    ]
+   },
+   "64379": {
+    "name": "Spell Damage",
+    "kind": "small",
+    "stats": [
+     "12% increased Spell Damage"
+    ]
+   }
+  },
+  "Gemling Legionnaire": {
+   "1442": {
+    "name": "Attributes",
+    "kind": "small",
+    "stats": [
+     "3% increased Attributes"
+    ]
+   },
+   "3084": {
+    "name": "Reduced Attribute Requirements",
+    "kind": "small",
+    "stats": [
+     "Equipment and Skill Gems have 4% reduced Attribute Requirements"
+    ]
+   },
+   "11641": {
+    "name": "Essence of Virtue",
+    "kind": "notable",
+    "stats": [
+     "Grants Skill: Virtuous Barrier"
+    ]
+   },
+   "14429": {
+    "name": "Advanced Thaumaturgy",
+    "kind": "notable",
+    "stats": [
+     "Gem Quality grants Socketed Skills an additional effect"
+    ]
+   },
+   "18146": {
+    "name": "Reduced Attribute Requirements",
+    "kind": "small",
+    "stats": [
+     "Equipment and Skill Gems have 4% reduced Attribute Requirements"
+    ]
+   },
+   "30996": {
+    "name": "Gem Studded",
+    "kind": "notable",
+    "stats": [
+     "For each colour of Socketed Support Gem that is most numerous, gain:",
+     "Red: Hits against you have no Critical Damage Bonus",
+     "Blue: Skills have 30% less cost",
+     "Green: 40% less Movement Speed Penalty from using Skills while Moving"
+    ]
+   },
+   "32952": {
+    "name": "Bolstering Implants",
+    "kind": "small",
+    "stats": [
+     "+2 to Level of all Skills with a Strength requirement"
+    ]
+   },
+   "34882": {
+    "name": "Skill Gem Quality",
+    "kind": "small",
+    "stats": [
+     "+2% to Quality of all Skills"
+    ]
+   },
+   "36728": {
+    "name": "Thaumaturgical Infusion",
+    "kind": "notable",
+    "stats": [
+     "+1% to Maximum Cold Resistance per 3 Blue Support Gems Socketed",
+     "+1% to Maximum Fire Resistance per 3 Red Support Gems Socketed",
+     "+1% to Maximum Lightning Resistance per 3 Green Support Gems Socketed"
+    ]
+   },
+   "36822": {
+    "name": "Attributes",
+    "kind": "small",
+    "stats": [
+     "3% increased Attributes"
+    ]
+   },
+   "37397": {
+    "name": "Neurological Implants",
+    "kind": "small",
+    "stats": [
+     "+2 to Level of all Skills with an Intelligence requirement"
+    ]
+   },
+   "45248": {
+    "name": "Skill Gem Quality",
+    "kind": "small",
+    "stats": [
+     "+2% to Quality of all Skills"
+    ]
+   },
+   "53108": {
+    "name": "Adaptive Capability",
+    "kind": "notable",
+    "stats": [
+     "Attribute Requirements of Gems can be satisified by your highest Attribute"
+    ]
+   },
+   "53762": {
+    "name": "Reduced Attribute Requirements",
+    "kind": "small",
+    "stats": [
+     "Equipment and Skill Gems have 4% reduced Attribute Requirements"
+    ]
+   },
+   "55536": {
+    "name": "Gemling Legionnaire",
+    "kind": "start",
+    "stats": []
+   },
+   "55582": {
+    "name": "Skill Gem Quality",
+    "kind": "small",
+    "stats": [
+     "+2% to Quality of all Skills"
+    ]
+   },
+   "57819": {
+    "name": "Integrated Efficiency",
+    "kind": "notable",
+    "stats": [
+     "Skills deal 20% increased Damage per Connected Red Support Gem",
+     "Skills have 6% increased Skill Speed per Connected Green Support Gem",
+     "Skills have 20% increased Critical Hit Chance per Connected Blue Support Gem"
+    ]
+   },
+   "58591": {
+    "name": "Enhanced Effectiveness",
+    "kind": "notable",
+    "stats": [
+     "20% less Attributes",
+     "Inherent bonuses gained from Attributes are doubled"
+    ]
+   },
+   "60287": {
+    "name": "Implanted Gems",
+    "kind": "notable",
+    "stats": []
+   },
+   "63259": {
+    "name": "Motoric Implants",
+    "kind": "small",
+    "stats": [
+     "+2 to Level of all Skills with a Dexterity requirement"
+    ]
+   }
+  },
+  "Chronomancer": {
+   "1579": {
+    "name": "Cooldown Recovery Rate",
+    "kind": "small",
+    "stats": [
+     "6% increased Cooldown Recovery Rate"
+    ]
+   },
+   "3605": {
+    "name": "Unbound Encore",
+    "kind": "notable",
+    "stats": [
+     "Grants Skill: Time Snap"
+    ]
+   },
+   "10731": {
+    "name": "Quicksand Hourglass",
+    "kind": "notable",
+    "stats": [
+     "Grants Sands of Time"
+    ]
+   },
+   "10987": {
+    "name": "Now and Again",
+    "kind": "notable",
+    "stats": [
+     "Cascadable Spells have 20% chance to Echo",
+     "Repeatable Spells have 20% chance to Repeat"
+    ]
+   },
+   "18678": {
+    "name": "Buff Expiry Rate",
+    "kind": "small",
+    "stats": [
+     "Buffs on you expire 10% slower"
+    ]
+   },
+   "22147": {
+    "name": "Chronomancer",
+    "kind": "start",
+    "stats": []
+   },
+   "26638": {
+    "name": "Footprints in the Sand",
+    "kind": "notable",
+    "stats": [
+     "Grants Skill: Temporal Rift"
+    ]
+   },
+   "27990": {
+    "name": "Slow Effect",
+    "kind": "small",
+    "stats": [
+     "Debuffs you inflict have 6% increased Slow Magnitude"
+    ]
+   },
+   "28153": {
+    "name": "Phased Form",
+    "kind": "notable",
+    "stats": [
+     "Take 30% less Damage",
+     "4 seconds after being Damaged by an Enemy Hit, take Damage equal to 30% of that Hit's Damage"
+    ]
+   },
+   "32856": {
+    "name": "Cooldown Recovery Rate",
+    "kind": "small",
+    "stats": [
+     "6% increased Cooldown Recovery Rate"
+    ]
+   },
+   "42035": {
+    "name": "Inevitability",
+    "kind": "notable",
+    "stats": [
+     "Grants Skill: Inevitable Agony"
+    ]
+   },
+   "43128": {
+    "name": "Skill Speed and Area of Effect",
+    "kind": "small",
+    "stats": [
+     "4% increased Skill Speed",
+     "6% increased Area of Effect"
+    ]
+   },
+   "49049": {
+    "name": "Apex of the Moment",
+    "kind": "notable",
+    "stats": [
+     "Enemies in your Presence are Slowed by 20%"
+    ]
+   },
+   "50219": {
+    "name": "Area of Effect",
+    "kind": "small",
+    "stats": [
+     "8% increased Area of Effect"
+    ]
+   },
+   "54194": {
+    "name": "Cast Speed",
+    "kind": "small",
+    "stats": [
+     "6% increased Cast Speed"
+    ]
+   },
+   "58747": {
+    "name": "Ultimate Command",
+    "kind": "notable",
+    "stats": [
+     "Grants Skill: Time Freeze"
+    ]
+   },
+   "63002": {
+    "name": "Buff Expiry Rate",
+    "kind": "small",
+    "stats": [
+     "Buffs on you expire 10% slower"
+    ]
+   }
+  },
+  "Martial Artist": {
+   "1739": {
+    "name": "Hollow Form Technique",
+    "kind": "notable",
+    "stats": [
+     "Grants Skill: Hollow Form"
+    ]
+   },
+   "11495": {
+    "name": "Martial Artist",
+    "kind": "start",
+    "stats": []
+   },
+   "17356": {
+    "name": "Hollow Resonance Technique",
+    "kind": "notable",
+    "stats": [
+     "Grants Skill: Hollow Resonance"
+    ]
+   },
+   "19370": {
+    "name": "Hollow Focus Technique",
+    "kind": "notable",
+    "stats": [
+     "Grants Skill: Hollow Focus"
+    ]
+   },
+   "20437": {
+    "name": "Attributes",
+    "kind": "small",
+    "stats": [
+     "+5 to all Attributes"
+    ]
+   },
+   "34081": {
+    "name": "Area of Effect",
+    "kind": "small",
+    "stats": [
+     "8% increased Area of Effect"
+    ]
+   },
+   "36643": {
+    "name": "Additional Power Charge Chance",
+    "kind": "small",
+    "stats": [
+     "10% chance when you gain a Power Charge to gain an additional Power Charge"
+    ]
+   },
+   "37604": {
+    "name": "Immobilisation Buildup",
+    "kind": "small",
+    "stats": [
+     "20% increased Immobilisation buildup"
+    ]
+   },
+   "39552": {
+    "name": "Runic Meridians",
+    "kind": "notable",
+    "stats": [
+     "Can tattoo Runes onto your body, gaining",
+     "additional Rune-only sockets:",
+     "1 Helmet socket",
+     "2 Body Armour sockets",
+     "1 Gloves socket",
+     "1 Boots socket"
+    ]
+   },
+   "39595": {
+    "name": "Way of the Stonefist",
+    "kind": "notable",
+    "stats": [
+     "Gloves you equip have their Base Type transformed to Fists of Stone while equipped, and",
+     "their Explicit Modifiers are transformed into more powerful related Modifiers",
+     "Ignore Attribute Requirements to equip Gloves"
+    ]
+   },
+   "41751": {
+    "name": "Martial Adept",
+    "kind": "notable",
+    "stats": [
+     "When you gain Combo, gain an additional Combo",
+     "-0.2 seconds to current Energy Shield Recharge delay per Combo expended when using Skills"
+    ]
+   },
+   "51546": {
+    "name": "Way of the Mountain",
+    "kind": "notable",
+    "stats": [
+     "100% Surpassing chance per enemy Power to gain Mountain's Teachings on Immobilising an enemy, up to a maximum of 30",
+     "Lose a Mountain's Teaching when you are Hit, or when you use or Sustain an Attack that benefits from Mountain's Teachings"
+    ]
+   },
+   "52295": {
+    "name": "Evasion and Energy Shield",
+    "kind": "small",
+    "stats": [
+     "15% increased Evasion Rating",
+     "15% increased maximum Energy Shield"
+    ]
+   },
+   "53280": {
+    "name": "Attack Speed",
+    "kind": "small",
+    "stats": [
+     "4% increased Attack Speed"
+    ]
+   },
+   "57449": {
+    "name": "Area of Effect",
+    "kind": "small",
+    "stats": [
+     "8% increased Area of Effect"
+    ]
+   },
+   "61586": {
+    "name": "Martial Master",
+    "kind": "notable",
+    "stats": [
+     "Skills can build and retain Combo regardless of Weapon Set",
+     "Gain Combo from all Attack Hits"
+    ]
+   },
+   "65228": {
+    "name": "Attack Speed",
+    "kind": "small",
+    "stats": [
+     "4% increased Attack Speed"
+    ]
+   }
+  },
+  "Shaman": {
+   "1855": {
+    "name": "Flask Recovery",
+    "kind": "small",
+    "stats": [
+     "12% increased Life and Mana Recovery from Flasks"
+    ]
+   },
+   "16204": {
+    "name": "Sacred Flow",
+    "kind": "notable",
+    "stats": [
+     "+40 to Spirit for each of your empty Charm slots"
+    ]
+   },
+   "26063": {
+    "name": "Elemental Damage",
+    "kind": "small",
+    "stats": [
+     "12% increased Elemental Damage"
+    ]
+   },
+   "28022": {
+    "name": "Elemental Damage",
+    "kind": "small",
+    "stats": [
+     "12% increased Elemental Damage"
+    ]
+   },
+   "28745": {
+    "name": "Bringer of the Apocalypse",
+    "kind": "notable",
+    "stats": [
+     "Grants Skill: Apocalypse"
+    ]
+   },
+   "33824": {
+    "name": "Defences",
+    "kind": "small",
+    "stats": [
+     "10% increased Armour, Evasion and Energy Shield"
+    ]
+   },
+   "35535": {
+    "name": "Shaman",
+    "kind": "start",
+    "stats": []
+   },
+   "35762": {
+    "name": "Furious Wellspring",
+    "kind": "notable",
+    "stats": [
+     "No Inherent loss of Rage",
+     "Regenerate 6% of your maximum Rage per second",
+     "Increases and Reductions to Mana Regeneration Rate also apply to Rage Regeneration Rate",
+     "Skills have +5 to Rage cost",
+     "+7 to Maximum Rage"
+    ]
+   },
+   "35920": {
+    "name": "Maximum Rage",
+    "kind": "small",
+    "stats": [
+     "+3 to Maximum Rage"
+    ]
+   },
+   "42253": {
+    "name": "Wisdom of the Maji",
+    "kind": "notable",
+    "stats": [
+     "Gain the benefits of Bonded modifiers on Runes and Idols"
+    ]
+   },
+   "46654": {
+    "name": "Elemental Resistances",
+    "kind": "small",
+    "stats": [
+     "+3% to all Elemental Resistances"
+    ]
+   },
+   "54512": {
+    "name": "Maximum Rage",
+    "kind": "small",
+    "stats": [
+     "+3 to Maximum Rage"
+    ]
+   },
+   "56933": {
+    "name": "Druidic Champion",
+    "kind": "notable",
+    "stats": [
+     "Every 2 Rage also grants 1% more Spell damage"
+    ]
+   },
+   "58646": {
+    "name": "Reactive Growth",
+    "kind": "notable",
+    "stats": [
+     "10% less Elemental Damage taken",
+     "Adapt to the highest Elemental Damage Type of each Hit you take",
+     "10% less Damage taken of each Elemental Damage Type per matching Adaptation"
+    ]
+   },
+   "61722": {
+    "name": "Elemental Resistances",
+    "kind": "small",
+    "stats": [
+     "+3% to all Elemental Resistances"
+    ]
+   },
+   "61983": {
+    "name": "Avatar of Evolution",
+    "kind": "notable",
+    "stats": [
+     "5% of Physical Damage taken as Fire Damage",
+     "5% of Physical Damage taken as Lightning Damage",
+     "5% of Physical Damage taken as Cold Damage",
+     "Adaptations have a duration of 5 seconds",
+     "Double Adaptation Effect"
+    ]
+   },
+   "62523": {
+    "name": "Turning of the Seasons",
+    "kind": "notable",
+    "stats": [
+     "Enemies in your Presence have Exposure",
+     "Gain 10% of Damage as Extra Damage of a random Element"
+    ]
+   }
+  },
+  "Warbringer": {
+   "1994": {
+    "name": "Warcry Speed",
+    "kind": "small",
+    "stats": [
+     "20% increased Warcry Speed"
+    ]
+   },
+   "6127": {
+    "name": "Jade Heritage",
+    "kind": "notable",
+    "stats": [
+     "Gain a stack of Jade every second",
+     "Grants Skill: Encase in Jade"
+    ]
+   },
+   "10072": {
+    "name": "Block Chance",
+    "kind": "small",
+    "stats": [
+     "6% increased Block chance"
+    ]
+   },
+   "18585": {
+    "name": "Armour",
+    "kind": "small",
+    "stats": [
+     "20% increased Armour"
+    ]
+   },
+   "23005": {
+    "name": "Renly's Training",
+    "kind": "notable",
+    "stats": [
+     "Gain 35% Base Chance to Block from Equipped Shield instead of the Shield's value"
+    ]
+   },
+   "25935": {
+    "name": "Block Chance",
+    "kind": "small",
+    "stats": [
+     "6% increased Block chance"
+    ]
+   },
+   "33812": {
+    "name": "Warbringer",
+    "kind": "start",
+    "stats": []
+   },
+   "36659": {
+    "name": "Imploding Impacts",
+    "kind": "notable",
+    "stats": [
+     "Fully Broken Armour you inflict increases all Damage Taken from Hits instead",
+     "You can Break Enemy Armour to below 0"
+    ]
+   },
+   "38769": {
+    "name": "Armour Break",
+    "kind": "small",
+    "stats": [
+     "Break 25% increased Armour"
+    ]
+   },
+   "39365": {
+    "name": "Totem Life",
+    "kind": "small",
+    "stats": [
+     "20% increased Totem Life"
+    ]
+   },
+   "39411": {
+    "name": "Answered Call",
+    "kind": "notable",
+    "stats": [
+     "+1 to maximum number of Summoned Totems",
+     "Trigger Ancestral Spirits when you Summon a Totem",
+     "Grants Skill: Ancestral Spirits"
+    ]
+   },
+   "40915": {
+    "name": "Wooden Wall",
+    "kind": "notable",
+    "stats": [
+     "20% of Damage from Hits is taken from your nearest Totem's Life before you"
+    ]
+   },
+   "47097": {
+    "name": "Warcaller's Bellow",
+    "kind": "notable",
+    "stats": [
+     "Warcries Explode Corpses dealing 25% of their Life as Physical Damage",
+     "Ignore Warcry Cooldowns"
+    ]
+   },
+   "48682": {
+    "name": "Totem Life",
+    "kind": "small",
+    "stats": [
+     "20% increased Totem Life"
+    ]
+   },
+   "49380": {
+    "name": "Armour Break",
+    "kind": "small",
+    "stats": [
+     "Break 25% increased Armour"
+    ]
+   },
+   "52068": {
+    "name": "Turtle Charm",
+    "kind": "notable",
+    "stats": [
+     "You take 20% of damage from Blocked Hits",
+     "Maximum Block chance is 75%"
+    ]
+   },
+   "58704": {
+    "name": "Anvil's Weight",
+    "kind": "notable",
+    "stats": [
+     "Break Armour equal to 10% of Hit Damage dealt"
+    ]
+   }
+  },
+  "Disciple of Varashta": {
+   "2810": {
+    "name": "Varashta's Intuition",
+    "kind": "notable",
+    "stats": [
+     "100% of Elemental Damage is taken from Mana before Life"
+    ]
+   },
+   "8305": {
+    "name": "Disciple of Varashta",
+    "kind": "start",
+    "stats": []
+   },
+   "9843": {
+    "name": "Mana",
+    "kind": "small",
+    "stats": [
+     "3% increased maximum Mana"
+    ]
+   },
+   "10561": {
+    "name": "Navira's Fracturing",
+    "kind": "notable",
+    "stats": [
+     "Grants Skill: Navira's Fracturing"
+    ]
+   },
+   "13289": {
+    "name": "Barya of Kelari",
+    "kind": "notable",
+    "stats": [
+     "Grants Skill: Kelari, the Tainted Sands"
+    ]
+   },
+   "14131": {
+    "name": "Ruzhan's Fury",
+    "kind": "notable",
+    "stats": [
+     "Grants Skill: Ruzhan's Fury"
+    ]
+   },
+   "20701": {
+    "name": "Instruments of Power",
+    "kind": "notable",
+    "stats": [
+     "You can equip a Focus while wielding a Staff",
+     "50% reduced bonuses gained from Equipped Focus"
+    ]
+   },
+   "23265": {
+    "name": "Kelari's Deception",
+    "kind": "notable",
+    "stats": [
+     "Grants Skill: Kelari's Deception"
+    ]
+   },
+   "25653": {
+    "name": "Kelari's Judgment",
+    "kind": "notable",
+    "stats": [
+     "Grants Skill: Kelari's Judgment"
+    ]
+   },
+   "25683": {
+    "name": "Ruzhan's Reckoning",
+    "kind": "notable",
+    "stats": [
+     "Grants Skill: Ruzhan's Reckoning"
+    ]
+   },
+   "30265": {
+    "name": "Energy Shield",
+    "kind": "small",
+    "stats": [
+     "20% increased maximum Energy Shield"
+    ]
+   },
+   "32705": {
+    "name": "Barya of Navira",
+    "kind": "notable",
+    "stats": [
+     "Grants Skill: Navira, the Last Mirage"
+    ]
+   },
+   "34207": {
+    "name": "Barya of Ruzhan",
+    "kind": "notable",
+    "stats": [
+     "Grants Skill: Ruzhan, the Blazing Sword"
+    ]
+   },
+   "35880": {
+    "name": "Cast Speed",
+    "kind": "small",
+    "stats": [
+     "4% increased Cast Speed"
+    ]
+   },
+   "36109": {
+    "name": "Kelari's Malediction",
+    "kind": "notable",
+    "stats": [
+     "Grants Skill: Kelari's Malediction"
+    ]
+   },
+   "36891": {
+    "name": "Baryanic Leylines",
+    "kind": "notable",
+    "stats": [
+     "Non-Unique Time-Lost Jewels have 40% increased radius"
+    ]
+   },
+   "43426": {
+    "name": "Navira's Well",
+    "kind": "notable",
+    "stats": [
+     "Grants Skill: Navira's Well"
+    ]
+   },
+   "45602": {
+    "name": "Navira's Oasis",
+    "kind": "notable",
+    "stats": [
+     "Grants Skill: Navira's Oasis"
+    ]
+   },
+   "46091": {
+    "name": "The Fourth Teaching",
+    "kind": "notable",
+    "stats": [
+     "-1 second to base Energy Shield Recharge delay",
+     "40% more Energy Shield Recharge Rate while on Low Energy Shield"
+    ]
+   },
+   "56783": {
+    "name": "Area of Effect",
+    "kind": "small",
+    "stats": [
+     "8% increased Area of Effect"
+    ]
+   },
+   "56857": {
+    "name": "Sacred Rituals",
+    "kind": "notable",
+    "stats": [
+     "60% of your current Energy Shield is added to your Armour for",
+     "determining your Physical Damage Reduction from Armour"
+    ]
+   },
+   "64223": {
+    "name": "Energy Shield",
+    "kind": "small",
+    "stats": [
+     "20% increased maximum Energy Shield"
+    ]
+   },
+   "64591": {
+    "name": "Ruzhan's Trap",
+    "kind": "notable",
+    "stats": [
+     "Grants Skill: Ruzhan's Trap"
+    ]
+   }
+  },
+  "Stormweaver": {
+   "2857": {
+    "name": "Strike Twice",
+    "kind": "notable",
+    "stats": [
+     "Targets can be affected by two of your Shocks at the same time",
+     "25% less Magnitude of Shock you inflict"
+    ]
+   },
+   "7246": {
+    "name": "Mana Regeneration",
+    "kind": "small",
+    "stats": [
+     "12% increased Mana Regeneration Rate"
+    ]
+   },
+   "7998": {
+    "name": "Shock Chance",
+    "kind": "small",
+    "stats": [
+     "20% increased chance to Shock"
+    ]
+   },
+   "8867": {
+    "name": "Constant Gale",
+    "kind": "notable",
+    "stats": [
+     "You have Arcane Surge"
+    ]
+   },
+   "12488": {
+    "name": "Remnant Range",
+    "kind": "small",
+    "stats": [
+     "Remnants can be collected from 25% further away"
+    ]
+   },
+   "12882": {
+    "name": "Tempest Caller",
+    "kind": "notable",
+    "stats": [
+     "Trigger Elemental Storm on Critical Hit with Spells",
+     "Grants Skill: Elemental Storm"
+    ]
+   },
+   "13673": {
+    "name": "Chill Duration",
+    "kind": "small",
+    "stats": [
+     "25% increased Chill Duration on Enemies"
+    ]
+   },
+   "18849": {
+    "name": "Shaper of Winter",
+    "kind": "notable",
+    "stats": [
+     "All Damage from Hits Contributes to Chill Magnitude"
+    ]
+   },
+   "25618": {
+    "name": "Spell Critical Chance",
+    "kind": "small",
+    "stats": [
+     "12% increased Critical Hit Chance for Spells"
+    ]
+   },
+   "29398": {
+    "name": "Chill Duration",
+    "kind": "small",
+    "stats": [
+     "25% increased Chill Duration on Enemies"
+    ]
+   },
+   "38578": {
+    "name": "Multiplying Squalls",
+    "kind": "notable",
+    "stats": [
+     "+2 to Limit for Elemental Skills"
+    ]
+   },
+   "39204": {
+    "name": "Force of Will",
+    "kind": "notable",
+    "stats": [
+     "20% of Damage is taken from Mana before Life",
+     "20% increased Effect of Arcane Surge on you per ten percent missing Mana"
+    ]
+   },
+   "39640": {
+    "name": "Shaper of Storms",
+    "kind": "notable",
+    "stats": [
+     "All Damage from Hits Contributes to Shock Chance"
+    ]
+   },
+   "40721": {
+    "name": "Stormweaver",
+    "kind": "start",
+    "stats": []
+   },
+   "42522": {
+    "name": "Refracted Infusion",
+    "kind": "notable",
+    "stats": [
+     "When collecting an Elemental Infusion, gain another different Elemental Infusion"
+    ]
+   },
+   "44484": {
+    "name": "Remnant Range",
+    "kind": "small",
+    "stats": [
+     "Remnants can be collected from 25% further away"
+    ]
+   },
+   "49189": {
+    "name": "Storm's Recollection",
+    "kind": "notable",
+    "stats": [
+     "Remnants can be collected from 50% further away",
+     "Remnants you create reappear once, 3 seconds after being collected"
+    ]
+   },
+   "49759": {
+    "name": "Shock Chance",
+    "kind": "small",
+    "stats": [
+     "20% increased chance to Shock"
+    ]
+   },
+   "61985": {
+    "name": "Heavy Snows",
+    "kind": "notable",
+    "stats": [
+     "Targets can be affected by two of your Chills at the same time",
+     "Your Chills can Slow targets by up to a maximum of 35%",
+     "25% less Magnitude of Chill you inflict"
+    ]
+   },
+   "64789": {
+    "name": "Mana Regeneration",
+    "kind": "small",
+    "stats": [
+     "12% increased Mana Regeneration Rate"
+    ]
+   },
+   "65413": {
+    "name": "Spell Critical Chance",
+    "kind": "small",
+    "stats": [
+     "12% increased Critical Hit Chance for Spells"
+    ]
+   }
+  },
+  "Blood Mage": {
+   "3165": {
+    "name": "Life",
+    "kind": "small",
+    "stats": [
+     "3% increased maximum Life"
+    ]
+   },
+   "8415": {
+    "name": "Sanguimancy",
+    "kind": "notable",
+    "stats": [
+     "Skills gain a Base Life Cost equal to Base Mana Cost",
+     "Grants Skill: Life Remnants"
+    ]
+   },
+   "23416": {
+    "name": "Vitality Siphon",
+    "kind": "notable",
+    "stats": [
+     "20% of Spell Damage Leeched as Life"
+    ]
+   },
+   "26282": {
+    "name": "Blood Barbs",
+    "kind": "notable",
+    "stats": [
+     "Elemental Damage also Contributes to Bleeding Magnitude",
+     "Bleeding you inflict on Cursed targets is Aggravated"
+    ]
+   },
+   "26383": {
+    "name": "Sunder the Flesh",
+    "kind": "notable",
+    "stats": [
+     "Base Critical Hit Chance for Spells is 15%"
+    ]
+   },
+   "27667": {
+    "name": "Whispers of the Flesh",
+    "kind": "notable",
+    "stats": [
+     "Targets Cursed by you have 100% reduced Life Regeneration Rate",
+     "Targets Cursed by you have at least 15% of Life Reserved"
+    ]
+   },
+   "30071": {
+    "name": "Curse Effect",
+    "kind": "small",
+    "stats": [
+     "6% increased Curse Magnitudes"
+    ]
+   },
+   "30117": {
+    "name": "Spell Critical Chance",
+    "kind": "small",
+    "stats": [
+     "12% increased Critical Hit Chance for Spells"
+    ]
+   },
+   "31223": {
+    "name": "Crimson Power",
+    "kind": "notable",
+    "stats": [
+     "Gain additional maximum Life equal to 100% of the Item Energy Shield on Equipped Body Armour"
+    ]
+   },
+   "47442": {
+    "name": "Life Flasks",
+    "kind": "small",
+    "stats": [
+     "15% increased Life Flask Charges gained"
+    ]
+   },
+   "48551": {
+    "name": "Spell Critical Chance",
+    "kind": "small",
+    "stats": [
+     "12% increased Critical Hit Chance for Spells"
+    ]
+   },
+   "50192": {
+    "name": "Life",
+    "kind": "small",
+    "stats": [
+     "3% increased maximum Life"
+    ]
+   },
+   "52703": {
+    "name": "Gore Spike",
+    "kind": "notable",
+    "stats": [
+     "1% increased Critical Damage Bonus per 50 current Life"
+    ]
+   },
+   "56162": {
+    "name": "Grasping Wounds",
+    "kind": "notable",
+    "stats": [
+     "25% of Life Loss from Hits is prevented, then that much Life is lost over 4 seconds instead"
+    ]
+   },
+   "59342": {
+    "name": "Life Leech",
+    "kind": "small",
+    "stats": [
+     "12% increased amount of Life Leeched"
+    ]
+   },
+   "59822": {
+    "name": "Blood Mage",
+    "kind": "start",
+    "stats": []
+   },
+   "62388": {
+    "name": "Bleed on Critical Chance",
+    "kind": "small",
+    "stats": [
+     "15% chance to inflict Bleeding on Critical Hit"
+    ]
+   },
+   "65518": {
+    "name": "Sanguine Tides",
+    "kind": "notable",
+    "stats": [
+     "Flasks do not recover Life",
+     "Gain 1 Life Flask Charge per 2% Life spent",
+     "On Hitting an Enemy while a Life Flask is at full Charges, 40% of its Charges are consumed",
+     "Gain 1% of damage as Physical damage for 5 seconds per Charge consumed this way"
+    ]
+   }
+  },
+  "Ritualist": {
+   "3223": {
+    "name": "Attributes",
+    "kind": "small",
+    "stats": [
+     "3% increased Attributes"
+    ]
+   },
+   "4891": {
+    "name": "Intricate Sigils",
+    "kind": "notable",
+    "stats": [
+     "+1 Charm Slot",
+     "20% more Charm Charges gained"
+    ]
+   },
+   "7068": {
+    "name": "Mystic Attunement",
+    "kind": "notable",
+    "stats": [
+     "25% increased bonuses gained from Equipped Rings and Amulets"
+    ]
+   },
+   "11776": {
+    "name": "Physical Damage",
+    "kind": "small",
+    "stats": [
+     "15% increased Physical Damage"
+    ]
+   },
+   "17058": {
+    "name": "Reduced Resistances",
+    "kind": "small",
+    "stats": [
+     "-20% to all Elemental Resistances"
+    ]
+   },
+   "18280": {
+    "name": "Mind Phylacteries",
+    "kind": "notable",
+    "stats": [
+     "Can instead consume 25% of maximum Mana to trigger Charms with insufficient charges"
+    ]
+   },
+   "22661": {
+    "name": "Movement Speed",
+    "kind": "small",
+    "stats": [
+     "3% increased Movement Speed"
+    ]
+   },
+   "30233": {
+    "name": "As the Whispers Demand",
+    "kind": "notable",
+    "stats": [
+     "Grants Skill: Ritual Sacrifice"
+    ]
+   },
+   "34785": {
+    "name": "Unfurled Finger",
+    "kind": "notable",
+    "stats": [
+     "+1 Ring Slot"
+    ]
+   },
+   "36365": {
+    "name": "Ritualist",
+    "kind": "start",
+    "stats": []
+   },
+   "37046": {
+    "name": "Corrupted Lifeforce",
+    "kind": "notable",
+    "stats": [
+     "15% more Damage against Enemies affected by Blood Boils",
+     "Grants Skill: Blood Boil"
+    ]
+   },
+   "37972": {
+    "name": "Charm Charges",
+    "kind": "small",
+    "stats": [
+     "15% increased Charm Charges gained"
+    ]
+   },
+   "42017": {
+    "name": "Reduced Spirit",
+    "kind": "small",
+    "stats": [
+     "25% reduced Spirit"
+    ]
+   },
+   "58149": {
+    "name": "Life Recovery Rate",
+    "kind": "small",
+    "stats": [
+     "10% increased Life Recovery rate"
+    ]
+   },
+   "58574": {
+    "name": "Reduced Mana",
+    "kind": "small",
+    "stats": [
+     "30% reduced maximum Mana"
+    ]
+   },
+   "60859": {
+    "name": "Charm Charges",
+    "kind": "small",
+    "stats": [
+     "15% increased Charm Charges gained"
+    ]
+   },
+   "62804": {
+    "name": "Wildwood Persistence",
+    "kind": "notable",
+    "stats": [
+     "10% increased Life Recovery rate per 5% missing Unreserved Life"
+    ]
+   }
+  },
+  "Witchhunter": {
+   "3704": {
+    "name": "Witchbane",
+    "kind": "notable",
+    "stats": [
+     "Enemies have Maximum Concentration equal to 30% of their Maximum Life",
+     "Break enemy Concentration on Hit equal to 100% of Damage Dealt",
+     "Enemies regain 10% of Concentration every second if they haven't lost Concentration in the past 5 seconds"
+    ]
+   },
+   "6935": {
+    "name": "Ceremonial Ablution",
+    "kind": "notable",
+    "stats": [
+     "Sorcery Ward's Barrier can also take Physical and Chaos Damage from Hits"
+    ]
+   },
+   "7120": {
+    "name": "Witchhunter",
+    "kind": "start",
+    "stats": []
+   },
+   "8272": {
+    "name": "Weapon Master",
+    "kind": "notable",
+    "stats": [
+     "100 Passive Skill Points become Weapon Set Skill Points"
+    ]
+   },
+   "17646": {
+    "name": "Judge, Jury, and Executioner",
+    "kind": "notable",
+    "stats": [
+     "Decimating Strike"
+    ]
+   },
+   "20830": {
+    "name": "Area of Effect",
+    "kind": "small",
+    "stats": [
+     "8% increased Area of Effect"
+    ]
+   },
+   "25172": {
+    "name": "Cooldown Recovery Rate",
+    "kind": "small",
+    "stats": [
+     "6% increased Cooldown Recovery Rate"
+    ]
+   },
+   "32559": {
+    "name": "Cooldown Recovery Rate",
+    "kind": "small",
+    "stats": [
+     "6% increased Cooldown Recovery Rate"
+    ]
+   },
+   "34501": {
+    "name": "Armour and Evasion",
+    "kind": "small",
+    "stats": [
+     "15% increased Armour and Evasion Rating"
+    ]
+   },
+   "37078": {
+    "name": "Zealous Inquisition",
+    "kind": "notable",
+    "stats": [
+     "10% chance for Enemies you Kill to Explode, dealing 100%",
+     "of their maximum Life as Physical Damage",
+     "Chance is doubled against Undead and Demons"
+    ]
+   },
+   "38601": {
+    "name": "Obsessive Rituals",
+    "kind": "notable",
+    "stats": [
+     "50% less Armour and Evasion Rating",
+     "Grants Skill: Sorcery Ward"
+    ]
+   },
+   "40719": {
+    "name": "Damage vs Low Life Enemies",
+    "kind": "small",
+    "stats": [
+     "35% increased Damage with Hits against Enemies that are on Low Life"
+    ]
+   },
+   "43131": {
+    "name": "Damage vs Low Life Enemies",
+    "kind": "small",
+    "stats": [
+     "35% increased Damage with Hits against Enemies that are on Low Life"
+    ]
+   },
+   "46535": {
+    "name": "No Mercy",
+    "kind": "notable",
+    "stats": [
+     "Deal up to 40% more Damage to Enemies based on their missing Concentration"
+    ]
+   },
+   "51737": {
+    "name": "Cooldown Recovery Rate",
+    "kind": "small",
+    "stats": [
+     "6% increased Cooldown Recovery Rate"
+    ]
+   },
+   "61897": {
+    "name": "Armour and Evasion",
+    "kind": "small",
+    "stats": [
+     "15% increased Armour and Evasion Rating"
+    ]
+   },
+   "61973": {
+    "name": "Pitiless Killer",
+    "kind": "notable",
+    "stats": [
+     "Culling Strike"
+    ]
+   }
+  },
+  "Titan": {
+   "3762": {
+    "name": "Ancestral Empowerment",
+    "kind": "notable",
+    "stats": [
+     "Every second Slam Skill you use yourself is Ancestrally Boosted"
+    ]
+   },
+   "12000": {
+    "name": "Mysterious Lineage",
+    "kind": "notable",
+    "stats": [
+     "15% more Maximum Life"
+    ]
+   },
+   "13715": {
+    "name": "Stun Buildup",
+    "kind": "small",
+    "stats": [
+     "18% increased Stun Buildup"
+    ]
+   },
+   "19424": {
+    "name": "Strength",
+    "kind": "small",
+    "stats": [
+     "4% increased Strength"
+    ]
+   },
+   "24807": {
+    "name": "Stone Skin",
+    "kind": "notable",
+    "stats": [
+     "50% more Armour from Equipped Body Armour"
+    ]
+   },
+   "27418": {
+    "name": "Strength",
+    "kind": "small",
+    "stats": [
+     "4% increased Strength"
+    ]
+   },
+   "29323": {
+    "name": "Armour",
+    "kind": "small",
+    "stats": [
+     "20% increased Armour"
+    ]
+   },
+   "30115": {
+    "name": "Hulking Form",
+    "kind": "notable",
+    "stats": [
+     "50% increased effect of Small Passive Skills"
+    ]
+   },
+   "32534": {
+    "name": "Titan",
+    "kind": "start",
+    "stats": []
+   },
+   "35453": {
+    "name": "Slam Area of Effect",
+    "kind": "small",
+    "stats": [
+     "Slam Skills have 8% increased Area of Effect"
+    ]
+   },
+   "38014": {
+    "name": "Slam Area of Effect",
+    "kind": "small",
+    "stats": [
+     "Slam Skills have 8% increased Area of Effect"
+    ]
+   },
+   "42275": {
+    "name": "Earthbreaker",
+    "kind": "notable",
+    "stats": [
+     "25% chance for Slam Skills you use yourself to cause an additional Aftershock"
+    ]
+   },
+   "51690": {
+    "name": "Life Regeneration",
+    "kind": "small",
+    "stats": [
+     "Regenerate 0.5% of maximum Life per second"
+    ]
+   },
+   "56842": {
+    "name": "Stun Buildup",
+    "kind": "small",
+    "stats": [
+     "18% increased Stun Buildup"
+    ]
+   },
+   "59372": {
+    "name": "Crushing Impacts",
+    "kind": "notable",
+    "stats": [
+     "25% more Damage against Heavy Stunned Enemies",
+     "Your Hits are Crushing Blows"
+    ]
+   },
+   "59540": {
+    "name": "Mountain Splitter",
+    "kind": "notable",
+    "stats": [
+     "Every Third Slam skill that doesn't create Fissures which you use yourself causes 3 additional Aftershocks ahead and to each side of the initial area"
+    ]
+   },
+   "60634": {
+    "name": "Colossal Capacity",
+    "kind": "notable",
+    "stats": [
+     "Carry a Chest which adds 20 Inventory Slots"
+    ]
+   }
+  },
+  "Invoker": {
+   "7621": {
+    "name": "I am the Thunder...",
+    "kind": "notable",
+    "stats": [
+     "Gain 10% of Damage as Extra Lightning Damage",
+     "25% chance on Shocking Enemies to created Shocked Ground"
+    ]
+   },
+   "8143": {
+    "name": "Lead me through Grace...",
+    "kind": "notable",
+    "stats": [
+     "+1 to Spirit for every 8 Item Energy Shield on Equipped Body Armour",
+     "+1 to Spirit for every 20 Evasion Rating on Equipped Body Armour",
+     "Cannot gain Spirit from Equipment"
+    ]
+   },
+   "9994": {
+    "name": "Invoker",
+    "kind": "start",
+    "stats": []
+   },
+   "12876": {
+    "name": "Faith is a Choice",
+    "kind": "notable",
+    "stats": [
+     "Grants Skill: Meditate"
+    ]
+   },
+   "13065": {
+    "name": "Triggered Spell Damage",
+    "kind": "small",
+    "stats": [
+     "Triggered Spells deal 16% increased Spell Damage"
+    ]
+   },
+   "16100": {
+    "name": "Evasion",
+    "kind": "small",
+    "stats": [
+     "20% increased Evasion Rating"
+    ]
+   },
+   "17268": {
+    "name": "Shock Effect",
+    "kind": "small",
+    "stats": [
+     "15% increased Magnitude of Shock you inflict"
+    ]
+   },
+   "23415": {
+    "name": "Evasion and Energy Shield",
+    "kind": "small",
+    "stats": [
+     "15% increased Evasion Rating",
+     "15% increased maximum Energy Shield"
+    ]
+   },
+   "23587": {
+    "name": "I am the Blizzard...",
+    "kind": "notable",
+    "stats": [
+     "Gain 10% of Damage as Extra Cold Damage",
+     "On Freezing Enemies create Chilled Ground"
+    ]
+   },
+   "25434": {
+    "name": "Chill Effect",
+    "kind": "small",
+    "stats": [
+     "15% increased Magnitude of Chill you inflict"
+    ]
+   },
+   "27686": {
+    "name": "Energy Shield Recharge Rate",
+    "kind": "small",
+    "stats": [
+     "20% increased Energy Shield Recharge Rate"
+    ]
+   },
+   "29133": {
+    "name": "Elemental Damage",
+    "kind": "small",
+    "stats": [
+     "12% increased Elemental Damage"
+    ]
+   },
+   "44357": {
+    "name": "Critical Chance",
+    "kind": "small",
+    "stats": [
+     "12% increased Critical Hit Chance"
+    ]
+   },
+   "52448": {
+    "name": "...and Scatter Them to the Winds",
+    "kind": "notable",
+    "stats": [
+     "Trigger Elemental Expression on Melee Critical Hit",
+     "Grants Skill: Elemental Expression"
+    ]
+   },
+   "55611": {
+    "name": "Elemental Damage",
+    "kind": "small",
+    "stats": [
+     "12% increased Elemental Damage"
+    ]
+   },
+   "57181": {
+    "name": "Critical Chance",
+    "kind": "small",
+    "stats": [
+     "12% increased Critical Hit Chance"
+    ]
+   },
+   "63236": {
+    "name": "The Soul Springs Eternal",
+    "kind": "notable",
+    "stats": [
+     "Meta Skills gain 35% more Energy",
+     "Meta Skills have 50% increased Reservation Efficiency"
+    ]
+   },
+   "63713": {
+    "name": "Sunder my Enemies...",
+    "kind": "notable",
+    "stats": [
+     "Critical Hits ignore non-negative Enemy Monster Elemental Resistances"
+    ]
+   },
+   "64031": {
+    "name": "...and I Shall Rage",
+    "kind": "notable",
+    "stats": [
+     "Grants Skill: Unbound Avatar"
+    ]
+   },
+   "65173": {
+    "name": "...and Protect me from Harm",
+    "kind": "notable",
+    "stats": [
+     "Physical Damage Reduction from Armour is based on your combined Armour and Evasion Rating",
+     "35% less Evasion Rating"
+    ]
+   }
+  }
+ }
+}
