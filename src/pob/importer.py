@@ -245,9 +245,11 @@ class PoBImporter:
 
         for item_elem in items_elem.findall('Item'):
             item_id = item_elem.get('id')
+            slot = self._get_item_slot(item_elem) or slot_by_item_id.get(item_id)
             item_data = {
                 'id': item_id,
-                'slot': self._get_item_slot(item_elem) or slot_by_item_id.get(item_id),
+                'slot': slot,
+                'weapon_set': self._weapon_set_for_slot(slot),
                 'raw_text': item_elem.text or '',
                 'enabled': item_elem.get('enabled', '1') == '1'
             }
@@ -259,6 +261,27 @@ class PoBImporter:
             items.append(item_data)
 
         return items
+
+    @staticmethod
+    def _weapon_set_for_slot(slot: Optional[str]) -> Optional[int]:
+        """Map a PoB slot name to its weapon set.
+
+        PoE2 weapon swap: "Weapon 1"/"Weapon 2" are weapon set 1;
+        "Weapon 1 Swap"/"Weapon 2 Swap" are weapon set 2. Only ONE set is
+        active at a time, so set-specific weapon stats (e.g. a staff's
+        +%% chaos, +spirit) apply only while that set is equipped — a
+        consumer flattening both sets into one gear list will wrongly
+        attribute swap-set stats to the active build (the #182-era
+        analyze_character bug). Non-weapon slots return None (always
+        equipped, set-independent).
+        """
+        if not slot:
+            return None
+        if slot.startswith("Weapon") and "Swap" in slot:
+            return 2
+        if slot.startswith("Weapon"):
+            return 1
+        return None
 
     def _get_item_slot(self, item_elem: ET.Element) -> Optional[str]:
         """Determine which slot an item is equipped in"""
