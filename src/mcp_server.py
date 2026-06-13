@@ -7281,13 +7281,60 @@ Could not extract account and character from URL.
 
         return response
 
+    @staticmethod
+    def _format_item_entry(item: dict, slot_label: str) -> str:
+        """Render one equipment item as a markdown block (header + key mods)."""
+        name = item.get('name', '') or item.get('type_line', 'Unknown Item')
+        type_line = item.get('type_line', '')
+        rarity = item.get('rarity', 'Normal')
+        corrupted = " (Corrupted)" if item.get('corrupted') else ""
+        if isinstance(rarity, int):
+            rarity = {0: 'Normal', 1: 'Magic', 2: 'Rare', 3: 'Unique'}.get(rarity, 'Unknown')
+
+        out = f"\n### {slot_label}: {name if rarity == 'Unique' else (name or type_line)}{corrupted}\n"
+        if type_line and type_line != name:
+            out += f"*{type_line}*\n"
+
+        # mods shape varies: poe.ninja route = {implicit,explicit}; PoB route = flat list
+        mods = item.get('mods') or {}
+        max_mods = 5
+        if isinstance(mods, dict):
+            shown = 0
+            for m in (mods.get('implicit') or [])[:2]:
+                out += f"- {m} (implicit)\n"; shown += 1
+            for m in (mods.get('explicit') or [])[:max_mods - shown]:
+                out += f"- {m}\n"
+        elif isinstance(mods, list):
+            for m in mods[:max_mods]:
+                out += f"- {m}\n"
+        return out
+
     def _format_equipment_section(self, character_data: dict) -> str:
-        """Format equipped gear from character data"""
+        """Format equipped gear from character data.
+
+        Weapon-set aware (#183 importer tag): items on weapon set 2
+        ("Weapon 1/2 Swap") are rendered in a SEPARATE 'Weapon Set 2
+        (swap)' section, never flattened into the active gear — because
+        only one weapon set is active at a time, so a swap-set weapon's
+        stats do NOT apply alongside set-1 gear. Conflating them is the
+        bug that produced wrong build analysis (a swap staff's chaos read
+        as if active during set-1 casting).
+        """
         items = character_data.get('items', [])
         if not items:
             return ""
 
         response = "\n## Equipment\n"
+
+        # Partition swap-set (weapon_set == 2) weapons out of the active gear.
+        swap_items = [i for i in items if i.get('weapon_set') == 2]
+        active_items = [i for i in items if i.get('weapon_set') != 2]
+        if swap_items:
+            response += (
+                "*This build uses weapon swap. Only one weapon set is active at "
+                "a time - Weapon Set 2 stats below do NOT apply while Set 1 is "
+                "equipped.*\n"
+            )
 
         # Define slot order for organized display
         slot_order = [
@@ -7297,7 +7344,7 @@ Could not extract account and character from URL.
 
         # Group items by slot
         by_slot = {}
-        for item in items:
+        for item in active_items:
             # `or` (not .get default): cached/older records carry an explicit
             # slot: null, which .get's default does not cover
             slot = item.get('slot') or 'Unknown'
@@ -7335,43 +7382,7 @@ Could not extract account and character from URL.
             if slot not in by_slot:
                 continue
             for item in by_slot[slot]:
-                name = item.get('name', '') or item.get('type_line', 'Unknown Item')
-                type_line = item.get('type_line', '')
-                rarity = item.get('rarity', 'Normal')
-                corrupted = " (Corrupted)" if item.get('corrupted') else ""
-
-                # Format rarity display
-                if isinstance(rarity, int):
-                    rarity_map = {0: 'Normal', 1: 'Magic', 2: 'Rare', 3: 'Unique'}
-                    rarity = rarity_map.get(rarity, 'Unknown')
-
-                # Build item header
-                if rarity == 'Unique':
-                    response += f"\n### {slot}: {name}{corrupted}\n"
-                else:
-                    response += f"\n### {slot}: {name or type_line}{corrupted}\n"
-
-                if type_line and type_line != name:
-                    response += f"*{type_line}*\n"
-
-                # Show key mods (limit to avoid wall of text). Shape varies
-                # by source: poe.ninja route = {implicit: [...], explicit:
-                # [...]}, PoB-export route = flat list of mod lines.
-                mods = item.get('mods') or {}
-                max_mods = 5
-
-                if isinstance(mods, dict):
-                    shown_mods = 0
-                    if mods.get('implicit'):
-                        for mod in mods['implicit'][:2]:
-                            response += f"- {mod} (implicit)\n"
-                            shown_mods += 1
-                    if mods.get('explicit') and shown_mods < max_mods:
-                        for mod in mods['explicit'][:max_mods - shown_mods]:
-                            response += f"- {mod}\n"
-                elif isinstance(mods, list):
-                    for mod in mods[:max_mods]:
-                        response += f"- {mod}\n"
+                response += self._format_item_entry(item, slot)
 
         # Show any remaining slots not in order
         for slot, slot_items in by_slot.items():
@@ -7379,6 +7390,14 @@ Could not extract account and character from URL.
                 for item in slot_items:
                     name = item.get('name', '') or item.get('type_line', 'Unknown')
                     response += f"\n### {slot}: {name}\n"
+
+        # Weapon Set 2 (swap) — rendered separately so its stats are never
+        # read as active alongside the set-1 gear above.
+        if swap_items:
+            response += "\n## Weapon Set 2 (swap)\n"
+            for item in swap_items:
+                slot = item.get('slot') or 'Weapon (swap)'
+                response += self._format_item_entry(item, slot)
 
         return response
 
