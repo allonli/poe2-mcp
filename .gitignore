@@ -338,6 +338,7 @@ scripts/validate_*.py
 scripts/apply_*.py
 scripts/auto_*.py
 scripts/build_*.py
+!scripts/build_mcpb_bundle.py
 scripts/combinatorial_*.py
 scripts/list_*.py
 scripts/merge_*.py
